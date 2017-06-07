@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.member.TempActivity" />
+        <activity android:name=".activity.request.RequestRegisterActivity" />
+        <activity android:name=".activity.request.RequestApplyActivity" />
+        <activity android:name=".activity.request.RequestMakerDetailActivity" />
+        <activity android:name=".activity.request.RequestConsumerDetailActivity"></activity>
     </application>
 
 </manifest>
