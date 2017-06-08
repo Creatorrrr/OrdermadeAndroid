@@ -25,7 +25,7 @@ import java.io.IOException;
  * Created by kosta on 2017-06-07.
  */
 
-public class Register extends Activity implements View.OnClickListener {
+public class PortfolioRegisterActivity extends Activity implements View.OnClickListener {
 
     private static final int PICK_FROM_CAMARA = 0;
     private static final int PICK_FROM_ALBUM = 1;

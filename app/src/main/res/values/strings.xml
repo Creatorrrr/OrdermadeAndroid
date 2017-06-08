@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OrderMade</string>
-
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_member_mypage_fragment">member_mypage_fragment</string>
