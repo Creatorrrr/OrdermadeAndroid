@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_myPage_Maker"
+    android:title="Maker MyPage"></item>
+
+    <item android:id="@+id/nav_request_Search"
+        android:title="Request Search"></item>
+
+    <item android:id="@+id/nav_product_myList"
+        android:title="Product MyList"></item>
+
+    <item android:id="@+id/nav_portfolio_myList"
+        android:title="Maker MyPage"></item>
+
+    <item android:id="@+id/nav_requestList"
+        android:title="Request List"></item>
+
+    <item android:id="@+id/nav_dealMaker"
+        android:title="deal Maker"></item>
+
+</menu>

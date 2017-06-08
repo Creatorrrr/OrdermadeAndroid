@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kosta.ordermadeandroid">
 
+    <activity android:name=".Register" />
 
     <application
         android:allowBackup="true"
@@ -21,8 +22,8 @@
         <activity android:name=".activity.request.RequestRegisterActivity" />
         <activity android:name=".activity.request.RequestApplyActivity" />
         <activity android:name=".activity.request.RequestMakerDetailActivity" />
-        <activity android:name=".activity.request.RequestConsumerDetailActivity"></activity>
+        <activity android:name=".activity.request.RequestConsumerDetailActivity" />
+        <activity android:name=".activity.portfolio.PortfolioDetailActivity"></activity>
     </application>
 
-    <activity android:name="Register" />
-    </manifest>
+</manifest>
