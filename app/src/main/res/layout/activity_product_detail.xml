@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="<상품후기>"
+                android:text="&lt;상품후기&gt;"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -140,7 +140,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="<프로필>"
+                android:text="&lt;프로필&gt;"
                 android:textAlignment="center" />
 
             <LinearLayout
