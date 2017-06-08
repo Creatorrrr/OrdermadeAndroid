@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.portfolio.Register;
 
-import portfolio.Register;
 
 public class MainActivity extends AppCompatActivity {
 
