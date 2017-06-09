@@ -1,4 +1,4 @@
-package com.example.kosta.ordermadeandroid.activity.main;
+package com.example.kosta.ordermadeandroid.activity.deal;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,12 +13,12 @@ import com.example.kosta.ordermadeandroid.R;
  * Created by kosta on 2017-06-08.
  */
 
-public class MemberMyPageFragment extends Fragment {
+public class DealConsumerFragment extends Fragment{
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_member_mypage, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_deal_consumer, container, false);
         return view;
     }
 }

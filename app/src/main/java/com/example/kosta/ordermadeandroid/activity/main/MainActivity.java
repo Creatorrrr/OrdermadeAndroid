@@ -11,6 +11,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerFragment;
+import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
+import com.example.kosta.ordermadeandroid.activity.request.RequestJoinFragment;
+import com.example.kosta.ordermadeandroid.activity.request.RequestMyListFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,13 +49,31 @@ public class MainActivity extends AppCompatActivity {
                 switch(item.getItemId()){
 
                     case R.id.nav_myPage_Consumer:
-                        Toast.makeText(getApplicationContext(), "nav_account Selected", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "nav_account Selected", Toast.LENGTH_SHORT).show();
                         MemberMyPageFragment myPageFragment = new MemberMyPageFragment();
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.frame, myPageFragment).commit();
                         return true;
-                    
+                    case R.id.nav_requestMyList:
+                        RequestMyListFragment requestMyList = new RequestMyListFragment();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, requestMyList).commit();
+                        return true;
+                    case R.id.nav_requestJoin:
+                        RequestJoinFragment joinFragment = new RequestJoinFragment();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, joinFragment).commit();
+                        return true;
+                    case R.id.nav_dealConsumer:
+                        DealConsumerFragment dealConsumer = new DealConsumerFragment();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, dealConsumer).commit();
+                        return true;
+
                     default:
                         Toast.makeText(getApplicationContext(), "Error!! Error!!!", Toast.LENGTH_SHORT).show();
                         return true;
