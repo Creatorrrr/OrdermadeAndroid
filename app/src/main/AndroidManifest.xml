@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kosta.ordermadeandroid">
+          package="com.example.kosta.ordermadeandroid">
 
-    <activity android:name=".Register" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+    <activity android:name=".Register"/>
 
     <application
         android:allowBackup="true"
@@ -12,21 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.main.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
-        <activity android:name=".activity.request.RequestRegisterActivity" />
-        <activity android:name=".activity.request.RequestApplyActivity" />
-        <activity android:name=".activity.request.RequestMakerDetailActivity" />
-        <activity android:name=".activity.request.RequestConsumerDetailActivity" />
-        <activity android:name=".activity.product.ProductSearchActivity" />
-        <activity android:name=".activity.portfolio.PortfolioDetailActivity" />
+        <activity android:name=".activity.request.RequestRegisterActivity"/>
+        <activity android:name=".activity.request.RequestApplyActivity"/>
+        <activity android:name=".activity.request.RequestMakerDetailActivity"/>
+        <activity android:name=".activity.request.RequestConsumerDetailActivity"/>
+        <activity android:name=".activity.product.ProductSearchActivity"/>
+        <activity android:name=".activity.portfolio.PortfolioDetailActivity"/>
         <activity
             android:name=".activity.member.MemberMyPageFragment"
             android:label="@string/title_activity_member_mypage_fragment"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.member.MemberLoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
