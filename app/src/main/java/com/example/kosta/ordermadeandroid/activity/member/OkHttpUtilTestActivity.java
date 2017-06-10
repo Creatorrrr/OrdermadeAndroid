@@ -215,220 +215,105 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 
 	//POST Upload
 	public void doUpload(View view){
-		File file = new File("man1.jpg");
-		if(!file.exists()){
-			Log.d("a",file.getAbsolutePath()+" not exist!");
-			return ;
-		}
-		MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
-		RequestBody requestBody = multipartBuilder.setType(MultipartBody.FORM)
-				.addFormDataPart("id","aaa")
-				.addFormDataPart("password","bbb")
-				.addFormDataPart("mPhoto","newname.jpg",RequestBody.create(MediaType.parse("application/octet-stream"), file))
-				.build();
 
-//		Request.Builder builder = new Request.Builder();
-//		Request request = builder.url(Constants.mBaseUrl + "/test/uploadInfo.do").post(requestBody).build();
-//
-		CountingRequestBody countingRequestBody = new CountingRequestBody(requestBody, new CountingRequestBody.Listener() {//
-			@Override
-			public void onRequestProgress(long byteWrited, long contentLength) {
-				Log.d("a",byteWrited + " / "+ contentLength);//
-			}
-		});
-		Request.Builder builder = new Request.Builder();
-		Request request = builder.url(Constants.mBaseUrl + "/test/uploadInfo.do").post(countingRequestBody).build();//
 	}
 
 
 
 	//GET download
 	public void doDownload(){
-		Request.Builder builder = new Request.Builder();
-		final Request request = builder.get().url(Constants.mBaseUrl + "/views/images/panda4.jpg").build();
-		Call call = okHttpClient.newCall(request);
 
-		call.enqueue(new Callback() {
-			@Override
-			public void onFailure(Call call, IOException e) {
-				Log.d("a","----------onFailure-----" +e.getMessage());
-				e.printStackTrace();
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				Log.d("a","----------onResponse-----");
-				InputStream is = response.body().byteStream();
-				int len =0 ;
-
-//				final long total = response.body().contentLength();//
-//				long sum = 0L;//
-
-				//File file = new File(Environment.getExternalStorageDirectory(), "man1.jpg");//sd카드에서 불러옴
-				File file = new File(Constants.mBaseUrl + "/views/images/panda4.jpg");
-				byte[] buf = new byte[128];
-				FileOutputStream fos = new FileOutputStream(file);
-				while ( (len = is.read(buf)) != -1){
-					fos.write(buf, 0 , len);
-
-//					sum += len;//
-//					Log.d("a",sum+" / "+total);//
-//					final long finalSum = sum;//
-//					runOnUiThread(new Runnable() {//
-//						@Override
-//						public void run() {
-//							mTvResult.setText(finalSum+" / "+total);//다운로드 진도
-//						}
-//					});
-				}
-				fos.flush();
-				fos.close();
-				Log.d("a","--------download succes--------");
-
-			}
-		});
 	}
 
 
 	//GET Download Image
 	public void doDownloadImg(){
 
-		OkHttpUtils
-				.get()//
-				.url(Constants.mBaseUrl + "/views/images/panda4.jpg")//
-				.build()//
-				.execute(new BitmapCallback()
-				{
-					@Override
-					public void onError(Call call, Exception e, int id) {
-						mTvResult.setText("onError:" + e.getMessage());
-					}
 
-					@Override
-					public void onResponse(Bitmap response, int id) {
-						mIvResult.setImageBitmap(response);
-					}
-
-				});
+	}
 
 
-//		Request.Builder builder = new Request.Builder();
-//		final Request request = builder.get().url(Constants.mBaseUrl + "/views/images/panda4.jpg").build();
-//		Call call = okHttpClient.newCall(request);
+
+	//-------------test server file code
+
 //
-//		call.enqueue(new Callback() {
-//			@Override
-//			public void onFailure(Call call, IOException e) {
-//				Log.d("a","----------onFailure-----" +e.getMessage());
-//				e.printStackTrace();
+//	package ordermade.controller;
+//
+//import java.io.File;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
+//
+//import javax.servlet.ServletInputStream;
+//import javax.servlet.http.HttpServletRequest;
+//
+//import org.springframework.stereotype.Controller;
+//import org.springframework.util.FileCopyUtils;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.ResponseBody;
+//
+//	@Controller
+//	public class OkHttpTestController {
+//
+//		//------------------test
+//		//POST String
+//		@RequestMapping(value="test/postString.do", method=RequestMethod.POST, produces="text/plain")
+//		public @ResponseBody String postString(HttpServletRequest request) throws IOException{
+//			System.out.println("sessionId="+request.getSession().getId());
+//			ServletInputStream is = request.getInputStream();
+//			StringBuilder sb = new StringBuilder();
+//			int len = 0;
+//			byte[] buf = new byte[1024];
+//			while((len = is.read(buf)) != -1){
+//				sb.append(new String(buf, 0, len));
 //			}
+//			System.out.println(sb.toString());
+//			return sb.toString();
+//		}
 //
-//			@Override
-//			public void onResponse(Call call, Response response) throws IOException {
-//				Log.d("a","----------onResponse-----");
-//				InputStream is = response.body().byteStream();
-//				//BitmapFactory.Options
-//				final Bitmap bitmap = BitmapFactory.decodeStream(is);
-//				//is.mark();
-//				//is.reset();
-//				runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-//						mIvResult.setImageBitmap(bitmap);
-//					}
-//				});
 //
+//		//POST File
+//		@RequestMapping(value="test/postFile.do",method=RequestMethod.POST,produces="text/plain")
+//		public @ResponseBody String postFile(HttpServletRequest request) throws IOException{
+//			ServletInputStream is = request.getInputStream();
+//			System.out.println("sessionId="+request.getSession().getId());
+//
+//			String dir = request.getRealPath("");
+//			System.out.println(dir);
+//			File file = new File(dir, "man1.jpg");
+//			FileOutputStream fos = new FileOutputStream(file);
+//			int len = 0;
+//			byte[] buf = new byte[1024];
+//			while((len = is.read(buf)) != -1){
+//				fos.write(buf, 0, len);
 //			}
-//		});
-	}
-
-
-	//------------------
-
-	//Counting Message
-	public static class CountingRequestBody extends RequestBody{
-
-		protected  RequestBody delegate;
-		private Listener listener;
-		private CountingSink countingSink;
-		public CountingRequestBody(RequestBody delegate, Listener  listener){
-			this.delegate = delegate;
-			this.listener = listener;
-		}
-
-		@Override
-		public MediaType contentType() {
-			return delegate.contentType();
-		}
-
-		@Override
-		public long contentLength() {
-			try {
-				return delegate.contentLength();
-			} catch (IOException e) {
-				return -1;
-			}
-		}
-
-		@Override
-		public void writeTo(BufferedSink sink) throws IOException {
-			countingSink = new CountingSink(sink);
-			BufferedSink bufferedSink = Okio.buffer(countingSink);
-			delegate.writeTo(bufferedSink);
-			bufferedSink.flush();
-		}
-
-		protected  final class CountingSink extends ForwardingSink{
-			private long bytesWritten;
-
-			public CountingSink(Sink delegate){
-				super(delegate);
-			}
-
-			@Override
-			public void write(Buffer source, long byteCount) throws IOException {
-				super.write(source, byteCount);
-				bytesWritten+=byteCount;
-				listener.onRequestProgress(byteCount,contentLength());
-			}
-		}
-
-
-		public static interface Listener{
-			void onRequestProgress(long byteWrited, long contentLength);
-		}
-	}
-
-
-	//-------------
-
-	//excute function
-	private void excuteRequest(Request request) {
-
-		Call call = okHttpClient.newCall(request);
-		call.enqueue(new Callback() {
-			@Override
-			public void onFailure(Call call, IOException e) {
-				Log.d("a","----------onFailure-----" +e.getMessage());
-				e.printStackTrace();
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				Log.d("a","----------onResponse-----");
-				final String res = response.body().string();
-				Log.d("a",res);
-
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						mTvResult.setText(res);
-					}
-				});
-			}
-		});
-
-	}
-
+//			fos.flush();
+//			fos.close();
+//			return "true";
+//		}
+//
+//
+//		//POST UploadFile
+//		@RequestMapping(value="test/uploadInfo.do",method=RequestMethod.POST)
+//		public String uploadInfo(String id, String password, File mPhoto, HttpServletRequest request) throws IOException{
+//			System.out.println("sessionId="+request.getSession().getId());
+//			//File mPhoto = null;
+//			String mPhotoFileName = null;
+//			if(mPhoto == null){
+//				System.out.println(mPhotoFileName +" is null.");
+//			}
+//			String dir = request.getRealPath("files");
+//			File file = new File(dir, mPhotoFileName);
+//			FileCopyUtils.copy(mPhoto, file);
+//			return null;
+//		}
+//
+//
+//		//-----------------------
+//
+//
+//
+//
+//	}
 
 }
