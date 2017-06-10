@@ -1,6 +1,7 @@
 package com.example.kosta.ordermadeandroid.activity.deal;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.dto.PurchaseHistory;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -55,11 +59,22 @@ public class PurchaseHistoryAdapter extends BaseAdapter{
         TextView purchaseDate = (TextView)convertView.findViewById(R.id.purchaseDate);
         TextView progressStatus = (TextView)convertView.findViewById(R.id.progressStatus);
 
+        Log.d("consumer", "---------"+String.valueOf(purchaseData.get(position).getMaker().getId()));
+
         makerId.setText(purchaseData.get(position).getMaker().getId());
         productName.setText(purchaseData.get(position).getRequest().getTitle());
         consumerId.setText(purchaseData.get(position).getRequest().getConsumer().getId());
         productPrice.setText(purchaseData.get(position).getRequest().getPrice());
-        purchaseDate.setText((CharSequence) purchaseData.get(position).getOrderDate());
+
+        // ?? Date Type -> String
+        String gotDate = purchaseData.get(position).getOrderDate().toString();
+        try {
+            Date date = new SimpleDateFormat("yy/MM/dd").parse(gotDate);
+            purchaseDate.setText(new SimpleDateFormat("yy MM dd").format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         progressStatus.setText(purchaseData.get(position).getDeliveryStatus());
 
         return convertView;

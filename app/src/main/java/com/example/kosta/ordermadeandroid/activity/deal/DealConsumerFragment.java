@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,8 @@ public class DealConsumerFragment extends Fragment{
     private List<PurchaseHistory> purchaseData;
     private PurchaseHistoryAdapter purchaseAdapter;
 
+    //private Toolbar mToolbar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +59,12 @@ public class DealConsumerFragment extends Fragment{
 
         listView.setAdapter(purchaseAdapter);
         Log.d("consumer", "listView Done");
+
+        //mToolbar = (Toolbar)view.findViewById(R.id.actionbar_dealConsumer);
+        //mToolbar.setTitle("구매이력");
+        //((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         return view;
     }
 
@@ -70,13 +80,12 @@ public class DealConsumerFragment extends Fragment{
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(new InputSource(url.openStream()));
                 NodeList nodeList = doc.getElementsByTagName("purchaseHistory");
+                Log.d("consumer", "loading test");
                 for (int i = 0; i < nodeList.getLength(); i++){
                     PurchaseHistory purchaseHistory = new PurchaseHistory();
                     Node node = nodeList.item(i);
 
                     Element element = (Element)node;
-
-                    Log.d("consumer", "---------"+String.valueOf(node.getChildNodes().item(1).getFirstChild().getNodeValue()));
 
                     purchaseHistory.setId((getTagValue("id", element)));
                     purchaseHistory.setCharge(Integer.parseInt(getTagValue("charge", element)));
@@ -127,6 +136,8 @@ public class DealConsumerFragment extends Fragment{
                     purchaseHistory.setPage((getTagValue("page", element)));
                     purchaseHistory.setPayment((getTagValue("payment", element)));
                     //purchaseHistory.setOrderDate((getTagValue("orderDate", element)));
+
+                    purchaseData.add(purchaseHistory);
 
                 }
             } catch (MalformedURLException e) {

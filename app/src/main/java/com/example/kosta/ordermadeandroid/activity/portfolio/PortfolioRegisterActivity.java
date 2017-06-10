@@ -41,7 +41,7 @@ public class PortfolioRegisterActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.portfolio_register);
+        setContentView(R.layout.activity_portfolio_register);
 
         iv_UserPhoto = (ImageView) this.findViewById(R.id.image);
         Button imageBtn = (Button) this.findViewById(R.id.imageButton);

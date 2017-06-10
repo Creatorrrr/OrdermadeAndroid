@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="구매이력"
-                android:textSize="20dp"/>
-
-        </TableRow>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,19 +22,18 @@
 
                 <Spinner
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    ></Spinner>
+                    android:layout_height="wrap_content"></Spinner>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="제목을 입력하세요"/>
+                    android:hint="제목을 입력하세요" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="검색"/>
+                    android:text="검색" />
 
             </LinearLayout>
 
@@ -60,29 +47,28 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="상품정보"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="구매일자"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="진행상태"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp" />
 
             </TableRow>
 
             <ListView
                 android:id="@+id/dealConsumer_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </ListView>
+                android:layout_height="wrap_content"></ListView>
 
         </LinearLayout>
 

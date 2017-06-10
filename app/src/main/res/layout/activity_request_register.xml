@@ -7,6 +7,10 @@
     tools:context="com.example.kosta.ordermadeandroid.activity.request.RequestRegisterActivity"
     android:orientation="vertical">
 
+    <include layout="@layout/actionbar_request_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
