@@ -39,10 +39,9 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 
 public class DealConsumerFragment extends Fragment{
+
     private List<PurchaseHistory> purchaseData;
     private PurchaseHistoryAdapter purchaseAdapter;
-
-//    private Toolbar mToolbar;
 
     @Nullable
     @Override
@@ -51,19 +50,16 @@ public class DealConsumerFragment extends Fragment{
         ListView listView = (ListView)view.findViewById(R.id.dealConsumer_list);
 
         final AsyncTask<String, Void, Void> task = new PurchaseHistoriesLoadingTask();
-        task.execute("http://10.0.2.2:8080/ordermade/deal/xml/searchPurchaseConsumerList.do");
+        task.execute("http://192.168.0.59:8080/ordermade/deal/xml/searchPurchaseConsumerList.do");
         Log.d("consumer", "task done");
 
         purchaseData = new ArrayList<>();
         purchaseAdapter = new PurchaseHistoryAdapter(getActivity(), purchaseData);
 
-        listView.setAdapter(purchaseAdapter);
         Log.d("consumer", "listView Done");
 
-//        mToolbar = (Toolbar)view.findViewById(R.id.actionbar_dealConsumer);
-//        mToolbar.setTitle("구매이력");
-        //((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        listView.setAdapter(purchaseAdapter);
+
 
         return view;
     }

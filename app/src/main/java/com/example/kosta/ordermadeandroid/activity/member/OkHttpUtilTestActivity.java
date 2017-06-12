@@ -88,8 +88,9 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 	public void doGet(View view) throws IOException{
 		OkHttpUtils
 				.get()
-				.url(Constants.mBaseUrl + "/member/login.do")
-				.addParams("id", "user1").addParams("password", "123").build()
+				.url(Constants.mBaseUrl + "/deal/xml/searchPurchaseConsumerList.do")
+				/*.addParams("id", "user1").addParams("password", "1111")*/
+				.build()
 				.execute(callback);
 	}
 
@@ -121,7 +122,7 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 				.post()
 				.url(Constants.mBaseUrl + "/member/login.do")
 				.addParams("id", "user1")
-				.addParams("password", "123")
+				.addParams("password", "1111")
 				.build()
 				.execute(callback);
 	}
