@@ -42,7 +42,7 @@ public class DealConsumerFragment extends Fragment{
     private List<PurchaseHistory> purchaseData;
     private PurchaseHistoryAdapter purchaseAdapter;
 
-    //private Toolbar mToolbar;
+//    private Toolbar mToolbar;
 
     @Nullable
     @Override
@@ -60,8 +60,8 @@ public class DealConsumerFragment extends Fragment{
         listView.setAdapter(purchaseAdapter);
         Log.d("consumer", "listView Done");
 
-        //mToolbar = (Toolbar)view.findViewById(R.id.actionbar_dealConsumer);
-        //mToolbar.setTitle("구매이력");
+//        mToolbar = (Toolbar)view.findViewById(R.id.actionbar_dealConsumer);
+//        mToolbar.setTitle("구매이력");
         //((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
