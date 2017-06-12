@@ -6,5 +6,5 @@ package com.example.kosta.ordermadeandroid.constants;
 
 public class Constants {
 
-    public static final String mBaseUrl = "http://192.168.0.59:8080/ordermade";
+    public static final String mBaseUrl = "http://10.0.2.2:8080/ordermade";
 }

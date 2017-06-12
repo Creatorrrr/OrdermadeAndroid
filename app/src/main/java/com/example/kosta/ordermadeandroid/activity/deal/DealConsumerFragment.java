@@ -50,13 +50,13 @@ public class DealConsumerFragment extends Fragment{
         ListView listView = (ListView)view.findViewById(R.id.dealConsumer_list);
 
         final AsyncTask<String, Void, Void> task = new PurchaseHistoriesLoadingTask();
-        task.execute("http://192.168.0.59:8080/ordermade/deal/xml/searchPurchaseConsumerList.do");
-        Log.d("consumer", "task done");
+        task.execute("http://10.0.2.2:8080/ordermade/deal/xml/searchPurchaseConsumerList.do");
+        Log.d("a", "task done");
 
         purchaseData = new ArrayList<>();
         purchaseAdapter = new PurchaseHistoryAdapter(getActivity(), purchaseData);
 
-        Log.d("consumer", "listView Done");
+        Log.d("a", "listView Done");
 
         listView.setAdapter(purchaseAdapter);
 
@@ -76,61 +76,103 @@ public class DealConsumerFragment extends Fragment{
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(new InputSource(url.openStream()));
                 NodeList nodeList = doc.getElementsByTagName("purchaseHistory");
-                Log.d("consumer", "loading test");
+                Log.d("a", "-------loadingTask start");
                 for (int i = 0; i < nodeList.getLength(); i++){
                     PurchaseHistory purchaseHistory = new PurchaseHistory();
                     Node node = nodeList.item(i);
 
                     Element element = (Element)node;
 
-                    purchaseHistory.setId((getTagValue("id", element)));
-                    purchaseHistory.setCharge(Integer.parseInt(getTagValue("charge", element)));
+                    purchaseHistory.setId(node.getChildNodes()
+                            .item(3).getFirstChild().getNodeValue());
+                    Log.d("a", "----------"+(
+                            node.getChildNodes().item(3)
+                                    .getFirstChild().getNodeValue()));
+                    purchaseHistory.setCharge(Integer.parseInt(node.getChildNodes()
+                            .item(0).getFirstChild().getNodeValue()));
+                    Log.d("a", "----------"+(
+                            node.getChildNodes().item(0)
+                                    .getFirstChild().getNodeValue()));
+                    purchaseHistory.setDeliveryStatus(node.getChildNodes()
+                            .item(2).getFirstChild().getNodeValue());
+                    Log.d("a", "----------"+(
+                            node.getChildNodes().item(2)
+                                    .getFirstChild().getNodeValue()));
+                    purchaseHistory.setInvoiceNumber(node.getChildNodes()
+                            .item(4).getFirstChild().getNodeValue());
+                    purchaseHistory.setPage(node.getChildNodes()
+                            .item(7).getFirstChild().getNodeValue());
+                    purchaseHistory.setPayment(node.getChildNodes()
+                            .item(8).getFirstChild().getNodeValue());
+                    Log.d("a", "----------"+(
+                            node.getChildNodes().item(8).getFirstChild().getNodeValue()));
+
+
 
                     Member consumer = new Member();
-                    NodeList consumerNodeList =
-                            ((Element) node).getElementsByTagName("consumer")
-                                    .item(0).getChildNodes();
-                    consumer.setId(consumerNodeList.item(0).getNodeValue());
-                    consumer.setEmail(consumerNodeList.item(1).getNodeValue());
-                    consumer.setAddress(consumerNodeList.item(2).getNodeValue());
-                    consumer.setName(consumerNodeList.item(3).getNodeValue());
-                    consumer.setIntroduce(consumerNodeList.item(4).getNodeValue());
-                    consumer.setImage(consumerNodeList.item(5).getNodeValue());
+                    consumer.setId(node.getChildNodes().item(1)
+                            .getChildNodes().item(0).getFirstChild().getNodeValue());
+                    Log.d("a", "----------"+(node.getChildNodes().item(1)
+                            .getChildNodes().item(0).getFirstChild().getNodeValue()));
+                    consumer.setEmail(node.getChildNodes().item(1)
+                            .getChildNodes().item(1).getFirstChild().getNodeValue());
+                    Log.d("a", "----------"+(
+                            element.getElementsByTagName("email")
+                                    .item(0).getChildNodes().item(0).getNodeValue()));
+                    consumer.setAddress(node.getChildNodes().item(1)
+                            .getChildNodes().item(2).getFirstChild().getNodeValue());
+                    consumer.setName(node.getChildNodes().item(1)
+                            .getChildNodes().item(3).getFirstChild().getNodeValue());
+                    consumer.setIntroduce(node.getChildNodes().item(1)
+                            .getChildNodes().item(4).getFirstChild().getNodeValue());
+                    consumer.setImage(node.getChildNodes().item(1)
+                            .getChildNodes().item(5).getFirstChild().getNodeValue());
                     purchaseHistory.setConsumer(consumer);
 
 
                     Member maker = new Member();
-                    NodeList makerNodeList =
-                            ((Element) node).getElementsByTagName("maker")
-                                    .item(0).getChildNodes();
-                    maker.setId(makerNodeList.item(0).getNodeValue());
-                    maker.setEmail(makerNodeList.item(1).getNodeValue());
-                    maker.setAddress(makerNodeList.item(2).getNodeValue());
-                    maker.setName(makerNodeList.item(3).getNodeValue());
-                    maker.setIntroduce(makerNodeList.item(4).getNodeValue());
-                    maker.setImage(makerNodeList.item(5).getNodeValue());
+                    maker.setId(element.getElementsByTagName("id")
+                            .item(1).getChildNodes().item(0).getNodeValue());
+                    maker.setEmail(element.getElementsByTagName("email")
+                            .item(1).getChildNodes().item(0).getNodeValue());
+                    Log.d("a", "----------"+(
+                            element.getElementsByTagName("email")
+                                    .item(1).getChildNodes().item(0).getNodeValue()));
+                    maker.setAddress(element.getElementsByTagName("address")
+                            .item(1).getChildNodes().item(0).getNodeValue());
+                    Log.d("a", "----------"+(node.getChildNodes().item(5)
+                            .getChildNodes().item(2).getFirstChild().getNodeValue()));
+                    maker.setName(element.getElementsByTagName("name")
+                            .item(1).getChildNodes().item(0).getNodeValue());
+                    maker.setIntroduce(element.getElementsByTagName("introduce")
+                            .item(1).getChildNodes().item(0).getNodeValue());
+                    maker.setImage(element.getElementsByTagName("image")
+                            .item(1).getChildNodes().item(0).getNodeValue());
                     purchaseHistory.setMaker(maker);
 
                     Request request = new Request();
-                    NodeList requestNodeList =
-                            ((Element) node).getElementsByTagName("request")
-                                    .item(0).getChildNodes();
-                    request.setBound(requestNodeList.item(0).getNodeValue());
-                    request.setCategory(requestNodeList.item(1).getNodeValue());
+                    request.setBound(node.getChildNodes().item(9)
+                            .getChildNodes().item(0).getFirstChild().getNodeValue());
+                    request.setCategory(node.getChildNodes().item(9)
+                            .getChildNodes().item(1).getFirstChild().getNodeValue());
                     request.setConsumer(consumer);
-                    request.setContent(requestNodeList.item(3).getNodeValue());
-                    request.setHopePrice(Integer.parseInt(requestNodeList.item(4).getNodeValue()));
-                    request.setId(requestNodeList.item(5).getNodeValue());
+                    request.setContent(node.getChildNodes().item(9)
+                            .getChildNodes().item(3).getFirstChild().getNodeValue());
+                    request.setHopePrice(Integer.parseInt(node.getChildNodes().item(9)
+                            .getChildNodes().item(4).getFirstChild().getNodeValue()));
+                    request.setId(node.getChildNodes().item(9)
+                            .getChildNodes().item(5).getFirstChild().getNodeValue());
                     request.setMaker(maker);
-                    request.setPage(requestNodeList.item(7).getNodeValue());
-                    request.setPrice(Integer.parseInt(requestNodeList.item(8).getNodeValue()));
-                    request.setTitle(requestNodeList.item(9).getNodeValue());
+                    request.setPrice(Integer.parseInt(node.getChildNodes().item(9)
+                            .getChildNodes().item(7).getFirstChild().getNodeValue()));
+                    Log.d("a", "----------"+(node.getChildNodes().item(9)
+                            .getChildNodes().item(7).getFirstChild().getNodeValue()));
+                    request.setTitle(node.getChildNodes().item(9)
+                            .getChildNodes().item(8).getFirstChild().getNodeValue());
                     purchaseHistory.setRequest(request);
 
-                    purchaseHistory.setDeliveryStatus((getTagValue("deliveryStatus", element)));
-                    purchaseHistory.setInvoiceNumber((getTagValue("invoiceNumber", element)));
-                    purchaseHistory.setPage((getTagValue("page", element)));
-                    purchaseHistory.setPayment((getTagValue("payment", element)));
+                    /*request.setPage(node.getChildNodes().item(9)
+                            .getChildNodes().item(7).getFirstChild().getNodeValue());*/
                     //purchaseHistory.setOrderDate((getTagValue("orderDate", element)));
 
                     purchaseData.add(purchaseHistory);

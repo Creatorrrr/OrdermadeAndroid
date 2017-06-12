@@ -59,21 +59,26 @@ public class PurchaseHistoryAdapter extends BaseAdapter{
         TextView purchaseDate = (TextView)convertView.findViewById(R.id.purchaseDate);
         TextView progressStatus = (TextView)convertView.findViewById(R.id.progressStatus);
 
-        Log.d("consumer", "---------"+String.valueOf(purchaseData.get(position).getMaker().getId()));
+        Log.d("a", "---------Adapter success------");
 
         makerId.setText(purchaseData.get(position).getMaker().getId());
+        Log.d("a", "-------------"+purchaseData.get(position).getMaker().getId());
         productName.setText(purchaseData.get(position).getRequest().getTitle());
+        Log.d("a", "-------------"+purchaseData.get(position).getRequest().getTitle());
         consumerId.setText(purchaseData.get(position).getRequest().getConsumer().getId());
-        productPrice.setText(purchaseData.get(position).getRequest().getPrice());
+        Log.d("a", "-------------"+purchaseData.get(position).getRequest().getConsumer().getId());
+//        productPrice.setText(purchaseData.get(position).getRequest().getPrice());
+//        Log.d("a", "-------------"+purchaseData.get(position).getRequest().getPrice());
 
         // ?? Date Type -> String
-        String gotDate = purchaseData.get(position).getOrderDate().toString();
+        /*String gotDate = purchaseData.get(position).getOrderDate().toString();
         try {
             Date date = new SimpleDateFormat("yy/MM/dd").parse(gotDate);
             purchaseDate.setText(new SimpleDateFormat("yy MM dd").format(date));
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
+        //purchaseDate.setText((String)purchaseData.get(position).getOrderDate());
 
         progressStatus.setText(purchaseData.get(position).getDeliveryStatus());
 

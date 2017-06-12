@@ -16,10 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.main.MainActivity">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity android:name=".activity.request.RequestRegisterActivity"/>
         <activity android:name=".activity.request.RequestApplyActivity"/>
@@ -39,12 +39,16 @@
         <activity android:name=".activity.member.MemberLoginActivity">
         </activity>
         <activity android:name=".activity.member.OkHttpTestActivity">
-        </activity>
-        <activity android:name=".activity.member.OkHttpUtilTestActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".activity.member.OkHttpUtilTestActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
 
 
