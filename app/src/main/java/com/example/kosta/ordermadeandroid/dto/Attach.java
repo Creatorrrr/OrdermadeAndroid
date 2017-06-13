@@ -10,7 +10,7 @@ public class Attach {
 	private String path;
 	private String fileName;
 	private String extension;
-	private Request request;
+	//private Request request;
 
 	public String getId() {
 		return id;
@@ -44,11 +44,11 @@ public class Attach {
 		this.extension = extension;
 	}
 
-	public Request getRequest() {
-		return request;
-	}
-
-	public void setRequest(Request request) {
-		this.request = request;
-	}
+//	public Request getRequest() {
+//		return request;
+//	}
+//
+//	public void setRequest(Request request) {
+//		this.request = request;
+//	}
 }

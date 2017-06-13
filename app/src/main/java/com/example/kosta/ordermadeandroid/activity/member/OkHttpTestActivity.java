@@ -12,14 +12,12 @@ import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.constants.Constants;
-import com.example.kosta.ordermadeandroid.util.PersistentCookieStore;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
@@ -76,9 +74,7 @@ public class OkHttpTestActivity extends AppCompatActivity {
 		@Override
 		public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
 			if (cookies != null && cookies.size() > 0) {
-				for (Cookie item : cookies) {
-					cookieStore.add(url, item);
-				}
+				cookieStore.add(url, cookies);
 			}
 		}
 
