@@ -67,7 +67,7 @@ public class PurchaseHistoryAdapter extends BaseAdapter{
         Log.d("a", "-------------"+purchaseData.get(position).getRequest().getTitle());
         consumerId.setText(purchaseData.get(position).getRequest().getConsumer().getId());
         Log.d("a", "-------------"+purchaseData.get(position).getRequest().getConsumer().getId());
-//        productPrice.setText(purchaseData.get(position).getRequest().getPrice());
+        productPrice.setText(purchaseData.get(position).getRequest().getPrice()+"");
 //        Log.d("a", "-------------"+purchaseData.get(position).getRequest().getPrice());
 
         // ?? Date Type -> String

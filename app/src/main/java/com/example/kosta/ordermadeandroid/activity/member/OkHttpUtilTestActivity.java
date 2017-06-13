@@ -77,6 +77,8 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 	public void doGet(View view) throws IOException{
 		OkHttpUtils.initClient(okHttpClient)
 				.get()
+				.url(Constants.mBaseUrl + "/product/xml/main/category/hit.do")
+				.addParams("category", "FUNITURE").addParams("page", "10")
 				.url(Constants.mBaseUrl + "/member/xml/myPage.do")
 				/*.addParams("id", "user1").addParams("password", "1111")*/
 				.build()
