@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerActivity;
+import com.example.kosta.ordermadeandroid.activity.member.MemberLoginActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
@@ -33,20 +34,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initializing Toolbar and setting it as the actionbar
         mToolbar = (Toolbar)findViewById(R.id.nav_action);
         setSupportActionBar(mToolbar);
 
         relativeLayout = (RelativeLayout)findViewById(R.id.relativeLayout_for_frame);
 
-        // Initializing Drawer Layout and ActionBarToggle
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
 
-        //Setting the actionbarToggle to drawer layout
         mDrawerLayout.addDrawerListener(mToggle);
-
-        //calling sync state is necessay or else your hamburger icon wont show up
         mToggle.syncState();
 
         //Initializing NavigationView
@@ -93,19 +89,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .beginTransaction()
                         .replace(R.id.relativeLayout_for_frame, mainTempFragment).commit();
                 return true;
-            case R.id.nav_myPage_Consumer:
-                //Toast.makeText(getApplicationContext(), "nav_account Selected", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, MemberMyPageActivity.class));
+            case R.id.nav_member_login:
+                startActivity(new Intent(this, MemberLoginActivity.class));
                 return true;
-            case R.id.nav_requestMyList:
-                startActivity(new Intent(this, RequestMyListActivity.class));
-                return true;
-            case R.id.nav_requestJoin:
-                startActivity(new Intent(this, RequestJoinActivity.class));
-                return true;
-            case R.id.nav_dealConsumer:
-                startActivity(new Intent(this, DealConsumerActivity.class));
-                return true;
+//            case R.id.nav_myPage_Consumer:
+//                //Toast.makeText(getApplicationContext(), "nav_account Selected", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(this, MemberMyPageActivity.class));
+//                return true;
+//            case R.id.nav_requestMyList:
+//                startActivity(new Intent(this, RequestMyListActivity.class));
+//                return true;
+//            case R.id.nav_requestJoin:
+//                startActivity(new Intent(this, RequestJoinActivity.class));
+//                return true;
+//            case R.id.nav_dealConsumer:
+//                startActivity(new Intent(this, DealConsumerActivity.class));
+//                return true;
 
             default:
                 Toast.makeText(getApplicationContext(), "Error!! Error!!!", Toast.LENGTH_SHORT).show();
