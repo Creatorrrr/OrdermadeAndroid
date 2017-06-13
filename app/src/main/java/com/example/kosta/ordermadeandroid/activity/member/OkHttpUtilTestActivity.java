@@ -88,8 +88,8 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 	public void doGet(View view) throws IOException{
 		OkHttpUtils
 				.get()
-				.url(Constants.mBaseUrl + "/deal/xml/searchPurchaseConsumerList.do")
-				/*.addParams("id", "user1").addParams("password", "1111")*/
+				.url(Constants.mBaseUrl + "/product/xml/main/category/hit.do")
+				.addParams("category", "FUNITURE").addParams("page", "10")
 				.build()
 				.execute(callback);
 	}

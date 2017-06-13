@@ -3,6 +3,7 @@ package com.example.kosta.ordermadeandroid.activity.main;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
+import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 
@@ -54,11 +56,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         view.setNavigationItemSelectedListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_list_black_24dp);
 
-        MainTempFragment mainTempFragment = new MainTempFragment();
+        /*MainTempFragment mainTempFragment = new MainTempFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.relativeLayout_for_frame, mainTempFragment)
+                .commit();*/
+
+        MainFragment mainFragment = new MainFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.relativeLayout_for_frame, mainFragment)
                 .commit();
 
     }
@@ -88,13 +97,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch(item.getItemId()){
             case R.id.nav_Home:
-                MainTempFragment mainTempFragment = new MainTempFragment();
+                // fragment만 사용
+                /*setTitle("메인입니다");
+                MainFragment mainFragment = new MainFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.relativeLayout_for_frame, mainTempFragment).commit();
+                        .replace(R.id.relativeLayout_for_frame, mainFragment)
+                        .commit();*/
+                startActivity(new Intent(this, MainActivity.class));
                 return true;
             case R.id.nav_myPage_Consumer:
-                //Toast.makeText(getApplicationContext(), "nav_account Selected", Toast.LENGTH_SHORT).show();
+                // fragment만 사용
+                /*setTitle("나의 프로필임");
+                MemberMyPageFragment myPageFragment = new MemberMyPageFragment();
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction()
+                        .replace(R.id.relativeLayout_for_frame, myPageFragment).commit();*/
+                // activity에서 fragment 호출해서 사용
                 startActivity(new Intent(this, MemberMyPageActivity.class));
                 return true;
             case R.id.nav_requestMyList:

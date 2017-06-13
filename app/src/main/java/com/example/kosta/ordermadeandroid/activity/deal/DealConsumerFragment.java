@@ -50,6 +50,7 @@ public class DealConsumerFragment extends Fragment{
         ListView listView = (ListView)view.findViewById(R.id.dealConsumer_list);
 
         final AsyncTask<String, Void, Void> task = new PurchaseHistoriesLoadingTask();
+        // DealController - 145
         task.execute("http://10.0.2.2:8080/ordermade/deal/xml/searchPurchaseConsumerList.do");
         Log.d("a", "task done");
 
@@ -59,7 +60,6 @@ public class DealConsumerFragment extends Fragment{
         Log.d("a", "listView Done");
 
         listView.setAdapter(purchaseAdapter);
-
 
         return view;
     }
@@ -131,8 +131,10 @@ public class DealConsumerFragment extends Fragment{
 
 
                     Member maker = new Member();
-                    maker.setId(element.getElementsByTagName("id")
-                            .item(1).getChildNodes().item(0).getNodeValue());
+                    maker.setId(node.getChildNodes().item(5)
+                            .getChildNodes().item(0).getFirstChild().getNodeValue());
+                    Log.d("a", "----------"+(node.getChildNodes().item(5)
+                                    .getChildNodes().item(0).getFirstChild().getNodeValue()));
                     maker.setEmail(element.getElementsByTagName("email")
                             .item(1).getChildNodes().item(0).getNodeValue());
                     Log.d("a", "----------"+(
@@ -151,23 +153,23 @@ public class DealConsumerFragment extends Fragment{
                     purchaseHistory.setMaker(maker);
 
                     Request request = new Request();
-                    request.setBound(node.getChildNodes().item(9)
+                    request.setBound(node.getChildNodes().item(8)
                             .getChildNodes().item(0).getFirstChild().getNodeValue());
-                    request.setCategory(node.getChildNodes().item(9)
+                    request.setCategory(node.getChildNodes().item(8)
                             .getChildNodes().item(1).getFirstChild().getNodeValue());
                     request.setConsumer(consumer);
-                    request.setContent(node.getChildNodes().item(9)
+                    request.setContent(node.getChildNodes().item(8)
                             .getChildNodes().item(3).getFirstChild().getNodeValue());
-                    request.setHopePrice(Integer.parseInt(node.getChildNodes().item(9)
+                    request.setHopePrice(Integer.parseInt(node.getChildNodes().item(8)
                             .getChildNodes().item(4).getFirstChild().getNodeValue()));
-                    request.setId(node.getChildNodes().item(9)
+                    request.setId(node.getChildNodes().item(8)
                             .getChildNodes().item(5).getFirstChild().getNodeValue());
                     request.setMaker(maker);
-                    request.setPrice(Integer.parseInt(node.getChildNodes().item(9)
+                    request.setPrice(Integer.parseInt(node.getChildNodes().item(8)
                             .getChildNodes().item(7).getFirstChild().getNodeValue()));
-                    Log.d("a", "----------"+(node.getChildNodes().item(9)
+                    Log.d("a", "----------"+(node.getChildNodes().item(8)
                             .getChildNodes().item(7).getFirstChild().getNodeValue()));
-                    request.setTitle(node.getChildNodes().item(9)
+                    request.setTitle(node.getChildNodes().item(8)
                             .getChildNodes().item(8).getFirstChild().getNodeValue());
                     purchaseHistory.setRequest(request);
 
