@@ -12,7 +12,7 @@ public class Comment {
 	private String content;
 	private String contentType;
 	private Member member;
-	private Request request;
+	//private Request request;
 	private Date time;
 
 	public String getId() {
@@ -47,13 +47,13 @@ public class Comment {
 		this.member = member;
 	}
 
-	public Request getRequest() {
-		return request;
-	}
-
-	public void setRequest(Request request) {
-		this.request = request;
-	}
+//	public Request getRequest() {
+//		return request;
+//	}
+//
+//	public void setRequest(Request request) {
+//		this.request = request;
+//	}
 
 	public Date getTime() {
 		return time;

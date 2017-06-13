@@ -1,9 +1,7 @@
 package com.example.kosta.ordermadeandroid.activity.member;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,34 +10,25 @@ import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.constants.Constants;
-import com.example.kosta.ordermadeandroid.util.PersistentCookieStore;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
-import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.ForwardingSink;
-import okio.Okio;
-import okio.Sink;
 
 public class OkHttpUtilTestActivity extends AppCompatActivity {
 	//참고 https://github.com/hongyangAndroid/okhttputils
@@ -55,7 +44,9 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ok_http_test);
 
-		okHttpClient = new OkHttpClient.Builder().cookieJar(new CookiesManager()).build();
+//		okHttpClient = new OkHttpClient.Builder().cookieJar(new CookiesManager()).build();
+		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
+		okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
 
 		mTvResult = (TextView) findViewById(R.id.id_tv_result);
 		mIvResult = (ImageView) findViewById(R.id.id_iv_result);
@@ -63,32 +54,30 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 
 
 	//--------------- Auto Cookies Manager
-	private class CookiesManager implements CookieJar {
-		private final PersistentCookieStore cookieStore = new PersistentCookieStore(getApplicationContext());
-
-		@Override
-		public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-			if (cookies != null && cookies.size() > 0) {
-				for (Cookie item : cookies) {
-					cookieStore.add(url, item);
-				}
-			}
-		}
-
-		@Override
-		public List<Cookie> loadForRequest(HttpUrl url) {
-			List<Cookie> cookies = cookieStore.get(url);
-			return cookies;
-		}
-	}
+//	private class CookiesManager implements CookieJar {
+//		private final PersistentCookieStore cookieStore = new PersistentCookieStore(getApplicationContext());
+//
+//		@Override
+//		public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+//			if (cookies != null && cookies.size() > 0) {
+//				cookieStore.add(url,cookies);
+//			}
+//		}
+//
+//		@Override
+//		public List<Cookie> loadForRequest(HttpUrl url) {
+//			List<Cookie> cookies = cookieStore.get(url);
+//			return cookies;
+//		}
+//	}
 
 	//------------------
 
 	//GET
 	public void doGet(View view) throws IOException{
-		OkHttpUtils
+		OkHttpUtils.initClient(okHttpClient)
 				.get()
-				.url(Constants.mBaseUrl + "/deal/xml/searchPurchaseConsumerList.do")
+				.url(Constants.mBaseUrl + "/member/xml/myPage.do")
 				/*.addParams("id", "user1").addParams("password", "1111")*/
 				.build()
 				.execute(callback);
@@ -118,11 +107,11 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 
 	//POST
 	public void doPost(View view) throws IOException{
-		OkHttpUtils
+		OkHttpUtils.initClient(okHttpClient)
 				.post()
 				.url(Constants.mBaseUrl + "/member/login.do")
-				.addParams("id", "user1")
-				.addParams("password", "1111")
+				.addParams("id", "c1")
+				.addParams("password", "123")
 				.build()
 				.execute(callback);
 	}
@@ -130,7 +119,7 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 
 	//POST String
 	public void doPostString(View view){
-		OkHttpUtils
+		OkHttpUtils.initClient(okHttpClient)
 				.postString()
 				.url(Constants.mBaseUrl + "/test/postString.do")
 				.content("string..kadjfadf{ds:sdf}")
@@ -185,7 +174,7 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 			return ;
 		}
 
-		OkHttpUtils
+		OkHttpUtils.initClient(okHttpClient)
 				.postFile()
 				.url(Constants.mBaseUrl + "/test/postFile.do")
 				.file(file)
@@ -229,7 +218,33 @@ public class OkHttpUtilTestActivity extends AppCompatActivity {
 
 	//GET Download Image
 	public void doDownloadImg(){
-
+		mTvResult.setText("");
+		String url = "http://images.csdn.net/20150817/1.jpg";
+		Log.d("a","------------");
+//
+//		OkHttpUtils.initClient(okHttpClient)
+//				.get()//
+//				.url(url)//
+//				.tag(this)//
+//				.build()//
+//				.connTimeOut(20000)
+//				.readTimeOut(20000)
+//				.writeTimeOut(20000)
+//				.execute(new BitmapCallback()
+//				{
+//					@Override
+//					public void onError(Call call, Exception e, int id)
+//					{
+//						//mTvResult.setText("onError:" + e.getMessage());
+//					}
+//
+//					@Override
+//					public void onResponse(Bitmap bitmap, int id)
+//					{
+//						Log.e("a", "onResponse：complete");
+//						//mIvResult.setImageBitmap(bitmap);
+//					}
+//				});
 
 	}
 
