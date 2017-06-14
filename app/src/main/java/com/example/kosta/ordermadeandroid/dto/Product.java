@@ -1,12 +1,15 @@
 package com.example.kosta.ordermadeandroid.dto;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import java.util.List;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class Product {
+public class Product extends BaseObservable {
 
     private String id;
     private String title;
@@ -28,6 +31,7 @@ public class Product {
         this.id = id;
     }
 
+    @Bindable
     public String getTitle() {
         return title;
     }
@@ -52,6 +56,7 @@ public class Product {
         this.category = category;
     }
 
+    @Bindable
     public String getContent() {
         return content;
     }
