@@ -55,7 +55,7 @@ public class MainFragment extends Fragment {
 
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
         task.execute("http://10.0.2.2:8080/ordermade/product/xml/main/category/hit.do?category=FUNITURE&page=10");
-        Log.d("c", "--###-- MainProduct Task above me --##--");
+       // Log.d("c", "--###-- MainProduct Task above me --##--");
 
         productData = new ArrayList<>();
         mainProductAdapter = new MainProductAdapter(getActivity(), productData);
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment {
                     Member maker = new Member();
                     maker.setId(getTagFindValue("id", "maker", element));
                     maker.setEmail(getTagFindValue("email", "maker", element));
-                    Log.d("b", getTagFindValue("email", "maker", element));
+                   // Log.d("b", getTagFindValue("email", "maker", element));
                     maker.setAddress(getTagFindValue("address", "maker", element));
                     maker.setName(getTagFindValue("name", "maker", element));
                     maker.setIntroduce(getTagFindValue("introduce", "maker", element));

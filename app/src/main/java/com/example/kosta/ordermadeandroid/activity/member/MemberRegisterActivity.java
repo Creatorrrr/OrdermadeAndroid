@@ -2,7 +2,9 @@ package com.example.kosta.ordermadeandroid.activity.member;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +39,7 @@ import okhttp3.OkHttpClient;
 
 public class MemberRegisterActivity extends AppCompatActivity {
 
-
+	private static final int PICK_FROM_ALBUM = 1;
 	private SharedPreferences prefs;
 	private OkHttpClient okHttpClient;
 
@@ -53,6 +55,7 @@ public class MemberRegisterActivity extends AppCompatActivity {
 	private RadioButton makerRadio;
 	private EditText licenseNumber;
 	private ImageView image;
+	private String imageSrc;
 
 	private String memberTypeString;
 
@@ -75,11 +78,10 @@ public class MemberRegisterActivity extends AppCompatActivity {
 		licenseNumber = (EditText) findViewById(R.id.licenseNumber);
 		image = (ImageView) findViewById(R.id.image);
 
-		memberTypeString = "C";
+		memberTypeString = "C"; //멤버타입 초기화.
 
 
 		RadioButton.OnClickListener radioOnClickListener = new RadioButton.OnClickListener() {
-
 			public void onClick(View v) {
 				if(consumerRadio.isChecked()) {
 					memberTypeString = "C";
@@ -88,15 +90,28 @@ public class MemberRegisterActivity extends AppCompatActivity {
 					memberTypeString="M";
 					licenseNumber.setVisibility(View.VISIBLE);
 				}
-				Toast.makeText(getApplication(), memberTypeString, Toast.LENGTH_SHORT).show();
-//				Toast.makeText(getApplication(), "consumerRadio  : " + consumerRadio.isChecked() + "\n"
-//						+ "makerRadio : " + makerRadio.isChecked() + "\n", Toast.LENGTH_SHORT).show();
-
+//				Toast.makeText(getApplication(), memberTypeString, Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplication(), consumerRadio.isChecked()+ "\n", Toast.LENGTH_SHORT).show();
 			}
 		};
-
 		consumerRadio.setOnClickListener(radioOnClickListener);
 		makerRadio.setOnClickListener(radioOnClickListener);
+
+
+
+
+
+
+		//이미지 클릭할때
+		findViewById(R.id.image).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_PICK);
+				intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+				//intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//sd카드에서 불러오기
+				startActivityForResult(intent, PICK_FROM_ALBUM);
+			}
+		});
 
 
 		//취소 버튼
@@ -113,39 +128,45 @@ public class MemberRegisterActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MemberRegisterActivity.this));
-
 				okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-				OkHttpUtils.initClient(okHttpClient)
-						.post().tag(this)//.params("image",new File(file))
-						.url(Constants.mBaseUrl + "/member/join.do")
-						.addParams("id", id.getText().toString())
-						.addParams("password", password.getText().toString())
-						.addParams("password2", password2.getText().toString())
-						.addParams("name", name.getText().toString())
-						.addParams("email", email.getText().toString())
-						.addParams("address", address.getText().toString())
-						.addParams("introduce", introduce.getText().toString())
-						.addParams("memberType", memberTypeString)
-						.addParams("licenseNumber", licenseNumber.getText().toString())
-						.addParams("image","")
-						//.addFile("image","aa.jpg", file)
-						.build()
-						.execute(new StringCallback() {
-							@Override
-							public void onError(Call call, Exception e, int id) {
-								Log.d("a", e.getMessage());
-							}
 
-							@Override
-							public void onResponse(final String response, int id) {
-								if(response.equals("true")){//회원가입 성공시
-									Toast.makeText(getApplication(),"회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
-									startActivity(new Intent(getApplication(), MemberLoginActivity.class));
-								}else{
-									Toast.makeText(getApplication(),"회원가입에 실패 했습니다.", Toast.LENGTH_SHORT).show();
-								}
-							}
-						});
+				Log.d("a","----------"+imageUpload(imageSrc));
+//
+//				OkHttpUtils.initClient(okHttpClient)
+//						.post()
+//						.url(Constants.mBaseUrl + "/member/join.do")
+//						.addParams("id", id.getText().toString())
+//						.addParams("password", password.getText().toString())
+//						.addParams("password2", password2.getText().toString())
+//						.addParams("name", name.getText().toString())
+//						.addParams("email", email.getText().toString())
+//						.addParams("address", address.getText().toString())
+//						.addParams("introduce", introduce.getText().toString())
+//						.addParams("memberType", memberTypeString)
+//						.addParams("licenseNumber", licenseNumber.getText().toString())
+//						.addParams("image","")
+//						//.addFile("image","aa.jpg", file)
+//						.build()
+//						.execute(new StringCallback() {
+//							@Override
+//							public void onError(Call call, Exception e, int id) {
+//								Log.d("a", e.getMessage());
+//							}
+//
+//							@Override
+//							public void onResponse(final String response, int id) {
+//								if(response.equals("true")){//회원가입 성공시
+//									//이미지 올리기
+//
+//
+//
+//									Toast.makeText(getApplication(),"회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
+//									startActivity(new Intent(getApplication(), MemberLoginActivity.class));
+//								}else{
+//									Toast.makeText(getApplication(),"회원가입에 실패 했습니다.", Toast.LENGTH_SHORT).show();
+//								}
+//							}
+//						});
 
 //
 //				String url = Constants.mBaseUrl + "/member/join.do";
@@ -208,7 +229,47 @@ public class MemberRegisterActivity extends AppCompatActivity {
 
 	}
 
+	public String imageUpload(String imageSrc){
+		final List<String> result = null;
 
+		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MemberRegisterActivity.this));
+		okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+		OkHttpUtils.initClient(okHttpClient)
+				.post()
+				.url(Constants.mBaseUrl + "/main/file/upload.do")
+				.addFile("upload","", new File(imageSrc))
+				.build()
+				.execute(new StringCallback() {
+					@Override
+					public void onError(Call call, Exception e, int id) {
+						Log.d("a", e.getMessage());
+					}
+
+					@Override
+					public void onResponse(final String response, int id) {
+						result.add(response);
+					}
+				});
+		return result.get(0);
+	}
+
+
+
+
+	//다른 VIEW에서 보내주는 데이서를 처리
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if(resultCode != RESULT_OK) return;
+		switch (requestCode){
+			case PICK_FROM_ALBUM: //로컬에 있는 이미지 경로
+				Log.d("a","-----------"+data.getData());//content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Fimages%2Fmedia%2F57/ACTUAL/1625851485
+				((ImageView) findViewById(R.id.image)).setImageURI(data.getData());
+				imageSrc = data.getData().toString();
+				break;
+		}
+	}
 
 
 }
