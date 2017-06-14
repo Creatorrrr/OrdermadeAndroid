@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/linearLayout2">
-
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+    
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
@@ -70,12 +72,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout2"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -165,39 +167,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="제작자 소개"
-                     />
+                    android:text="제작자 소개" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
-                    android:text="안녕하세요 잘 부탁드립니다. ~~ ~~"
-                    />
+                    android:text="안녕하세요 잘 부탁드립니다. ~~ ~~" />
 
-            <TextView
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&lt;포트폴리오&gt;"/>
+                    android:text="&lt;포트폴리오&gt;" />
+
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></ListView>
 
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="&lt;상품페이지&gt;"/>
+                    android:text="&lt;상품페이지&gt;" />
+
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></ListView>
@@ -213,7 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="sign out"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <Button
                 android:layout_width="0dp"

@@ -32,9 +32,10 @@
         <activity android:name=".activity.product.ProductEditDetailActivity" />
         <activity android:name=".activity.product.ProductDetailActivity" />
         <activity android:name=".activity.portfolio.PortfolioRegister2Activity" />
+        <activity android:name=".activity.portfolio.PortfolioDetailActivity"/>
+        <activity android:name=".activity.portfolio.PortfolioMyListActivity"/>
         <activity android:name=".activity.deal.DealConsumerActivity" />
         <!--<activity android:name=".activity.product.ProductSearchActivity"/>-->
-        <activity android:name=".activity.portfolio.PortfolioDetailActivity"/>
         <activity android:name=".activity.member.MemberMyPageActivity"></activity>
         <activity android:name=".activity.member.MemberLoginActivity">
         </activity>
