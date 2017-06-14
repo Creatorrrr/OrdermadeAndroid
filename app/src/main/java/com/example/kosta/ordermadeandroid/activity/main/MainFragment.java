@@ -102,27 +102,27 @@ public class MainFragment extends Fragment {
                     product.setImage(node.getChildNodes()
                             .item(4).getFirstChild().getNodeValue());
 
-                    Member maker = new Member();
-                    maker.setId(node.getChildNodes().item(5)
-                            .getChildNodes().item(0).getFirstChild().getNodeValue());
-                    maker.setEmail(node.getChildNodes().item(5)
-                            .getChildNodes().item(1).getFirstChild().getNodeValue());
-                    maker.setAddress(node.getChildNodes().item(5)
-                            .getChildNodes().item(2).getFirstChild().getNodeValue());
-                    maker.setName(node.getChildNodes().item(5)
-                            .getChildNodes().item(3).getFirstChild().getNodeValue());
-                    maker.setIntroduce(node.getChildNodes().item(5)
-                            .getChildNodes().item(4).getFirstChild().getNodeValue());
-                    maker.setImage(node.getChildNodes().item(5)
-                            .getChildNodes().item(5).getFirstChild().getNodeValue());
-                    product.setMaker(maker);
-
-                    product.setPeriod(Integer.parseInt(node.getChildNodes()
-                            .item(6).getFirstChild().getNodeValue()));
-                    product.setPrice(Integer.parseInt(node.getChildNodes()
-                            .item(7).getFirstChild().getNodeValue()));
-                    product.setTitle(node.getChildNodes()
-                            .item(8).getFirstChild().getNodeValue());
+//                    Member maker = new Member();
+//                    maker.setId(node.getChildNodes().item(5)
+//                            .getChildNodes().item(0).getFirstChild().getNodeValue());
+//                    maker.setEmail(node.getChildNodes().item(5)
+//                            .getChildNodes().item(1).getFirstChild().getNodeValue());
+//                    maker.setAddress(node.getChildNodes().item(5)
+//                            .getChildNodes().item(2).getFirstChild().getNodeValue());
+//                    maker.setName(node.getChildNodes().item(5)
+//                            .getChildNodes().item(3).getFirstChild().getNodeValue());
+//                    maker.setIntroduce(node.getChildNodes().item(5)
+//                            .getChildNodes().item(4).getFirstChild().getNodeValue());
+//                    maker.setImage(node.getChildNodes().item(5)
+//                            .getChildNodes().item(5).getFirstChild().getNodeValue());
+//                    product.setMaker(maker);
+//
+//                    product.setPeriod(Integer.parseInt(node.getChildNodes()
+//                            .item(6).getFirstChild().getNodeValue()));
+//                    product.setPrice(Integer.parseInt(node.getChildNodes()
+//                            .item(7).getFirstChild().getNodeValue()));
+//                    product.setTitle(node.getChildNodes()
+//                            .item(8).getFirstChild().getNodeValue());
 
                     productData.add(product);
                 }

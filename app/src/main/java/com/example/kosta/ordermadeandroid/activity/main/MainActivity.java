@@ -19,6 +19,7 @@ import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberLoginActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
+import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 
@@ -105,16 +106,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			case R.id.nav_member_login:
 				startActivity(new Intent(this, MemberLoginActivity.class));
 				return true;
-            case R.id.nav_myPage_Consumer:
-                // fragment만 사용
-                /*setTitle("나의 프로필임");
-                MemberMyPageFragment myPageFragment = new MemberMyPageFragment();
-                FragmentManager manager = getSupportFragmentManager();
-                manager.beginTransaction()
-                        .replace(R.id.relativeLayout_for_frame, myPageFragment).commit();*/
-                // activity에서 fragment 호출해서 사용
-                startActivity(new Intent(this, MemberMyPageActivity.class));
-				return true;
+            case R.id.nav_member_register:
+                startActivity(new Intent(this, MemberRegisterActivity.class));
+                return true;
+//            case R.id.nav_myPage_Consumer:
+//                // fragment만 사용
+//                /*setTitle("나의 프로필임");
+//                MemberMyPageFragment myPageFragment = new MemberMyPageFragment();
+//                FragmentManager manager = getSupportFragmentManager();
+//                manager.beginTransaction()
+//                        .replace(R.id.relativeLayout_for_frame, myPageFragment).commit();*/
+//                // activity에서 fragment 호출해서 사용
+//                startActivity(new Intent(this, MemberMyPageActivity.class));
+//				return true;
 //            case R.id.nav_myPage_Consumer:
 //                //Toast.makeText(getApplicationContext(), "nav_account Selected", Toast.LENGTH_SHORT).show();
 //                startActivity(new Intent(this, MemberMyPageActivity.class));
