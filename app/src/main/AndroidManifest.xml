@@ -18,7 +18,6 @@
         <activity android:name=".activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -37,24 +36,22 @@
         <!-- <activity android:name=".activity.product.ProductSearchActivity"/> -->
         <activity android:name=".activity.portfolio.PortfolioDetailActivity"/>
         <activity android:name=".activity.member.MemberMyPageActivity"/>
-        <activity android:name=".activity.member.MemberLoginActivity">
-        </activity>
+        <activity android:name=".activity.member.MemberLoginActivity"/>
+        <activity android:name=".activity.member.MemberRegisterActivity"/>
         <activity android:name=".activity.member.OkHttpTestActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
         <activity android:name=".activity.member.OkHttpUtilTestActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".activity.member.MemberRegisterActivity">
-        </activity>
+
     </application>
 
 </manifest>
