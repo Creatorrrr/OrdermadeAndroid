@@ -80,74 +80,48 @@ public class RequestMyListFragment extends Fragment {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(new InputSource(url.openStream()));
                 NodeList nodeList = doc.getElementsByTagName("request");
-                Log.d("b", "--####--- RequestLoadingTask START --###---");
+                Log.d("c", "--####--- RequestLoadingTask START --###---");
                 for ( int i = 0 ; i < nodeList.getLength(); i++) {
                     Request request = new Request();
                     Node node = nodeList.item(i);
 
                     Element element = (Element)node;
 
-                    request.setId(node.getChildNodes()
-                            .item(5).getFirstChild().getNodeValue());
-                    Log.d("b", "request Id : "+node.getChildNodes()
-                            .item(5).getFirstChild().getNodeValue());
-                    request.setTitle(node.getChildNodes()
-                            .item(8).getFirstChild().getNodeValue());
-                    Log.d("b", "request Title : "+node.getChildNodes()
-                            .item(8).getFirstChild().getNodeValue());
-                    request.setCategory(node.getChildNodes()
-                            .item(1).getFirstChild().getNodeValue());
-                    Log.d("b", "request category : "+node.getChildNodes()
-                            .item(1).getFirstChild().getNodeValue());
-                    request.setContent(node.getChildNodes()
-                            .item(3).getFirstChild().getNodeValue());
-                    request.setHopePrice(Integer.parseInt(node.getChildNodes()
-                            .item(4).getFirstChild().getNodeValue()));
-                    request.setPrice(Integer.parseInt(node.getChildNodes()
-                            .item(7).getFirstChild().getNodeValue()));
-                    request.setBound(node.getChildNodes()
-                            .item(0).getFirstChild().getNodeValue());
+                    request.setId(getTagFindValue("id", "request", element));
+                    Log.d("c", "request Id : "+getTagFindValue("id", "request", element));
+                    request.setTitle(getTagValue("title", element));
+                    Log.d("c", "request Title : "+getTagValue("title", element));
+                    request.setCategory(getTagValue("category", element));
+                    Log.d("c", "request category : "+getTagValue("category", element));
+                    request.setContent(getTagValue("content", element));
+                    request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
+                    request.setPrice(Integer.parseInt(getTagValue("price", element)));
+                    request.setBound(getTagValue("bound", element));
                     //request.setPage(element.getElementsByTagName("page")
                     //        .item(0).getChildNodes().item(0).getNodeValue());
 
-                    Log.d("b", "--####-- consumer Start --####-- ");
+                    Log.d("c", "--####-- consumer Start --####-- ");
                     Member consumer = new Member();
-                    consumer.setId(node.getChildNodes().item(2)
-                            .getChildNodes().item(0).getFirstChild().getNodeValue());
-                    Log.d("b", "----------"+(node.getChildNodes().item(2)
-                            .getChildNodes().item(0).getFirstChild().getNodeValue()));
-                    consumer.setEmail(node.getChildNodes().item(2)
-                            .getChildNodes().item(1).getFirstChild().getNodeValue());
-                    Log.d("b", "----------"+(node.getChildNodes().item(2)
-                            .getChildNodes().item(1).getFirstChild().getNodeValue()));
-                    consumer.setAddress(node.getChildNodes().item(2)
-                            .getChildNodes().item(2).getFirstChild().getNodeValue());
-                    consumer.setName(node.getChildNodes().item(2)
-                            .getChildNodes().item(3).getFirstChild().getNodeValue());
-                    consumer.setIntroduce(node.getChildNodes().item(2)
-                            .getChildNodes().item(4).getFirstChild().getNodeValue());
-                    consumer.setImage(node.getChildNodes().item(2)
-                            .getChildNodes().item(5).getFirstChild().getNodeValue());
+                    consumer.setId(getTagFindValue("id", "consumer", element));
+                    Log.d("c", "----------"+(getTagFindValue("id", "consumer", element)));
+                    consumer.setEmail(getTagFindValue("email", "consumer", element));
+                    Log.d("c", "----------"+(getTagFindValue("email", "consumer", element)));
+                    consumer.setAddress(getTagFindValue("address", "consumer", element));
+                    consumer.setName(getTagFindValue("name", "consumer", element));
+                    consumer.setIntroduce(getTagFindValue("introduce", "consumer", element));
+                    consumer.setImage(getTagFindValue("image", "consumer", element));
                     request.setConsumer(consumer);
 
-                    Log.d("b", "--####-- maker Start --####-- ");
+                    Log.d("c", "--####-- maker Start --####-- ");
                     Member maker = new Member();
-                    maker.setId(node.getChildNodes().item(6)
-                            .getChildNodes().item(0).getFirstChild().getNodeValue());
-                    maker.setEmail(node.getChildNodes().item(6)
-                            .getChildNodes().item(1).getFirstChild().getNodeValue());
-                    Log.d("b", "----------"+(node.getChildNodes().item(6)
-                            .getChildNodes().item(1).getFirstChild().getNodeValue()));
-                    maker.setAddress(node.getChildNodes().item(6)
-                            .getChildNodes().item(2).getFirstChild().getNodeValue());
-                    Log.d("b", "----------"+(node.getChildNodes().item(6)
-                            .getChildNodes().item(2).getFirstChild().getNodeValue()));
-                    maker.setName(node.getChildNodes().item(6)
-                            .getChildNodes().item(3).getFirstChild().getNodeValue());
-                    maker.setIntroduce(node.getChildNodes().item(6)
-                            .getChildNodes().item(4).getFirstChild().getNodeValue());
-                    maker.setImage(node.getChildNodes().item(6)
-                            .getChildNodes().item(5).getFirstChild().getNodeValue());
+                    maker.setId(getTagFindValue("id", "maker", element));
+                    maker.setEmail(getTagFindValue("email", "maker", element));
+                    Log.d("c", "----------"+(getTagFindValue("email", "maker", element)));
+                    maker.setAddress(getTagFindValue("address", "maker", element));
+                    Log.d("c", "----------"+(getTagFindValue("address", "maker", element)));
+                    maker.setName(getTagFindValue("name", "maker", element));
+                    maker.setIntroduce(getTagFindValue("introduce", "maker", element));
+                    maker.setImage(getTagFindValue("image", "maker", element));
                     request.setMaker(maker);
 
                     requestMyListData.add(request);
@@ -168,5 +142,21 @@ public class RequestMyListFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             requestMyListAdapter.notifyDataSetChanged();
         }
+    }
+
+    private static String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node value = (Node) nodeList.item(0);
+        return value.getNodeValue();
+    }
+
+    private static String getTagFindValue(String tag, String className, Element element) {
+        NodeList elementList = element.getElementsByTagName(tag);
+        for ( int i = 0 ; i < elementList.getLength() ; i++){
+            if ( className.equals(elementList.item(i).getParentNode().getNodeName())){
+                return elementList.item(i).getChildNodes().item(0).getNodeValue();
+            }
+        }
+        return null;
     }
 }
