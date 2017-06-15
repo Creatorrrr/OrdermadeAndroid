@@ -50,6 +50,8 @@ public class RequestMyListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.request_my_list_item, null);
         }
 
+        TextView requestId = (TextView)convertView
+                .findViewById(R.id.request_myList_requestId);
         TextView makerId = (TextView)convertView
                 .findViewById(R.id.request_myList_makerId);
         TextView requestTitle = (TextView)convertView
@@ -63,7 +65,12 @@ public class RequestMyListAdapter extends BaseAdapter {
 
         Log.d("b", "--------RequestMyListAdapter Success-------");
 
-        makerId.setText(requestMyListData.get(position).getMaker().getId());
+        requestId.setText(requestMyListData.get(position).getId());
+        if ( requestMyListData.get(position).getMaker().getId() != null){
+            makerId.setText(requestMyListData.get(position).getMaker().getId());
+        }else{
+            makerId.setText("없음");
+        }
         requestTitle.setText(requestMyListData.get(position).getTitle());
         hopePrice.setText(requestMyListData.get(position).getHopePrice()+"");
         category.setText(requestMyListData.get(position).getCategory());

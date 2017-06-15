@@ -106,7 +106,8 @@ public class RequestRegisterActivity extends AppCompatActivity {
                         .addParams("maker.id", "")
                         .addParams("consumer.id", "")
                         .addParams("category", "")
-                        .addParams("price", "")
+                        .addParams("price", "10000")
+                        .addParams("payment", "N")
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -116,9 +117,11 @@ public class RequestRegisterActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response, int id) {
+                                // RequestController return value 수정
                                 if (response.equals("true")) {
                                     Toast.makeText(RequestRegisterActivity.this, "의뢰서 등록 성공", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplication(), RequestMyListActivity.class));
+                                    finish();
                                 }else{
                                     Toast.makeText(RequestRegisterActivity.this, "의뢰서 등록 실패", Toast.LENGTH_SHORT).show();
                                 }
