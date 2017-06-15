@@ -1,7 +1,9 @@
 package com.example.kosta.ordermadeandroid.activity.member;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
+import com.example.kosta.ordermadeandroid.util.URI2RealPath;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -27,6 +30,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,46 +131,82 @@ public class MemberRegisterActivity extends AppCompatActivity {
 		findViewById(R.id.registerBtn).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MemberRegisterActivity.this));
-				okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+				Log.d("a","======="+imageSrc);
+				imageUpload(imageSrc);
+			}
+		});
 
-				Log.d("a","----------"+imageUpload(imageSrc));
-//
-//				OkHttpUtils.initClient(okHttpClient)
-//						.post()
-//						.url(Constants.mBaseUrl + "/member/join.do")
-//						.addParams("id", id.getText().toString())
-//						.addParams("password", password.getText().toString())
-//						.addParams("password2", password2.getText().toString())
-//						.addParams("name", name.getText().toString())
-//						.addParams("email", email.getText().toString())
-//						.addParams("address", address.getText().toString())
-//						.addParams("introduce", introduce.getText().toString())
-//						.addParams("memberType", memberTypeString)
-//						.addParams("licenseNumber", licenseNumber.getText().toString())
-//						.addParams("image","")
-//						//.addFile("image","aa.jpg", file)
-//						.build()
-//						.execute(new StringCallback() {
-//							@Override
-//							public void onError(Call call, Exception e, int id) {
-//								Log.d("a", e.getMessage());
-//							}
-//
-//							@Override
-//							public void onResponse(final String response, int id) {
-//								if(response.equals("true")){//회원가입 성공시
-//									//이미지 올리기
-//
-//
-//
-//									Toast.makeText(getApplication(),"회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
-//									startActivity(new Intent(getApplication(), MemberLoginActivity.class));
-//								}else{
-//									Toast.makeText(getApplication(),"회원가입에 실패 했습니다.", Toast.LENGTH_SHORT).show();
-//								}
-//							}
-//						});
+	}
+
+
+	//이미지 업로드 및 경로 받기
+	public void imageUpload(String imageSrc){
+			//Log.d("a","------"+imageSrc);
+			ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MemberRegisterActivity.this));
+			okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+			OkHttpUtils.initClient(okHttpClient)
+					.post()
+					.url(Constants.mBaseUrl + "/main/file/upload.do")
+					.addFile("upload","", new File(imageSrc))
+					.build()
+					.execute(new StringCallback() {
+						@Override
+						public void onError(Call call, Exception e, int id) {
+							Log.d("a", "-----7------"+e.getMessage());
+						}
+
+						@Override
+						public void onResponse(final String response, int id) {
+							Log.d("a","------------5----"+ response.toString());
+							//이미지 받은후 Form데이터에 넣고 보내기.
+							if(response == "fail"){
+								Toast.makeText(getApplication(), "이미지 업로드 실패 하였습니다.",Toast.LENGTH_SHORT).show();
+							}
+							sendFormData(response);
+
+						}
+					});
+
+	}
+
+	//회원가입 데이터에 업로된 이미지 파일명을 넣어 보낸다.
+	public void sendFormData(String uploadFileName){
+		if(uploadFileName == "fail") uploadFileName = "";
+
+		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MemberRegisterActivity.this));
+		okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+		OkHttpUtils.initClient(okHttpClient)
+				.post()
+				.url(Constants.mBaseUrl + "/member/join.do")
+				.addParams("id", id.getText().toString())
+				.addParams("password", password.getText().toString())
+				.addParams("password2", password2.getText().toString())
+				.addParams("name", name.getText().toString())
+				.addParams("email", email.getText().toString())
+				.addParams("address", address.getText().toString())
+				.addParams("introduce", introduce.getText().toString())
+				.addParams("memberType", memberTypeString)
+				.addParams("licenseNumber", licenseNumber.getText().toString())
+				.addParams("image",uploadFileName)
+				//.addFile("image","aa.jpg", file)
+				.build()
+				.execute(new StringCallback() {
+					@Override
+					public void onError(Call call, Exception e, int id) {
+						Log.d("a", e.getMessage());
+					}
+
+					@Override
+					public void onResponse(final String response, int id) {
+						if(response.equals("true")){//회원가입 성공시
+
+							Toast.makeText(getApplication(),"회원가입 되었습니다.", Toast.LENGTH_SHORT).show();
+							startActivity(new Intent(getApplication(), MemberLoginActivity.class));
+						}else{
+							Toast.makeText(getApplication(),"회원가입에 실패 했습니다.", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
 
 //
 //				String url = Constants.mBaseUrl + "/member/join.do";
@@ -223,35 +263,11 @@ public class MemberRegisterActivity extends AppCompatActivity {
 //							}
 //						});
 //
-			}
-		});
-
-
 	}
 
-	public String imageUpload(String imageSrc){
-		final List<String> result = null;
 
-		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MemberRegisterActivity.this));
-		okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-		OkHttpUtils.initClient(okHttpClient)
-				.post()
-				.url(Constants.mBaseUrl + "/main/file/upload.do")
-				.addFile("upload","", new File(imageSrc))
-				.build()
-				.execute(new StringCallback() {
-					@Override
-					public void onError(Call call, Exception e, int id) {
-						Log.d("a", e.getMessage());
-					}
 
-					@Override
-					public void onResponse(final String response, int id) {
-						result.add(response);
-					}
-				});
-		return result.get(0);
-	}
+
 
 
 
@@ -266,7 +282,7 @@ public class MemberRegisterActivity extends AppCompatActivity {
 			case PICK_FROM_ALBUM: //로컬에 있는 이미지 경로
 				Log.d("a","-----------"+data.getData());//content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Fimages%2Fmedia%2F57/ACTUAL/1625851485
 				((ImageView) findViewById(R.id.image)).setImageURI(data.getData());
-				imageSrc = data.getData().toString();
+				imageSrc =new URI2RealPath().getRealPathFromURI(getApplication(),data.getData());
 				break;
 		}
 	}

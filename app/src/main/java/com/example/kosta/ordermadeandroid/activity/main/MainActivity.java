@@ -1,5 +1,6 @@
 package com.example.kosta.ordermadeandroid.activity.main;
 
+
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -74,15 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    /* We can override onBackPressed method to toggle navigation drawer*/
-    @Override
-    public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
-        }
-    }
 
     //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
     @Override
@@ -92,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return navigationMenu(item);
 
     }
+
+
 
 
     private boolean navigationMenu(MenuItem item){
