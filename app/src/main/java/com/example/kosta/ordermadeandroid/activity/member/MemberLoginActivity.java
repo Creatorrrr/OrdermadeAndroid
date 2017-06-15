@@ -140,7 +140,7 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인 한적이 있으면 직접 SharedPreferences에서 멤버 정보를 불러온다.
 	//
 
-	//사용페이지에서는 항상 먼저 로그인 했는지 판다하고 로그인 됬으면 그 기능을 쓸수 있도록 한다.
+	//사용페이지에서는 항상 먼저 로그인 했는지 판단하고 로그인 됐으면 그 기능을 쓸수 있도록 한다.
 	public boolean isLogined(){//sessionId가 있을때 (전에 로그인한 기록이 있으면)
 		boolean check = false;
 
@@ -156,7 +156,6 @@ public class MemberLoginActivity extends AppCompatActivity {
 //			//시간으로
 //			check = true;
 //		}
-
 
 		return check;
 	}

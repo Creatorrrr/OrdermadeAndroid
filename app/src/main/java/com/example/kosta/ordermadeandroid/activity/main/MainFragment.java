@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
 import com.example.kosta.ordermadeandroid.dto.Member;
+import com.example.kosta.ordermadeandroid.dto.Portfolio;
 import com.example.kosta.ordermadeandroid.dto.Product;
 
 import org.w3c.dom.Document;
@@ -39,7 +42,6 @@ public class MainFragment extends Fragment {
 
     private List<Product> productData;
     private MainProductAdapter mainProductAdapter;
-
 
     public MainFragment() {
         // Required empty public constructor
@@ -113,6 +115,7 @@ public class MainFragment extends Fragment {
 
                     productData.add(product);
                 }
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (SAXException e) {

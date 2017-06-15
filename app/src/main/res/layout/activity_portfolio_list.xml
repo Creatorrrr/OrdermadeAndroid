@@ -35,6 +35,19 @@
             android:text="검색" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/android:empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="검색 결과가 없습니다." />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="등록" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="wrap_content"
