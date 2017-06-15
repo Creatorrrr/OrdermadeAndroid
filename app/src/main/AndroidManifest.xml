@@ -25,19 +25,20 @@
         <activity android:name=".activity.request.RequestApplyActivity"/>
         <activity android:name=".activity.request.RequestMakerDetailActivity"/>
         <activity android:name=".activity.request.RequestConsumerDetailActivity"/>
-        <activity android:name=".activity.request.RequestInviteActivity" />
-        <activity android:name=".activity.request.RequestJoinActivity" />
-        <activity android:name=".activity.request.RequestMyListActivity" />
-        <activity android:name=".activity.product.ProductRegisterActivity" />
-        <activity android:name=".activity.product.ProductEditDetailActivity" />
-        <activity android:name=".activity.product.ProductDetailActivity" />
+        <activity android:name=".activity.request.RequestInviteActivity"/>
+        <activity android:name=".activity.request.RequestJoinActivity"/>
+        <activity android:name=".activity.request.RequestMyListActivity"/>
+        <activity android:name=".activity.product.ProductRegisterActivity"/>
+        <activity android:name=".activity.product.ProductEditDetailActivity"/>
+        <activity android:name=".activity.product.ProductDetailActivity"/>
+        <!-- <activity android:name=".activity.product.ProductSearchActivity"/> -->
         <activity android:name=".activity.portfolio.PortfolioRegister2Activity" />
-        <activity android:name=".activity.deal.DealConsumerActivity" />
-        <!--<activity android:name=".activity.product.ProductSearchActivity"/>-->
         <activity android:name=".activity.portfolio.PortfolioDetailActivity"/>
-        <activity android:name=".activity.member.MemberMyPageActivity"></activity>
-        <activity android:name=".activity.member.MemberLoginActivity">
-        </activity>
+        <activity android:name=".activity.portfolio.PortfolioMyListActivity"/>
+        <activity android:name=".activity.deal.DealConsumerActivity"/>
+        <activity android:name=".activity.member.MemberMyPageActivity"/>
+        <activity android:name=".activity.member.MemberLoginActivity"/>
+        <activity android:name=".activity.member.MemberRegisterActivity"/>
         <activity android:name=".activity.member.OkHttpTestActivity">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

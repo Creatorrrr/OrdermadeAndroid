@@ -15,17 +15,15 @@ public class MemberMyPageActivity extends MainActivity {
         getLayoutInflater().inflate(R.layout.activity_member_mypage, relativeLayout);
 
         setTitle("나의 프로필");
-
-        MemberMyPageFragment myPageFragment = new MemberMyPageFragment();
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.relativeLayout_for_frame, myPageFragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment())
+                .commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // to check current activity in the navigation drawer
         view.getMenu().getItem(0).setChecked(true);
     }
 }

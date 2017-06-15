@@ -15,6 +15,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/request_myList_allBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -22,6 +23,7 @@
                 android:text="모든 의뢰서"/>
 
             <Button
+                android:id="@+id/request_myList_ingBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -29,6 +31,7 @@
                 android:text="진행중"/>
 
             <Button
+                android:id="@+id/request_myList_doneBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -36,18 +39,26 @@
                 android:text="완료"/>
 
         </LinearLayout>
-        
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/request_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="의뢰서 추가"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
         <ListView
+            android:id="@+id/request_myList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/request_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="의뢰서 추가"
-            android:textSize="20sp" />
 
     </LinearLayout>
 
