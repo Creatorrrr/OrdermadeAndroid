@@ -13,6 +13,7 @@ import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioRegister2Activity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductDetailActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductMyList;
 import com.example.kosta.ordermadeandroid.activity.product.ProductRegisterActivity;
 
 /**
@@ -36,7 +37,7 @@ public class MainTempFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick");
-                Intent intent = new Intent(getActivity(), ProductRegisterActivity.class);
+                Intent intent = new Intent(getActivity(), ProductMyList.class);
                 startActivity(intent);
             }
         });
