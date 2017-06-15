@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean navigationMenuConsumer(MenuItem item){
         switch(item.getItemId()){
+            // 메인 메뉴아이템
             case R.id.nav_Home:
                 // fragment만 사용
                 /*setTitle("메인입니다");
@@ -126,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .commit();*/
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
+			/*case R.id.nav_member_login:
+				startActivity(new Intent(this, MemberLoginActivity.class));
+				return true;*/
+			// 나의 프로필 메뉴아이템
             case R.id.nav_myPage_Consumer:
                 // fragment만 사용
                 /*setTitle("나의 프로필임");
@@ -135,13 +140,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.relativeLayout_for_frame, myPageFragment).commit();*/
                 // activity에서 fragment 호출해서 사용
                 startActivity(new Intent(this, MemberMyPageActivity.class));
-                return true;
+				return true;
+            // 나의 의뢰서 메뉴아이템
             case R.id.nav_requestMyList:
                 startActivity(new Intent(this, RequestMyListActivity.class));
                 return true;
+            // 참가요청내역 메뉴아이템
             case R.id.nav_requestJoin:
                 startActivity(new Intent(this, RequestJoinActivity.class));
                 return true;
+            // 구매이력 메뉴아이템
             case R.id.nav_dealConsumer:
                 startActivity(new Intent(this, DealConsumerActivity.class));
                 return true;

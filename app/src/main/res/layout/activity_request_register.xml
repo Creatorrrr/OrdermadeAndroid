@@ -24,6 +24,7 @@
             android:text="제작항목 : "/>
 
         <Spinner
+            android:id="@+id/request_register_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"/>
@@ -43,6 +44,7 @@
             android:text="의뢰제목 : "/>
 
         <EditText
+            android:id="@+id/request_register_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"/>
@@ -61,9 +63,38 @@
             android:text="상세내용"/>
 
         <EditText
+            android:id="@+id/request_register_content"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:hint="Write Content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/boundType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/publicRadio"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="공개" />
+
+            <RadioButton
+                android:id="@+id/privateRadio"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="비공개" />
+
+        </RadioGroup>
 
     </LinearLayout>
 
@@ -80,6 +111,7 @@
             android:text="희망금액"/>
 
         <EditText
+            android:id="@+id/request_register_hopeprice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.5"
@@ -102,12 +134,14 @@
         android:layout_gravity="right">
 
         <Button
+            android:id="@+id/request_register_cancelBtn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="취소"/>
 
         <Button
+            android:id="@+id/request_register_registerBtn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
