@@ -1,101 +1,107 @@
 package com.example.kosta.ordermadeandroid.dto;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import java.util.List;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class Product {
+public class Product extends BaseObservable {
 
-	private String id;
-	private String title;
-	private Member maker;
-	private String category;
-	private String content;
-	private String image;
-	private int price;
-	private int period;
-	private int hit;
-	private List<Review> reviews;
+    private String id;
+    private String title;
+    private Member maker;
+    private String category;
+    private String content;
+    private String image;
+    private int price;
+    private int period;
+    private int hit;
+    private List<Review> reviews;
 
-	public String getId() {
-		return id;
-	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    @Bindable
+    public String getTitle() {
+        return title;
+    }
 
-	public Member getMaker() {
-		return maker;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setMaker(Member maker) {
-		this.maker = maker;
-	}
+    public Member getMaker() {
+        return maker;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public void setMaker(Member maker) {
+        this.maker = maker;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    @Bindable
+    public String getContent() {
+        return content;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public int getPrice() {
-		return price;
-	}
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
+    public int getPrice() {
+        return price;
+    }
 
-	public int getPeriod() {
-		return period;
-	}
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
-	public void setPeriod(int period) {
-		this.period = period;
-	}
+    public int getPeriod() {
+        return period;
+    }
 
-	public int getHit() {
-		return hit;
-	}
+    public void setPeriod(int period) {
+        this.period = period;
+    }
 
-	public void setHit(int hit) {
-		this.hit = hit;
-	}
+    public int getHit() {
+        return hit;
+    }
 
-	public List<Review> getReviews() {
-		return reviews;
-	}
+    public void setHit(int hit) {
+        this.hit = hit;
+    }
 
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

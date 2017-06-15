@@ -19,6 +19,7 @@ import com.example.kosta.ordermadeandroid.dto.Portfolio;
 import com.example.kosta.ordermadeandroid.dto.Product;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -56,7 +57,7 @@ public class MainFragment extends Fragment {
 
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
         task.execute("http://10.0.2.2:8080/ordermade/product/xml/main/category/hit.do?category=FUNITURE&page=10");
-        Log.d("c", "--###-- MainProduct Task above me --##--");
+       // Log.d("c", "--###-- MainProduct Task above me --##--");
 
         productData = new ArrayList<>();
         mainProductAdapter = new MainProductAdapter(getActivity(), productData);
@@ -91,40 +92,26 @@ public class MainFragment extends Fragment {
                     Product product = new Product();
                     Node node = nodeList.item(i);
 
-
-
-                    product.setCategory(node.getChildNodes()
-                            .item(0).getFirstChild().getNodeValue());
-                    product.setContent(node.getChildNodes()
-                            .item(1).getFirstChild().getNodeValue());
-                    product.setHit(Integer.parseInt(node.getChildNodes()
-                            .item(2).getFirstChild().getNodeValue()));
-                    product.setId(node.getChildNodes()
-                            .item(3).getFirstChild().getNodeValue());
-                    product.setImage(node.getChildNodes()
-                            .item(4).getFirstChild().getNodeValue());
+                    Element element = (Element)node;
+                    product.setCategory(getTagValue("category", element));
+                    product.setContent(getTagValue("content", element));
+                    product.setHit(Integer.parseInt(getTagValue("hit", element)));
+                    product.setId(getTagFindValue("id", "product", element));
+                    product.setImage(getTagValue("image", element));
 
                     Member maker = new Member();
-                    maker.setId(node.getChildNodes().item(5)
-                            .getChildNodes().item(0).getFirstChild().getNodeValue());
-                    maker.setEmail(node.getChildNodes().item(5)
-                            .getChildNodes().item(1).getFirstChild().getNodeValue());
-                    maker.setAddress(node.getChildNodes().item(5)
-                            .getChildNodes().item(2).getFirstChild().getNodeValue());
-                    maker.setName(node.getChildNodes().item(5)
-                            .getChildNodes().item(3).getFirstChild().getNodeValue());
-                    maker.setIntroduce(node.getChildNodes().item(5)
-                            .getChildNodes().item(4).getFirstChild().getNodeValue());
-                    maker.setImage(node.getChildNodes().item(5)
-                            .getChildNodes().item(5).getFirstChild().getNodeValue());
+                    maker.setId(getTagFindValue("id", "maker", element));
+                    maker.setEmail(getTagFindValue("email", "maker", element));
+                   // Log.d("b", getTagFindValue("email", "maker", element));
+                    maker.setAddress(getTagFindValue("address", "maker", element));
+                    maker.setName(getTagFindValue("name", "maker", element));
+                    maker.setIntroduce(getTagFindValue("introduce", "maker", element));
+                    maker.setImage(getTagFindValue("image", "maker", element));
                     product.setMaker(maker);
 
-                    product.setPeriod(Integer.parseInt(node.getChildNodes()
-                            .item(6).getFirstChild().getNodeValue()));
-                    product.setPrice(Integer.parseInt(node.getChildNodes()
-                            .item(7).getFirstChild().getNodeValue()));
-                    product.setTitle(node.getChildNodes()
-                            .item(8).getFirstChild().getNodeValue());
+                    product.setPeriod(Integer.parseInt(getTagValue("period", element)));
+                    product.setPrice(Integer.parseInt(getTagValue("price", element)));
+                    product.setTitle(getTagValue("title", element));
 
                     productData.add(product);
                 }
@@ -147,4 +134,19 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private static String getTagValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node value = (Node) nodeList.item(0);
+        return value.getNodeValue();
+    }
+
+    private static String getTagFindValue(String tag, String className, Element element) {
+        NodeList elementList = element.getElementsByTagName(tag);
+        for ( int i = 0 ; i < elementList.getLength() ; i++){
+            if ( className.equals(elementList.item(i).getParentNode().getNodeName())){
+                return elementList.item(i).getChildNodes().item(0).getNodeValue();
+            }
+        }
+        return null;
+    }
 }

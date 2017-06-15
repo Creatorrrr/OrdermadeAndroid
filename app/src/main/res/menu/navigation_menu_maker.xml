@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/nav_myPage_Maker"
-    android:title="나의 프로필"></item>
+    <group>
 
-    <item android:id="@+id/nav_request_Search"
-        android:title="의뢰서 검색"></item>
+        <item
+            android:id="@+id/nav_Home"
+            android:icon="@mipmap/ic_home_black_24dp"
+            android:title="메인"/>
 
-    <item android:id="@+id/nav_rquest_receivedList"
-        android:title="받은 의뢰서"></item>
+        <item
+            android:id="@+id/nav_myPage_Maker"
+            android:title="나의 프로필"/>
 
-    <item android:id="@+id/nav_product_myList"
-        android:title="상품 관리"></item>
+        <item
+            android:id="@+id/nav_request_Search"
+            android:title="의뢰서 검색"/>
 
-    <item android:id="@+id/nav_portfolio_myList"
-        android:title="포트폴리오 관리"></item>
+        <item
+            android:id="@+id/nav_rquest_receivedList"
+            android:title="받은 의뢰서"/>
 
-    <item android:id="@+id/nav_requestList"
-        android:title="의뢰요청내역"></item>
+        <item
+            android:id="@+id/nav_product_myList"
+            android:title="상품 관리"/>
 
-    <item android:id="@+id/nav_dealMaker"
-        android:title="거래 이력"></item>
+        <item
+            android:id="@+id/nav_portfolio_myList"
+            android:title="포트폴리오 관리"/>
+
+        <item
+            android:id="@+id/nav_requestList"
+            android:title="의뢰요청내역"/>
+
+        <item
+            android:id="@+id/nav_dealMaker"
+            android:title="거래 이력"/>
+
+    </group>
 
 </menu>
