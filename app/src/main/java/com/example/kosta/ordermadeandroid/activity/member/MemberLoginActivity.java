@@ -112,9 +112,10 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인
 	private void doLogin(){
 
-		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
+
+		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		okHttpClient = new OkHttpClient.Builder().cookieJar(Constants.cookieJar).build();
+		OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
 		OkHttpUtils.initClient(okHttpClient)
 				.post()
 				.url(Constants.mBaseUrl + "/member/login.do")
@@ -142,9 +143,10 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인 성공시 멤버 정보 불러옴
 	private void doGetMemberInfo(){
 
-		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
+
+		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		okHttpClient = new OkHttpClient.Builder().cookieJar(Constants.cookieJar).build();
+		OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
 		OkHttpUtils.initClient(okHttpClient)
 				.get()
 				.url(Constants.mBaseUrl + "/member/xml/myPage.do")

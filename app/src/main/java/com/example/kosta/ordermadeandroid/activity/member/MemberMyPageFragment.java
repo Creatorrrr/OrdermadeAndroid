@@ -117,8 +117,10 @@ public class MemberMyPageFragment extends Fragment {
     private void doGetMemberInfo() {
 
 
-        //Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(Constants.cookieJar).build();
+
+		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity()));
+		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
+		OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
         OkHttpUtils.initClient(okHttpClient)
                 .get()
                 .url(Constants.mBaseUrl + "/member/xml/myPage.do")
