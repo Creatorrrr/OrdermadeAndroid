@@ -104,9 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(getApplicationContext(), "Error!! Error!!!", Toast.LENGTH_SHORT).show();
                 return true;
         }
-
     }
-
 
     private boolean navigationMenuConsumer(MenuItem item){
         switch(item.getItemId()){

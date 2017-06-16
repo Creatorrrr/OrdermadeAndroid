@@ -131,15 +131,18 @@ public class RequestMyListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Request request = requestMyListData.get(position);
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), RequestDetailActivity.class);
-                // Request DTO, required implements serializable
-                intent.putExtra("makerId", request.getMaker().getId());
-                intent.putExtra("category", request.getCategory());
-                intent.putExtra("title", request.getTitle());
-                intent.putExtra("price", request.getPrice());
-                intent.putExtra("detailContent", request.getContent());
-                startActivity(intent);
+                if( request.getMaker().getId() != null){
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), RequestDetailActivity.class);
+                    // Request DTO, required implements serializable
+                    intent.putExtra("makerId", request.getMaker().getId());
+                    intent.putExtra("category", request.getCategory());
+                    intent.putExtra("title", request.getTitle());
+                    intent.putExtra("price", request.getPrice());
+                    intent.putExtra("requestId", request.getId());
+                    intent.putExtra("detailContent", request.getContent());
+                    startActivity(intent);
+                }
             }
         });
 
