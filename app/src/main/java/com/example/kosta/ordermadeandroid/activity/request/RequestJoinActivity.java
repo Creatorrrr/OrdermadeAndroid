@@ -11,7 +11,7 @@ public class RequestJoinActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_request_invite, relativeLayout);
+        getLayoutInflater().inflate(R.layout.activity_request_join, relativeLayout);
 
         setTitle("참가요청 내역");
 

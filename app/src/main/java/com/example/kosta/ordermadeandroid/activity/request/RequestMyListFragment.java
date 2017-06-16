@@ -38,6 +38,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,16 +70,52 @@ public class RequestMyListFragment extends Fragment {
         ListView listView = (ListView)view.findViewById(R.id.request_myList);
 
         final AsyncTask<String, Void, Void> task = new RequestMyListLoadingTask();
-        // RequestController - 368
+
+        // 나의 의뢰서 리스트 출력, RequestController - 368
         task.execute("http://10.0.2.2:8080/ordermade/request/xml/searchMyRequests.do");
         Log.d("requestList", "RequestMyList Task Done");
 
         requestMyListData = new ArrayList<>();
         requestMyListAdapter = new RequestMyListAdapter(getActivity(), requestMyListData);
 
+        // 모든 의뢰서 버튼
+        view.findViewById(R.id.request_myList_allBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task.cancel(true);
+                if(task.isCancelled()){
+                    requestMyListData.removeAll(requestMyListData);
+                    new RequestMyListLoadingTask()
+                            .execute("http://10.0.2.2:8080/ordermade/request/xml/searchMyRequests.do");
+                }
+            }
+        });
+
+        // 진행중 버튼
+        view.findViewById(R.id.request_myList_ingBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task.cancel(true);
+                if(task.isCancelled()){
+                    requestMyListData.removeAll(requestMyListData);
+                    new RequestMyListLoadingTask()
+                            .execute("http://10.0.2.2:8080/ordermade/request/xml/searchMyRequestsWithMaker.do");
+                }
+            }
+        });
+
+        // 완료된 의뢰서 버튼 (미완성)
+        view.findViewById(R.id.request_myList_doneBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         listView.setAdapter(requestMyListAdapter);
 
-        view.findViewById(R.id.request_register).setOnClickListener(new View.OnClickListener() {
+        // 의뢰서 추가 버튼
+        view.findViewById(R.id.request_myList_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RequestRegisterActivity.class);
@@ -86,7 +123,25 @@ public class RequestMyListFragment extends Fragment {
             }
         });
 
+        // Context Menu 구현
         registerForContextMenu(view.findViewById(R.id.request_myList));
+
+        // 나의 의뢰서 상세정보 구현
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Request request = requestMyListData.get(position);
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), RequestDetailActivity.class);
+                // Request DTO, required implements serializable
+                intent.putExtra("makerId", request.getMaker().getId());
+                intent.putExtra("category", request.getCategory());
+                intent.putExtra("title", request.getTitle());
+                intent.putExtra("price", request.getPrice());
+                intent.putExtra("detailContent", request.getContent());
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -182,7 +237,7 @@ public class RequestMyListFragment extends Fragment {
                     Log.d("requestList", "request Title : "+getTagValue("title", element));
                     //request.setCategory(getTagValue("category", element));
                     //Log.d("requestList", "request category : "+getTagValue("category", element));
-                    request.setContent(getTagValue("content", element));
+                    request.setContent(getTagFindValue("content", "request", element));
                     request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
                     request.setPrice(Integer.parseInt(getTagValue("price", element)));
                     request.setBound(getTagValue("bound", element));

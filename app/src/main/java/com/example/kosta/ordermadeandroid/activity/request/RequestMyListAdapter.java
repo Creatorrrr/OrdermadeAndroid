@@ -65,6 +65,7 @@ public class RequestMyListAdapter extends BaseAdapter {
 
         Log.d("b", "--------RequestMyListAdapter Success-------");
 
+        // 나의 의뢰서 리스트 출력
         requestId.setText(requestMyListData.get(position).getId());
         if ( requestMyListData.get(position).getMaker().getId() != null){
             makerId.setText(requestMyListData.get(position).getMaker().getId());

@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
-        return navigationMenu(item);
-
+        return navigationMenuConsumer(item);
     }
 
 

@@ -55,6 +55,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ListView listView = (ListView)view.findViewById(R.id.hitProduct_for_main_listView);
 
+        // 인기 상품 리스트
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
         task.execute("http://10.0.2.2:8080/ordermade/product/xml/main/category/hit.do?category=FUNITURE&page=10");
        // Log.d("c", "--###-- MainProduct Task above me --##--");

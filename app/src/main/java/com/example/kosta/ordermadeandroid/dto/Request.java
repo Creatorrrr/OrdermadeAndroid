@@ -1,12 +1,13 @@
 package com.example.kosta.ordermadeandroid.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class Request {
+public class Request implements Serializable{
 
 	private String id;
 	private String title;
@@ -19,6 +20,7 @@ public class Request {
 	private List<Comment> comments;
 	private List<Attach> attachs;
 	private String bound;
+	private String payment;
 	private String page;
 
 	public String getId() {
@@ -99,6 +101,14 @@ public class Request {
 
 	public void setAttachs(List<Attach> attachs) {
 		this.attachs = attachs;
+	}
+
+	public String getPayment() {
+		return payment;
+	}
+
+	public void setPayment(String payment) {
+		this.payment = payment;
 	}
 
 	public String getBound() {
