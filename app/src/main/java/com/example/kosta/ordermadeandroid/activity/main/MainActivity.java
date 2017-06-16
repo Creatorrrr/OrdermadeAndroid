@@ -2,6 +2,7 @@ package com.example.kosta.ordermadeandroid.activity.main;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -32,63 +34,101 @@ import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    private SharedPreferences prefs;
+    private String loginId;
+    private String memberType;
+
+
     public DrawerLayout mDrawerLayout;
-    public ActionBarDrawerToggle mToggle;
     public RelativeLayout relativeLayout;
     public Toolbar mToolbar;
     public NavigationView view;
+    public ActionBarDrawerToggle mToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar)findViewById(R.id.nav_action);
-        setSupportActionBar(mToolbar);
-
-        relativeLayout = (RelativeLayout)findViewById(R.id.relativeLayout_for_frame);
-
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        relativeLayout = (RelativeLayout)findViewById(R.id.relativeLayout_for_frame);
+        mToolbar = (Toolbar)findViewById(R.id.nav_action);
+        view = (NavigationView)findViewById(R.id.navigation_view);
 
+        prefs = getSharedPreferences("login_info",MODE_PRIVATE);
+        loginId = prefs.getString("loginId","");//SharedPreferences에서 꺼낸다
+        memberType = prefs.getString("memberType","");//
+        Toast.makeText(getApplication(),loginId+"-------"+memberType, Toast.LENGTH_SHORT).show();
+
+        if(memberType.equals("C")) {
+            view.getMenu().clear();//메뉴삭제
+            view.inflateMenu(R.menu.navigation_menu_consumer);//메뉴추가
+            //getMenuInflater().inflate(R.menu.navigation_menu, view.getMenu());//메뉴추가.
+        }else if(memberType.equals("M")){
+            view.getMenu().clear();
+            view.inflateMenu(R.menu.navigation_menu_maker);
+        }
+//        else{
+//            view.getMenu().clear();
+//            view.getMenu().add(1, 1, 1, "menu_1");//동적으로 하나씩 추가
+//            view.inflateMenu(R.menu.navigation_menu);
+//        }
+
+
+//        View headerView = view.getHeaderView(0);//headview클릭
+//        headerView.findViewById();
+
+
+        mToolbar.setNavigationIcon(R.mipmap.ic_launcher);//Logo = menu button icon
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
-        //Initializing NavigationView
-        view = (NavigationView)findViewById(R.id.navigation_view);
         view.setNavigationItemSelectedListener(this);
-
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_list_black_24dp);
 
-        /*MainTempFragment mainTempFragment = new MainTempFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.relativeLayout_for_frame, mainTempFragment)
-                .commit();*/
 
-        MainFragment mainFragment = new MainFragment();
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.relativeLayout_for_frame, mainFragment)
+                //.replace(R.id.relativeLayout_for_frame, new MainTempFragment())
+                .replace(R.id.relativeLayout_for_frame,  new MainFragment())
                 .commit();
 
     }
 
 
-    //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+    //메뉴 클릭했을때
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        boolean result;
+
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
-        return navigationMenu(item);
 
+        if(memberType.equals("C")){
+            result = doNavigationMenuConsumer(item);
+        }else if(memberType.equals("M")){
+            result = doNavigationMenuMaker(item);
+        }else{
+            result = doNavigationMenu(item);
+        }
+        return result;
+
+    }
+    //주메뉴를 호출하는 버튼용
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item)) return true;
+        return super.onOptionsItemSelected(item);
     }
 
 
-
-
-    private boolean navigationMenu(MenuItem item){
+    //로기인 하기전 상태의 메뉴용
+    private boolean doNavigationMenu(MenuItem item){
         switch(item.getItemId()){
             case R.id.nav_Home:
                 startActivity(new Intent(this, MainActivity.class));
@@ -107,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
-    private boolean navigationMenuConsumer(MenuItem item){
+    //로그인 타입이 소비자 일때 실행
+    private boolean doNavigationMenuConsumer(MenuItem item){
         switch(item.getItemId()){
             // 메인 메뉴아이템
             case R.id.nav_Home:
@@ -127,11 +167,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			// 나의 프로필 메뉴아이템
             case R.id.nav_myPage_Consumer:
                 // fragment만 사용
-                /*setTitle("나의 프로필임");
-                MemberMyPageFragment myPageFragment = new MemberMyPageFragment();
-                FragmentManager manager = getSupportFragmentManager();
-                manager.beginTransaction()
-                        .replace(R.id.relativeLayout_for_frame, myPageFragment).commit();*/
+//                setTitle("나의 프로필임");
+//                FragmentManager manager = getSupportFragmentManager();
+//                manager.beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment()).commit();
                 // activity에서 fragment 호출해서 사용
                 startActivity(new Intent(this, MemberMyPageActivity.class));
 				return true;
@@ -155,14 +193,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
-    private boolean navigationMenuMaker(MenuItem item){
+    //로그인 타입이 제작자 일때 실행
+    private boolean doNavigationMenuMaker(MenuItem item){
         switch(item.getItemId()){
             case R.id.nav_Home:
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
             case R.id.nav_myPage_Maker:
-                startActivity(new Intent(this, MemberMyPageActivity.class));
+                startActivity(new Intent(this, MemberMyPageFragment.class));
                 return true;
             case R.id.nav_request_Search:
                 startActivity(new Intent(this, RequestSearchFragment.class));
@@ -191,16 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(mToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
 }

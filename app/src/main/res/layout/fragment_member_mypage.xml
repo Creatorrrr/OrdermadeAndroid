@@ -18,7 +18,7 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4" />
         </LinearLayout>
@@ -40,10 +40,11 @@
                     android:text="아이디" />
 
                 <TextView
+                    android:id="@+id/id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Kostagram" />
+                    android:text="" />
 
             </LinearLayout>
 
@@ -58,10 +59,11 @@
                     android:text="보유금액" />
 
                 <TextView
+                    android:id="@+id/accountMoney"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="200,000" />
+                    android:text="" />
 
             </LinearLayout>
 
@@ -90,10 +92,11 @@
                 android:textAlignment="center" />
 
             <TextView
+                android:id="@+id/email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="a123@naver.com"
+                android:text=""
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -111,10 +114,11 @@
                 android:textAlignment="center" />
 
             <TextView
+                android:id="@+id/address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="서울시 가산대로"
+                android:text=""
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -125,17 +129,19 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/logoutBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="sign out"
+                android:text="로그아웃"
                 android:textAlignment="center"/>
 
             <Button
+                android:id="@+id/modifyBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="modify"
+                android:text="정보수정"
                 android:textAlignment="center" />
 
         </LinearLayout>
