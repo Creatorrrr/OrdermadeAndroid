@@ -1,17 +1,14 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -40,10 +37,10 @@ public class ProductMyList extends AppCompatActivity {
         AsyncTask<String, Void, String> task = new productList();
         task.execute("http://10.0.2.2:8080/ordermade/product/ajax/products/json/makerid.do?page=1&makerId=m10");
         Log.d(TAG, "----------------------2--------------------");
-        recyclerView = (RecyclerView) findViewById(R.id.myProductList);
+        recyclerView = (RecyclerView) findViewById(R.id.myProductListEom);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new ProductMyListAdapter(this, getData()));
+        recyclerView.setAdapter(new ProductMyListAdapterEom(this, getData()));
 
 
     }

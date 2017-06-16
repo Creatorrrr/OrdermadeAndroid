@@ -1,12 +1,18 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.member.OkHttpTestActivity;

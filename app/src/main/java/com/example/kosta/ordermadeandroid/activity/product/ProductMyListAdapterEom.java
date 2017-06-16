@@ -19,13 +19,13 @@ import java.util.ArrayList;
  * Created by kosta on 2017-06-15.
  */
 
-public class ProductMyListAdapter extends RecyclerView.Adapter<ProductMyListHolder> {
+public class ProductMyListAdapterEom extends RecyclerView.Adapter<ProductMyListHolder> {
 
     private Context mContext;
     private ArrayList<Product> products;
     private LayoutInflater inflater;
 
-    public ProductMyListAdapter(Context mContext, ArrayList<Product> listItem) {
+    public ProductMyListAdapterEom(Context mContext, ArrayList<Product> listItem) {
         this.mContext = mContext;
         this.products = listItem;
     }
