@@ -3,17 +3,15 @@ package com.example.kosta.ordermadeandroid.activity.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,16 +19,14 @@ import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerActivity;
 import com.example.kosta.ordermadeandroid.activity.deal.DealMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberLoginActivity;
-import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
-import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
-import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
+import com.example.kosta.ordermadeandroid.activity.request.RequestSearchActivity;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -208,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, MemberMyPageFragment.class));
                 return true;
             case R.id.nav_request_Search:
-                startActivity(new Intent(this, RequestSearchFragment.class));
+                startActivity(new Intent(this, RequestSearchActivity.class));
                 return true;
             case R.id.nav_rquest_receivedList:
                 startActivity(new Intent(this, RequestReceivedFragment.class));
