@@ -60,6 +60,8 @@ public class RequestDetailFragment extends Fragment {
         String title = (String)intent.getExtras().get("title");
         String content = (String)intent.getExtras().get("detailContent");
         int price = (int)intent.getExtras().get("price");
+        String requestId = (String)intent.getExtras().get("requestId");
+        Log.d("requestComment", "---- requestId ----"+requestId);
 
         // 의뢰서 상세 정보 출력
         ((TextView)view.findViewById(R.id.request_detail_makerId))
@@ -74,12 +76,12 @@ public class RequestDetailFragment extends Fragment {
                 .setText(price+"");
 
         final AsyncTask<String, Void, Void> task = new RequestCommentListLoadingTask();
-        task.execute("http://10.0.2.2:8080/ordermade/comment/xml/searchRequestId.do?requestId=1&page=1");
+        task.execute("http://10.0.2.2:8080/ordermade/comment/xml/searchRequestId.do?requestId="+requestId+"&page=1");
         Log.d("requestComment", "---- asyncTask start ----");
         requestCommentData = new ArrayList<>();
         requestCommentListAdapter = new RequestCommentListAdapter(getActivity(), requestCommentData);
 
-        //commentListView.setAdapter(requestCommentListAdapter);
+        commentListView.setAdapter(requestCommentListAdapter);
 
         return view;
     }
