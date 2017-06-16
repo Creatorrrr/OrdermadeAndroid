@@ -112,9 +112,9 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인
 	private void doLogin(){
 
-		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
+		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+		okHttpClient = new OkHttpClient.Builder().cookieJar(Constants.cookieJar).build();
 		OkHttpUtils.initClient(okHttpClient)
 				.post()
 				.url(Constants.mBaseUrl + "/member/login.do")
@@ -142,9 +142,9 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인 성공시 멤버 정보 불러옴
 	private void doGetMemberInfo(){
 
-		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
+		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+		okHttpClient = new OkHttpClient.Builder().cookieJar(Constants.cookieJar).build();
 		OkHttpUtils.initClient(okHttpClient)
 				.get()
 				.url(Constants.mBaseUrl + "/member/xml/myPage.do")
@@ -211,22 +211,22 @@ public class MemberLoginActivity extends AppCompatActivity {
 
 
 	//--------------- Auto Cookies Manager
-	private class CookiesManager implements CookieJar {
-		private final PersistentCookieStore cookieStore = new PersistentCookieStore(getApplication());
-
-		@Override
-		public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-			if (cookies != null && cookies.size() > 0) {
-				cookieStore.add(url,cookies);
-			}
-		}
-
-		@Override
-		public List<Cookie> loadForRequest(HttpUrl url) {
-			List<Cookie> cookies = cookieStore.get(url);
-			return cookies;
-		}
-	}
+//	private class CookiesManager implements CookieJar {
+//		private final PersistentCookieStore cookieStore = new PersistentCookieStore(getApplication());
+//
+//		@Override
+//		public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+//			if (cookies != null && cookies.size() > 0) {
+//				cookieStore.add(url,cookies);
+//			}
+//		}
+//
+//		@Override
+//		public List<Cookie> loadForRequest(HttpUrl url) {
+//			List<Cookie> cookies = cookieStore.get(url);
+//			return cookies;
+//		}
+//	}
 
 	//------------------
 

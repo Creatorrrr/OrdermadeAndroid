@@ -84,7 +84,7 @@ public class MemberMyPageFragment extends Fragment {
         view.findViewById(R.id.logoutBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
 
 
 
@@ -116,9 +116,9 @@ public class MemberMyPageFragment extends Fragment {
     //로그인 성공시 멤버 정보 불러옴
     private void doGetMemberInfo() {
 
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity()));
+
         //Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(Constants.cookieJar).build();
         OkHttpUtils.initClient(okHttpClient)
                 .get()
                 .url(Constants.mBaseUrl + "/member/xml/myPage.do")
