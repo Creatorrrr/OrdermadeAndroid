@@ -1,6 +1,6 @@
 package com.example.kosta.ordermadeandroid.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by kosta on 2017-06-08.
@@ -11,7 +11,7 @@ public class InviteRequest {
 	private String id;
 	private String message;
 	private Member maker;
-	private Date requestTime;
+	private String requestTime;
 	private Request request;
 	private String form;
 
@@ -39,11 +39,11 @@ public class InviteRequest {
 		this.maker = maker;
 	}
 
-	public Date getRequestTime() {
+	public String getRequestTime() {
 		return requestTime;
 	}
 
-	public void setRequestTime(Date requestTime) {
+	public void setRequestTime(String requestTime) {
 		this.requestTime = requestTime;
 	}
 

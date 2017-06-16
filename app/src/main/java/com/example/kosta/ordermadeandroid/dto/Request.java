@@ -19,7 +19,7 @@ public class Request {
 	private List<Comment> comments;
 	private List<Attach> attachs;
 	private String bound;
-	private String page;
+	private String payment;
 
 	public String getId() {
 		return id;
@@ -109,12 +109,12 @@ public class Request {
 		this.bound = bound;
 	}
 
-	public String getPage() {
-		return page;
+	public String getPayment() {
+		return payment;
 	}
 
-	public void setPage(String page) {
-		this.page = page;
+	public void setPayment(String page) {
+		this.payment = payment;
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class Request {
 				", comments=" + comments +
 				", attachs=" + attachs +
 				", bound='" + bound + '\'' +
-				", page='" + page + '\'' +
+				", payment='" + payment + '\'' +
 				'}';
 	}
 }

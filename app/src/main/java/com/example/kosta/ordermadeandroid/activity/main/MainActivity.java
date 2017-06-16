@@ -27,6 +27,7 @@ import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
+import com.example.kosta.ordermadeandroid.activity.request.RequestSearchActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
 
 
@@ -56,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Initializing NavigationView
         view = (NavigationView)findViewById(R.id.navigation_view);
+        // 임시 시작
+        view.getMenu().clear();
+        view.inflateMenu(R.menu.navigation_menu_maker);
+        // 임시 끝
         view.setNavigationItemSelectedListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -81,7 +86,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
-        return navigationMenu(item);
+        //return navigationMenu(item);
+        // 임시 시작
+        return navigationMenuMaker(item);
+        // 임시 끝
 
     }
 
@@ -165,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, MemberMyPageActivity.class));
                 return true;
             case R.id.nav_request_Search:
-                startActivity(new Intent(this, RequestSearchFragment.class));
+                startActivity(new Intent(this, RequestSearchActivity.class));
                 return true;
             case R.id.nav_rquest_receivedList:
                 startActivity(new Intent(this, RequestReceivedFragment.class));
