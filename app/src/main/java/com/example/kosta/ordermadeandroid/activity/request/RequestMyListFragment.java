@@ -212,7 +212,19 @@ public class RequestMyListFragment extends Fragment {
                     maker.setIntroduce(getTagFindValue("introduce", "maker", element));
                     maker.setImage(getTagFindValue("image", "maker", element));
                     request.setMaker(maker);
-
+               /*
+                 private String id;-
+                    private String title;-
+                    private Member maker;-
+                    private Member consumer;-
+                    private String category;
+                    private String content;
+                    private int hopePrice;-
+                    private int price;-
+                    private List<Comment> comments;
+                    private List<Attach> attachs;
+                    private String bound;-
+                    private String page;*/
                     requestMyListData.add(request);
                 }
             } catch (MalformedURLException e) {
@@ -238,7 +250,6 @@ public class RequestMyListFragment extends Fragment {
         Node value = (Node) nodeList.item(0);
         return value.getNodeValue();
     }
-
     private static String getTagFindValue(String tag, String className, Element element) {
         NodeList elementList = element.getElementsByTagName(tag);
         for ( int i = 0 ; i < elementList.getLength() ; i++){
@@ -248,4 +259,5 @@ public class RequestMyListFragment extends Fragment {
         }
         return null;
     }
+
 }

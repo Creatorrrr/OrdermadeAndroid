@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Portfolio;
+import com.example.kosta.ordermadeandroid.dto.Tag;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -121,22 +122,23 @@ public class PortfolioMyListActivity extends AppCompatActivity {
                 NodeList nodeList = document.getElementsByTagName("portfolio");
 
                 for(int i = 0; i<nodeList.getLength(); i++){
+
                     Portfolio portfolio = new Portfolio();
                     Node node = nodeList.item(i);
 
                     Element element = (Element)node;
      /*
 	private List<Tag> tags;
-	private Member maker;
 	*/
-                    Member maker = new Member();
-
                     portfolio.setId(getTagValue("id",element));
                     portfolio.setTitle(getTagValue("title",element));
                     portfolio.setCategory(getTagValue("category",element));
                     portfolio.setContent(getTagValue("content",element));
                     portfolio.setImage("http://10.0.2.2:8080/ordermade/resources/image/"+getTagValue("image",element));
                    // portfolio.setMaker(getTagValue("maker",element));
+                    Member maker = new Member();
+                    maker.setId(getTagFindValue("id","maker",element));
+                    portfolio.setMaker(maker);
 
                     portfolios.add(portfolio);
 
@@ -165,7 +167,15 @@ public class PortfolioMyListActivity extends AppCompatActivity {
         return value.getNodeValue();
     }
 
-
+    private static String getTagFindValue(String tag, String className, Element element) {
+        NodeList elementList = element.getElementsByTagName(tag);
+        for ( int i = 0 ; i < elementList.getLength() ; i++){
+            if ( className.equals(elementList.item(i).getParentNode().getNodeName())){
+                return elementList.item(i).getChildNodes().item(0).getNodeValue();
+            }
+        }
+        return null;
+    }
 /*    private void fillSearchedData(String searchBy, String keyword) {
         Cursor cursor = null;
 

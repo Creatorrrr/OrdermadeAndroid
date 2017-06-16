@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -23,6 +25,8 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
-        return navigationMenu(item);
+        return navigationMenuMaker(item);    //navigationMenuMaker
 
     }
 
@@ -96,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			case R.id.nav_member_login:
 				startActivity(new Intent(this, MemberLoginActivity.class));
 				return true;
-            case R.id.nav_member_register:
+           /* case R.id.nav_member_register:
                 startActivity(new Intent(this, MemberRegisterActivity.class));
-                return true;
+                return true;*/
 
             default:
                 Toast.makeText(getApplicationContext(), "Error!! Error!!!", Toast.LENGTH_SHORT).show();
@@ -171,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, RequestReceivedFragment.class));
                 return true;
             case R.id.nav_product_myList:
-                startActivity(new Intent(this, ProductMyListFragment.class));
+                startActivity(new Intent(this, ProductMyListActivity.class));
                 return true;
             case R.id.nav_portfolio_myList:
 //                startActivity(new Intent(this, PortfolioMyListActivity.class));

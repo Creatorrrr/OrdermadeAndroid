@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.kosta.ordermadeandroid">
-
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -31,6 +33,9 @@
         <activity android:name=".activity.product.ProductRegisterActivity"/>
         <activity android:name=".activity.product.ProductEditDetailActivity"/>
         <activity android:name=".activity.product.ProductDetailActivity"/>
+        <activity android:name=".activity.product.ProductImageUploadTest"/>
+        <activity android:name=".activity.product.ProductListActivity"/>
+        <activity android:name=".activity.product.ProductMyListActivity"/>
         <!-- <activity android:name=".activity.product.ProductSearchActivity"/> -->
         <activity android:name=".activity.portfolio.PortfolioRegister2Activity" />
         <activity android:name=".activity.portfolio.PortfolioDetailActivity"/>

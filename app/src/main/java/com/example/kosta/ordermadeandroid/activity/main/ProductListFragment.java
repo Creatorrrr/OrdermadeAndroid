@@ -1,20 +1,17 @@
 package com.example.kosta.ordermadeandroid.activity.main;
 
-import android.support.annotation.Nullable;
-import android.view.Menu;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
-import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -37,68 +34,52 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by kosta on 2017-06-16.
  */
-public class MainFragment extends Fragment {
 
-    private List<Product> productData;
-    private MainProductAdapter mainProductAdapter;
+public class ProductListFragment extends MainFragment {
+    private List<Product> products;
+    private MainProductListAdapter adapter;
 
-    public MainFragment() {
-        // Required empty public constructor
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+      //  View view = inflater.inflate(R.layout.fragment_product_list, container, false);
+     //   return view;
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.hitProduct_for_main_listView);
+        ListView listView = (ListView)view.findViewById(R.id.product_for_main_listView);
 
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
-        task.execute(Constants.mBaseUrl+"/product/xml/main/category/hit.do?category=FUNITURE&page=10");
+        task.execute(Constants.mBaseUrl+"/product/ajax/product/productId.do");
         // Log.d("c", "--###-- MainProduct Task above me --##--");
 
-        productData = new ArrayList<>();
-        mainProductAdapter = new MainProductAdapter(getActivity(), productData);
+        products = new ArrayList<>();
+        adapter = new MainProductListAdapter(getActivity(), products);
 
-        listView.setAdapter(mainProductAdapter);
+        listView.setAdapter(adapter);
 
-
-        view.findViewById(R.id.main_productBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProductListActivity.class);
-                Log.d("A","dhktsldhksdhktsl");
-                startActivity(intent);
-                Log.d("A","dhktsldhksdhsafffffffktsl");
-            }
-        });
-        Log.d("A","dhktsldhksdhktsl@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return view;
-
     }
 
-
-    private class ProductForMainLoadingTask extends AsyncTask<String, Void, Void> {
+    private class ProductForMainLoadingTask extends AsyncTask<String, Void, Void>{
 
         @Override
         protected Void doInBackground(String... params) {
             URL url = null;
 
             try {
-                url = new URL((String) params[0]);
+                url = new URL((String)params[0]);
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(new InputSource(url.openStream()));
                 NodeList nodeList = doc.getElementsByTagName("product");
-                Log.d("c", "-------loadingTask start > MainFragment");
+                Log.d("c", "-------loadingTask start > ProductListFragment");
 
-                for (int i = 0; i < nodeList.getLength(); i++) {
+                for (int i = 0; i < nodeList.getLength(); i++){
                     Product product = new Product();
                     Node node = nodeList.item(i);
 
-                    Element element = (Element) node;
+                    Element element = (Element)node;
                     product.setCategory(getTagValue("category", element));
                     product.setContent(getTagValue("content", element));
                     product.setHit(Integer.parseInt(getTagValue("hit", element)));
@@ -108,7 +89,6 @@ public class MainFragment extends Fragment {
                     Member maker = new Member();
                     maker.setId(getTagFindValue("id", "maker", element));
                     maker.setEmail(getTagFindValue("email", "maker", element));
-                    // Log.d("b", getTagFindValue("email", "maker", element));
                     maker.setAddress(getTagFindValue("address", "maker", element));
                     maker.setName(getTagFindValue("name", "maker", element));
                     maker.setIntroduce(getTagFindValue("introduce", "maker", element));
@@ -119,7 +99,7 @@ public class MainFragment extends Fragment {
                     product.setPrice(Integer.parseInt(getTagValue("price", element)));
                     product.setTitle(getTagValue("title", element));
 
-                    productData.add(product);
+                    products.add(product);
                 }
 
             } catch (MalformedURLException e) {
@@ -136,10 +116,9 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mainProductAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
-
 
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -149,8 +128,8 @@ public class MainFragment extends Fragment {
 
     private static String getTagFindValue(String tag, String className, Element element) {
         NodeList elementList = element.getElementsByTagName(tag);
-        for (int i = 0; i < elementList.getLength(); i++) {
-            if (className.equals(elementList.item(i).getParentNode().getNodeName())) {
+        for ( int i = 0 ; i < elementList.getLength() ; i++){
+            if ( className.equals(elementList.item(i).getParentNode().getNodeName())){
                 return elementList.item(i).getChildNodes().item(0).getNodeValue();
             }
         }

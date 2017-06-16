@@ -1,12 +1,18 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.member.OkHttpTestActivity;
@@ -33,12 +39,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ProductRegisterActivity extends AppCompatActivity {
-    public static final String TAG = ProductRegisterActivity.class.getSimpleName();
+   // public static final String TAG = ProductRegisterActivity.class.getSimpleName();
     private OkHttpClient okHttpClient;
     private Toolbar mToolbar;
     private Product product;
-    ActivityProductRegisterBinding dataBinding;
-
+    private ActivityProductRegisterBinding dataBinding;
+////////////
+    private static int PICK_IMAGE_REQUEST=1;
+    ImageView imageView;
+    static final String TAG = "ProductImageUploadTest";
+///////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +71,38 @@ public class ProductRegisterActivity extends AppCompatActivity {
 
     }
 
+    //////////
+    public void loadImagefromGallery(View view){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        try {
+            if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data){
+                Uri uri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                int size = (int)(bitmap.getHeight()*(1024.0/bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap,1024,size,true);
+
+                imageView=(ImageView)findViewById(R.id.imageView);
+                imageView.setImageBitmap(scaled);
+            } else  {
+                Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+       /* } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();*/
+        } catch(Exception e){
+            Toast.makeText(this, "이미지 로딩에 실패하였습니다.",Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    /////////
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -70,7 +112,6 @@ public class ProductRegisterActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     //POST
     public void onPost(Product product) {

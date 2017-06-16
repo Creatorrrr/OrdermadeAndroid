@@ -27,14 +27,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
+                android:onClick="onClick"
                 android:text="PRODUCT" />
 
-            <Button
+         <!--   <Button
                 android:id="@+id/main_portfolioBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:text="Portfolio" />
+                android:text="Portfolio" />-->
 
             <Button
                 android:id="@+id/main_myPageBtn"
@@ -49,7 +50,10 @@
             android:id="@+id/hitProduct_for_main_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
+        <ListView
+            android:id="@+id/product_for_main_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <ListView
             android:id="@+id/Portfolio_list"
             android:layout_width="match_parent"
