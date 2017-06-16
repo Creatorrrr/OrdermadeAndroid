@@ -23,7 +23,7 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
-import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
+import com.example.kosta.ordermadeandroid.activity.product.ProductMyList;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_member_register:
                 startActivity(new Intent(this, MemberRegisterActivity.class));
                 return true;
+            case R.id.nav_product_myList:
+                startActivity(new Intent(this, ProductMyList.class));
+                return true;
 
             default:
                 Toast.makeText(getApplicationContext(), "Error!! Error!!!", Toast.LENGTH_SHORT).show();
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, RequestReceivedFragment.class));
                 return true;
             case R.id.nav_product_myList:
-                startActivity(new Intent(this, ProductMyListFragment.class));
+                startActivity(new Intent(this, ProductMyList.class));
                 return true;
             case R.id.nav_portfolio_myList:
 //                startActivity(new Intent(this, PortfolioMyListActivity.class));

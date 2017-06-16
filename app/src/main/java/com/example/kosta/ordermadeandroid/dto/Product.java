@@ -2,22 +2,24 @@ package com.example.kosta.ordermadeandroid.dto;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableInt;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class Product extends BaseObservable {
+public class Product extends BaseObservable implements Serializable {
 
     private String id;
-    private String title;
+    public String title;
     private Member maker;
     private String category;
     private String content;
-    private String image;
-    private int price;
+    public String image;
+    public int price;
     private int period;
     private int hit;
     private List<Review> reviews;
@@ -31,7 +33,6 @@ public class Product extends BaseObservable {
         this.id = id;
     }
 
-    @Bindable
     public String getTitle() {
         return title;
     }
@@ -56,7 +57,6 @@ public class Product extends BaseObservable {
         this.category = category;
     }
 
-    @Bindable
     public String getContent() {
         return content;
     }
@@ -65,20 +65,20 @@ public class Product extends BaseObservable {
         this.content = content;
     }
 
+    public String getPrice() {
+        return String.valueOf(price);
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public int getPeriod() {
