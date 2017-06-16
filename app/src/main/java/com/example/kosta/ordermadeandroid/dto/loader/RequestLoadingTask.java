@@ -1,9 +1,10 @@
-package com.example.kosta.ordermadeandroid.activity.request;
+package com.example.kosta.ordermadeandroid.dto.loader;
 
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.BaseAdapter;
 
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.InviteRequest;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
@@ -47,7 +48,7 @@ public class RequestLoadingTask extends AsyncTask<String, Void, Void> {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new InputSource(url.openStream()));
 
-            Log.d("c", "-------RequestLoadingTask start");
+            Log.d("rs", "-------RequestLoadingTask start");
 
             if(doc.getElementsByTagName("requests").item(0) != null) {
                 NodeList nodeList = doc.getElementsByTagName("request");
@@ -63,7 +64,7 @@ public class RequestLoadingTask extends AsyncTask<String, Void, Void> {
                 }
             }
 
-            Log.d("c", "-------RequestLoadingTask finished");
+            Log.d("rs", "-------RequestLoadingTask finished");
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -85,12 +86,32 @@ public class RequestLoadingTask extends AsyncTask<String, Void, Void> {
     private Request getRequestFromElement(Element element) {
         Request request = new Request();
 
-        request.setId(getTagValue("category", element));
+        request.setId(getTagFindValue("id", "request", element));
         request.setTitle(getTagValue("title", element));
-        request.setMaker(new Member());
-        request.getMaker().setId(getTagFindValue("id", "maker", element));
-        request.setConsumer(new Member());
-        request.getMaker().setId(getTagFindValue("id", "consumer", element));
+
+        Element makerElement = (Element)element.getElementsByTagName("maker").item(0);
+
+        if(makerElement != null) {
+            Member maker = new Member();
+            maker.setId(getTagValue("id", makerElement));
+            maker.setEmail(getTagValue("email", makerElement));
+            maker.setAddress(getTagValue("address", makerElement));
+            maker.setName(getTagValue("name", makerElement));
+            maker.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", makerElement));
+
+            request.setMaker(maker);
+        }
+
+        Element consumerElement = (Element)element.getElementsByTagName("consumer").item(0);
+
+        Member consumer = new Member();
+        consumer.setId(getTagValue("id", consumerElement));
+        consumer.setEmail(getTagValue("email", consumerElement));
+        consumer.setAddress(getTagValue("address", consumerElement));
+        consumer.setName(getTagValue("name", consumerElement));
+        consumer.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", consumerElement));
+
+        request.setConsumer(consumer);
         request.setCategory(getTagValue("category", element));
         request.setContent(getTagValue("content", element));
         request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
@@ -102,7 +123,7 @@ public class RequestLoadingTask extends AsyncTask<String, Void, Void> {
 
     private String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node value = (Node) nodeList.item(0);
+        Node value = nodeList.item(0);
         return value.getNodeValue();
     }
 

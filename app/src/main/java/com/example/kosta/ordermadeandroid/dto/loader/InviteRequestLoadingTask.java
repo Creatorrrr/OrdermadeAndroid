@@ -1,9 +1,10 @@
-package com.example.kosta.ordermadeandroid.activity.request;
+package com.example.kosta.ordermadeandroid.dto.loader;
 
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.BaseAdapter;
 
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.InviteRequest;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
@@ -54,7 +55,7 @@ public class InviteRequestLoadingTask extends AsyncTask<String, Void, Void> {
                 Node node = nodeList.item(i);
 
                 Element element = (Element)node;
-                inviteRequest.setId(getTagValue("id", element));
+                inviteRequest.setId(getTagFindValue("id", "inviterequest", element));
                 inviteRequest.setMessage(getTagValue("message", element));
 
                 Element memberElement = (Element)element.getElementsByTagName("maker").item(0);
@@ -64,7 +65,7 @@ public class InviteRequestLoadingTask extends AsyncTask<String, Void, Void> {
                 maker.setEmail(getTagValue("email", memberElement));
                 maker.setAddress(getTagValue("address", memberElement));
                 maker.setName(getTagValue("name", memberElement));
-                maker.setImage("http://10.0.2.2:8080/ordermade/main/file/download.do?fileName=" + getTagValue("image", memberElement));
+                maker.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", memberElement));
 
                 inviteRequest.setMaker(maker);
 
@@ -73,17 +74,38 @@ public class InviteRequestLoadingTask extends AsyncTask<String, Void, Void> {
                 Element requestElement = (Element)element.getElementsByTagName("request").item(0);
 
                 Request request = new Request();
-                request.setId(getTagValue("id", requestElement));
-                request.setTitle(getTagValue("title", requestElement));
-                request.setMaker(new Member());
-                request.getMaker().setId(getTagFindValue("id", "maker", requestElement));
-                request.setConsumer(new Member());
-                request.getMaker().setId(getTagFindValue("id", "consumer", requestElement));
-                request.setCategory(getTagValue("category", requestElement));
-                request.setContent(getTagValue("content", requestElement));
-                request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", requestElement)));
-                request.setPrice(Integer.parseInt(getTagValue("price", requestElement)));
-                request.setBound(getTagValue("bound", requestElement));
+
+                request.setId(getTagFindValue("id", "request", element));
+                request.setTitle(getTagValue("title", element));
+
+                Element makerElement = (Element)element.getElementsByTagName("maker").item(0);
+
+                if(makerElement != null) {
+                    Member requestMaker = new Member();
+                    requestMaker.setId(getTagValue("id", makerElement));
+                    requestMaker.setEmail(getTagValue("email", makerElement));
+                    requestMaker.setAddress(getTagValue("address", makerElement));
+                    requestMaker.setName(getTagValue("name", makerElement));
+                    requestMaker.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", makerElement));
+
+                    request.setMaker(maker);
+                }
+
+                Element consumerElement = (Element)element.getElementsByTagName("consumer").item(0);
+
+                Member requestConsumer = new Member();
+                requestConsumer.setId(getTagValue("id", consumerElement));
+                requestConsumer.setEmail(getTagValue("email", consumerElement));
+                requestConsumer.setAddress(getTagValue("address", consumerElement));
+                requestConsumer.setName(getTagValue("name", consumerElement));
+                requestConsumer.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", consumerElement));
+
+                request.setConsumer(requestConsumer);
+                request.setCategory(getTagValue("category", element));
+                request.setContent(getTagValue("content", element));
+                request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
+                request.setPrice(Integer.parseInt(getTagValue("price", element)));
+                request.setBound(getTagValue("bound", element));
 
                 inviteRequest.setRequest(request);
 
