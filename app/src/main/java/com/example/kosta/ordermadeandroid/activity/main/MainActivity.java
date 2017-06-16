@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Initializing NavigationView
         view = (NavigationView)findViewById(R.id.navigation_view);
-        view.getMenu().clear();
-        view.inflateMenu(R.menu.navigation_menu_consumer);
         view.setNavigationItemSelectedListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
-        //return navigationMenu(item);
-        return navigationMenuConsumer(item);
+        return navigationMenu(item);
+
     }
 
 
