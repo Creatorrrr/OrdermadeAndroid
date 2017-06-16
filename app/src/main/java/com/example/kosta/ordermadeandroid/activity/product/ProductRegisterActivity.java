@@ -37,7 +37,7 @@ public class ProductRegisterActivity extends AppCompatActivity {
     private OkHttpClient okHttpClient;
     private Toolbar mToolbar;
     private Product product;
-    ActivityProductRegisterBinding dataBinding;
+    private ActivityProductRegisterBinding dataBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
