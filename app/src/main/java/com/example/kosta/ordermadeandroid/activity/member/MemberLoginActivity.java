@@ -205,7 +205,6 @@ public class MemberLoginActivity extends AppCompatActivity {
 
 
 						startActivity(new Intent(MemberLoginActivity.this, MemberMyPageActivity.class));
-						finish();
 					}
 				});
 	}

@@ -174,10 +174,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // activity에서 fragment 호출해서 사용
                 //startActivity(new Intent(this, MemberMyPageActivity.class));
 				return true;
-            // 상품
-            case R.id.nav_product_myList:
-                startActivity(new Intent(this, ProductListActivity.class));
-                return true;
             // 나의 의뢰서 메뉴아이템
             case R.id.nav_requestMyList:
                 startActivity(new Intent(this, RequestMyListActivity.class));
