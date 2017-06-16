@@ -50,7 +50,7 @@ public class DealConsumerFragment extends Fragment{
         ListView listView = (ListView)view.findViewById(R.id.dealConsumer_list);
 
         final AsyncTask<String, Void, Void> task = new PurchaseHistoriesLoadingTask();
-        // DealController - 145
+        // 구매 이력 출력, DealController - 145
         task.execute("http://10.0.2.2:8080/ordermade/deal/xml/searchPurchaseConsumerList.do");
         Log.d("a", "task done");
 

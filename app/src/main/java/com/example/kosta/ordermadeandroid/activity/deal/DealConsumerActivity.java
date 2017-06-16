@@ -32,7 +32,6 @@ public class DealConsumerActivity extends MainActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.relativeLayout_for_frame, dealConsumerFragment).commit();
-
     }
 
     @Override

@@ -65,6 +65,7 @@ public class RequestRegisterActivity extends AppCompatActivity {
         privateRadio = (RadioButton)findViewById(R.id.privateRadio);
         bound = "PRIVATE";
 
+        // 의뢰서 공개, 비공개 라디오버튼
         RadioButton.OnClickListener boundRadioClickListener = new RadioButton.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +90,7 @@ public class RequestRegisterActivity extends AppCompatActivity {
             }
         });
 
+        // 의뢰서 등록 버튼
         findViewById(R.id.request_register_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
