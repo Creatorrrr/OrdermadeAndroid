@@ -26,6 +26,7 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, RequestReceivedFragment.class));
                 return true;
             case R.id.nav_product_myList:
-                startActivity(new Intent(this, ProductMyListFragment.class));
+                startActivity(new Intent(this, ProductMyListActivity.class));
                 return true;
             case R.id.nav_portfolio_myList:
 //                startActivity(new Intent(this, PortfolioMyListActivity.class));

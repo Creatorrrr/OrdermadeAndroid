@@ -20,9 +20,9 @@
             android:id="@+id/nav_rquest_receivedList"
             android:title="받은 의뢰서"/>
 
-        <!--<item-->
-            <!--android:id="@+id/nav_product_myList"-->
-            <!--android:title="상품 관리"/>-->
+        <item
+            android:id="@+id/nav_product_myList"
+            android:title="상품 관리"/>
 
         <item
             android:id="@+id/nav_portfolio_myList"
