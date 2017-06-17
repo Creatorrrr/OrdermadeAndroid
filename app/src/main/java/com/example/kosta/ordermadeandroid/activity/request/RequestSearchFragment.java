@@ -1,8 +1,6 @@
 package com.example.kosta.ordermadeandroid.activity.request;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,10 +22,7 @@ import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.InviteRequest;
 import com.example.kosta.ordermadeandroid.dto.Request;
 import com.example.kosta.ordermadeandroid.dto.loader.RequestLoader;
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -35,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
 
 
 public class RequestSearchFragment extends Fragment {
@@ -44,10 +38,6 @@ public class RequestSearchFragment extends Fragment {
 
     private static final int SEARCH_TITLE = 0;
     private static final int SEARCH_CONTENT = 1;
-
-    private OkHttpClient okHttpClient;
-
-    private SharedPreferences prefs;
 
     private List<Request> requestList;
     private RequestListAdapter adapter;
@@ -62,14 +52,6 @@ public class RequestSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
-        Log.d("rs", "asdf" + prefs.getString("sessionId",""));
-        Log.d("rs", "llsfl" + prefs.getString("loginId",""));
-
-        // Get Session from SharedPreferences and HttpClient ready
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity().getApplication()));
-        okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_request_search, container, false);
 
@@ -102,14 +84,14 @@ public class RequestSearchFragment extends Fragment {
             public void onClick(View v) {
                 requestList.clear();
                 if (searchType == SEARCH_TITLE) {
-                    OkHttpUtils.initClient(okHttpClient)
+                    OkHttpUtils.initClient(CustomApplication.getClient())
                             .get()
                             .url(Constants.mBaseUrl + "/request/xml/searchBoundAndTitle.do")
                             .addParams("title", keyword.getText().toString())
                             .build()
                             .execute(new RequestLoader(requestList, adapter));
                 } else {
-                    OkHttpUtils.initClient(okHttpClient)
+                    OkHttpUtils.initClient(CustomApplication.getClient())
                             .get()
                             .url(Constants.mBaseUrl + "/request/xml/searchBoundAndContent.do")
                             .addParams("content", keyword.getText().toString())
@@ -121,7 +103,7 @@ public class RequestSearchFragment extends Fragment {
         });
 
         // load all requests on create fragment
-        OkHttpUtils.initClient(okHttpClient)
+        OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
                 .url(Constants.mBaseUrl + "/request/xml/searchBound.do")
                 .addParams("page", "1")
@@ -133,7 +115,7 @@ public class RequestSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 requestList.clear();
-                OkHttpUtils.initClient(okHttpClient)
+                OkHttpUtils.initClient(CustomApplication.getClient())
                         .get()
                         .url(Constants.mBaseUrl + "/request/xml/searchBound.do")
                         .addParams("page", "1")
@@ -149,7 +131,7 @@ public class RequestSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 requestList.clear();
-                OkHttpUtils.initClient(okHttpClient)
+                OkHttpUtils.initClient(CustomApplication.getClient())
                         .get()
                         .url(Constants.mBaseUrl + "/request/xml/searchMyInviteRequestsForMaker.do")
                         .addParams("form", "R")
@@ -192,7 +174,7 @@ public class RequestSearchFragment extends Fragment {
             okButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OkHttpUtils.initClient(okHttpClient)
+                    OkHttpUtils.initClient(CustomApplication.getClient())
                             .post()
                             .url(Constants.mBaseUrl + "/request/xml/registerInviteRequest.do")
                             .addParams("message", content.getText().toString())
@@ -230,25 +212,5 @@ public class RequestSearchFragment extends Fragment {
         }
 
         return true;
-    }
-
-    //사용페이지에서는 항상 먼저 로그인 했는지 판단하고 로그인 됐으면 그 기능을 쓸수 있도록 한다.
-    public boolean isLogined(){//sessionId가 있을때 (전에 로그인한 기록이 있으면)
-        boolean check = false;
-
-        //SharedPreferences에서 멤버 정보가 있는지 본다.
-        prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
-
-        String sessionId = prefs.getString("sessionId","");
-        String loginId = prefs.getString("loginId","");
-        String memberType = prefs.getString("memberType","");
-        //String loginTime = prefs.getString("loginTime","");//session이 만들어진 시간으로 session이 무효화 됬는지 체크할떄 쓴다.
-
-        if(!sessionId.isEmpty() && !memberType.isEmpty()){//sessionId가 있다는 것은 전에 로그인한 기록이 있다는 뜻.
-            //시간으로
-            check = true;
-        }
-
-        return check;
     }
 }

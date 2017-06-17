@@ -36,7 +36,6 @@ import com.example.kosta.ordermadeandroid.activity.request.RequestJoinFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
-import com.example.kosta.ordermadeandroid.activity.request.RequestSearchActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
 
 
