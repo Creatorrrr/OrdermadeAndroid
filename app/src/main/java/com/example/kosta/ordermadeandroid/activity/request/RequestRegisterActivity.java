@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
+import com.example.kosta.ordermadeandroid.dto.Tag;
+import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -25,6 +27,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -94,11 +97,8 @@ public class RequestRegisterActivity extends AppCompatActivity {
         findViewById(R.id.request_register_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache()
-                        , new SharedPrefsCookiePersistor(getApplication()));
 
-                okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-                OkHttpUtils.initClient(okHttpClient)
+                OkHttpUtils.initClient(CustomApplication.getClient())
                         .post().tag(this)
                         .url(Constants.mBaseUrl + "/request/xml/register.do")
                         .addParams("title", title.getText().toString())
@@ -142,4 +142,32 @@ public class RequestRegisterActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    //상품 분류
+    public ArrayList<Tag> getTags(){
+        ArrayList<Tag> tags = new ArrayList<>();
+        OkHttpUtils.initClient(CustomApplication.getClient())
+                .post()
+                .url(Constants.mBaseUrl + "/xml/categoryList.do")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("a", e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(final String response, final int id) {
+                        Log.d("a","=========="+response);
+
+                    }
+                });
+
+        return tags;
+    }
+
+
+
+
 }

@@ -136,7 +136,9 @@ public class MemberMyPageFragment extends Fragment {
 					@Override
 					public void onResponse(final String response, final int id) {
 						Log.d("a","=========="+response);
-
+						if (response.equals("true")){
+							Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+						}
 					}
 				});
 
@@ -148,9 +150,6 @@ public class MemberMyPageFragment extends Fragment {
     //로그인 성공시 멤버 정보 불러옴
     private void doGetMemberInfo() {
 
-		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity()));
-		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		//OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
         OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
                 .url(Constants.mBaseUrl + "/member/xml/myPage.do")
