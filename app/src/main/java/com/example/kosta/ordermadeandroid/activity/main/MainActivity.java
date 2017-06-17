@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_dealMaker:
                 setTitle("거래 이력");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new DealMakerFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealMakerFragment.newInstance()).commit();
                 return true;
 
             default:

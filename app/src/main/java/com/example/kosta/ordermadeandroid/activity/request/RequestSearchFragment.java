@@ -76,9 +76,7 @@ public class RequestSearchFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         final EditText keyword = (EditText)view.findViewById(R.id.requestSearchKeyword);
