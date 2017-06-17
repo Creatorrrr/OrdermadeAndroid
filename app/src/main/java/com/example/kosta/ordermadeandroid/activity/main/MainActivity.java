@@ -25,6 +25,7 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
@@ -167,11 +168,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			// 나의 프로필 메뉴아이템
             case R.id.nav_myPage_Consumer:
                 // fragment만 사용
-//                setTitle("나의 프로필임");
-//                FragmentManager manager = getSupportFragmentManager();
-//                manager.beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment()).commit();
+                setTitle("나의 프로필임");
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment()).commit();
                 // activity에서 fragment 호출해서 사용
-                startActivity(new Intent(this, MemberMyPageActivity.class));
+                //startActivity(new Intent(this, MemberMyPageActivity.class));
 				return true;
             // 나의 의뢰서 메뉴아이템
             case R.id.nav_requestMyList:
