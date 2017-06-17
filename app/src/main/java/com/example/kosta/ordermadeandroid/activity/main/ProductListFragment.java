@@ -1,10 +1,8 @@
 package com.example.kosta.ordermadeandroid.activity.main;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.product.ProductListAdapter;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -39,7 +38,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class ProductListFragment extends MainFragment {
     private List<Product> products;
-    private MainProductListAdapter adapter;
+    private ProductListAdapter adapter;
 
     @Nullable
     @Override
@@ -54,7 +53,7 @@ public class ProductListFragment extends MainFragment {
         // Log.d("c", "--###-- MainProduct Task above me --##--");
 
         products = new ArrayList<>();
-        adapter = new MainProductListAdapter(getActivity(), products);
+        adapter = new ProductListAdapter(getActivity(), products);
 
         listView.setAdapter(adapter);
 

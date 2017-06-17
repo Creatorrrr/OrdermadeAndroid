@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
@@ -53,7 +54,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.hitProduct_for_main_listView);
+        GridView listView = (GridView) view.findViewById(R.id.hitProduct_for_main_listView);
 
         // 인기 상품 리스트
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
@@ -69,15 +70,14 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.main_productBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getActivity(), ProductListActivity.class);
                 Log.d("A","dhktsldhksdhktsl");
                 startActivity(intent);
                 Log.d("A","dhktsldhksdhsafffffffktsl");
             }
         });
-        Log.d("A","dhktsldhksdhktsl@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return view;
-
     }
 
 

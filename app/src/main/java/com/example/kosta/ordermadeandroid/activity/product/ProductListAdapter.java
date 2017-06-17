@@ -1,4 +1,4 @@
-package com.example.kosta.ordermadeandroid.activity.main;
+package com.example.kosta.ordermadeandroid.activity.product;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,13 +26,13 @@ import java.util.List;
  * Created by kosta on 2017-06-13.
  */
 
-public class MainProductListAdapter extends BaseAdapter {
+public class ProductListAdapter extends BaseAdapter {
 
     private Context context;
     private List<Product> products;
     private LayoutInflater inflater;
 
-    public MainProductListAdapter(Context context, List<Product> products){
+    public ProductListAdapter(Context context, List<Product> products){
         this.context = context;
         this.products = products;
         this.inflater = LayoutInflater.from(context);
