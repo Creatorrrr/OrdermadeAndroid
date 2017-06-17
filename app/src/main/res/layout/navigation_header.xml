@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="140dp"
     android:background="@color/colorPrimary"
     android:contextClickable="true"
+    android:orientation="horizontal"
     android:padding="10dp">
 
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_gravity="center"
+        android:src="@drawable/panda" />
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/navigation_header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="22dp"
-        android:text="Navigation Header"
+        android:layout_gravity="center"
+        android:text="판다(OrderMade)"
         android:textColor="@android:color/background_light"
         android:textSize="24sp" />
-</RelativeLayout>
+
+
+</LinearLayout>

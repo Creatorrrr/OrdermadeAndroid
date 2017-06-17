@@ -79,8 +79,10 @@ public class PurchaseHistoryAdapter extends BaseAdapter{
             e.printStackTrace();
         }*/
         //purchaseDate.setText((String)purchaseData.get(position).getOrderDate());
+        if(purchaseData.get(position).getDeliveryStatus().equals("P")){
+            progressStatus.setText("배송중");
+        }
 
-        progressStatus.setText(purchaseData.get(position).getDeliveryStatus());
 
         return convertView;
     }
