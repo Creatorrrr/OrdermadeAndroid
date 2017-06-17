@@ -29,20 +29,17 @@
             android:text="검색" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/myProductList"
+    <GridView
+        android:id="@+id/product_my_list_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:numColumns="2"
         android:layout_weight="1" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/product_my_list_registerBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="등록" />
 
-        <Button
-            android:id="@+id/productRegisterBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="등록" />
-    </LinearLayout>
 </LinearLayout>

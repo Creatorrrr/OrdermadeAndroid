@@ -25,10 +25,10 @@ public class ProductListActivity extends MainActivity {
         super.onResume();
         view.getMenu().getItem(0).setChecked(true);
     }
-    public void clickP(View v){
+    /*public void clickP(View v){
 
         finish();
-    }
+    }*/
 
 
     /*private List<Product> products;

@@ -5,16 +5,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,20 +64,38 @@ public class ProductMyListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_mylist, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.myProductList);
+        View view = inflater.inflate(R.layout.fragment_product_my_list, container, false);
+        GridView listView = (GridView)view.findViewById(R.id.product_my_list_listView);
 
         final AsyncTask<String, Void, Void> task = new ProductMyListLoadingTask();
 
-        task.execute(Constants.mBaseUrl+"/product/ajax/products/makerid.do");
-        Log.d("products", "ProductMyList Task Done");
+        task.execute(Constants.mBaseUrl+"/product/ajax/products/makerid.do?makerId=m1");
+        Log.d("productMyList", "ProductMyList Task Done");
 
         products = new ArrayList<>();
         adapter = new ProductMyListAdapter(getActivity(), products);
 
         listView.setAdapter(adapter);
 
-        view.findViewById(R.id.productRegisterBtn).setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = products.get(position);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productTitle",product.getTitle());
+                intent.putExtra("productImage", product.getImage());
+                intent.putExtra("productContent", product.getContent());
+                intent.putExtra("makerImage", product.getMaker().getImage());
+                intent.putExtra("makerId", product.getMaker().getId());
+                intent.putExtra("makerIntroduce", product.getMaker().getIntroduce());
+                startActivity(intent);
+            }
+        });
+
+        // 상품관리 콘텍스트 메뉴
+        registerForContextMenu(view.findViewById(R.id.product_my_list_listView));
+
+        view.findViewById(R.id.product_my_list_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProductRegisterActivity.class);
@@ -86,7 +103,7 @@ public class ProductMyListFragment extends Fragment{
             }
         });
 
-        registerForContextMenu(view.findViewById(R.id.myProductList));
+
 
         return view;
     }
@@ -97,8 +114,6 @@ public class ProductMyListFragment extends Fragment{
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.product_my_list_context_menu, menu);
 
-        /*menu.add(Menu.NONE, 1, Menu.NONE, "Edit");
-        menu.add(Menu.NONE, 2, Menu.NONE, "Delete");*/
     }
 
     @Override
@@ -108,7 +123,7 @@ public class ProductMyListFragment extends Fragment{
                 (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
         //info.id, info.position 은 rowId
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.edit_item:
                 Toast.makeText(getActivity(), "Edit selected", Toast.LENGTH_SHORT).show();
                 break;
@@ -117,11 +132,11 @@ public class ProductMyListFragment extends Fragment{
                         .findViewById(R.id.myList_productId)).getText().toString();
                 ProductMyListDeleteTask(productId);
                 Toast.makeText(getActivity(), productId, Toast.LENGTH_SHORT).show();
-                /*Toast.makeText(getActivity()
+                *//*Toast.makeText(getActivity()
                         , ((TextView)info.targetView.findViewById(R.id.myList_productId))
-                                .getText().toString(), Toast.LENGTH_SHORT).show();*/
+                                .getText().toString(), Toast.LENGTH_SHORT).show();*//*
                 break;
-        }
+        }*/
 
         return super.onContextItemSelected(item);
     }
