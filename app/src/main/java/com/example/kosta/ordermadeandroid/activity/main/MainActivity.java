@@ -23,7 +23,6 @@ import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerActivity;
 import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerFragment;
 import com.example.kosta.ordermadeandroid.activity.deal.DealMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberLoginActivity;
-import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;

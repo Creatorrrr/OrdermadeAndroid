@@ -3,6 +3,7 @@ package com.example.kosta.ordermadeandroid.activity.member;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 import com.example.kosta.ordermadeandroid.util.XmlUtil;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
@@ -90,14 +92,7 @@ public class MemberMyPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-				doLogout();//-----서버에서도 로그아웃됨.
-
-                Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
-				SharedPreferences prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
-				prefs.edit().clear().apply();
-				Log.d("a","------"+prefs.getString("memberType",""));
-				startActivity(new Intent(getActivity(), MainActivity.class));
+				doLogout();//로그아웃
 
             }
         });
@@ -109,7 +104,6 @@ public class MemberMyPageFragment extends Fragment {
                 Toast.makeText(getActivity(), "회원 수정", Toast.LENGTH_SHORT).show();
 
 
-
             }
         });
 
@@ -119,10 +113,10 @@ public class MemberMyPageFragment extends Fragment {
 
 
 
-
 	//로그아웃
 	private void doLogout() {
 
+		//---서버에서도 로그아웃됨.
 		OkHttpUtils.initClient(CustomApplication.getClient())
 				.get()
 				.url(Constants.mBaseUrl + "/member/xml/logout.do")
@@ -142,6 +136,13 @@ public class MemberMyPageFragment extends Fragment {
 					}
 				});
 
+		//---
+		Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
+		SharedPreferences prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+		prefs.edit().clear().apply();
+		Log.d("a","------"+prefs.getString("memberType",""));
+		startActivity(new Intent(getActivity(), MainActivity.class));
+
 	}
 
 
@@ -157,7 +158,8 @@ public class MemberMyPageFragment extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.d("a", e.getMessage());
+                        Log.d("a", "--------"+e.getMessage());
+						doLogout(); //로그아웃
                     }
 
                     @Override
@@ -202,7 +204,12 @@ public class MemberMyPageFragment extends Fragment {
                                     mAddress.setText(member.getAddress());
                                     //mIntroduce.setText(member.getIntroduce());
                                     //mLicenseNumber.setText(member.getLicenseNumber());
-
+									if(member.getImage() != null){
+										new ImageLoadingTask(mImage).execute(Constants.mBaseUrl+"/main/file/download.do?fileName="+member.getImage());
+										//mImage.setImageURI(Uri.parse(Constants.mBaseUrl+"/main/file/download.do?fileName="+member.getImage()));
+									}else{
+										mImage.setImageResource(R.drawable.image_default);
+									}
                                 }
                             });
 
