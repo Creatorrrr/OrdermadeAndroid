@@ -200,13 +200,13 @@ public class MemberLoginActivity extends AppCompatActivity {
 						editor.putString("memberType", member.getMemberType());
 						editor.apply();
 
-						if(member.getMemberType().equals("C")){
-							startActivity(new Intent(getApplication(), MemberMyPageActivity.class));
-						}else if(member.getMemberType().equals("M")){
-							startActivity(new Intent(getApplication(), MemberMyPageMakerFragment.class));
-						}else{
+//						if(member.getMemberType().equals("C")){
+//							startActivity(new Intent(getApplication(), MemberMyPageActivity.class));
+//						}else if(member.getMemberType().equals("M")){
+//							startActivity(new Intent(getApplication(), MemberMyPageMakerActivity.class));
+//						}else{
 							startActivity(new Intent(getApplication(), MainActivity.class));
-						}
+//						}
 
 					}
 				});
