@@ -1,6 +1,8 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.request.RequestMyListAdapter;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
+import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -37,6 +41,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +52,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 /**
@@ -55,27 +61,28 @@ import okhttp3.OkHttpClient;
 
 public class ProductMyListFragment extends Fragment{
 
+    private SharedPreferences prefs;
     private List<Product> products;
     private ProductMyListAdapter adapter;
 
     private OkHttpClient okHttpClient;
     private String productId;
+    private GridView listView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_my_list, container, false);
-        GridView listView = (GridView)view.findViewById(R.id.product_my_list_listView);
-
-        final AsyncTask<String, Void, Void> task = new ProductMyListLoadingTask();
-
-        task.execute(Constants.mBaseUrl+"/product/ajax/products/makerid.do?makerId=m1");
-        Log.d("productMyList", "ProductMyList Task Done");
-
+        listView = (GridView)view.findViewById(R.id.product_my_list_listView);
         products = new ArrayList<>();
-        adapter = new ProductMyListAdapter(getActivity(), products);
 
-        listView.setAdapter(adapter);
+        prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+
+        String loginId = prefs.getString("loginId","");
+
+        // 상품관리 출력
+        ProductMyListLoadingTask(Constants.mBaseUrl+"/product/ajax/products/makerid.do?makerId="+loginId);
+        Log.d("productMyList", "ProductMyList Task Done");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -171,78 +178,83 @@ public class ProductMyListFragment extends Fragment{
                 });
     }
 
-    private class ProductMyListLoadingTask extends AsyncTask<String, Void, Void>{
+    private void ProductMyListLoadingTask (String...params){
 
-        @Override
-        protected Void doInBackground(String... params) {
-            URL url = null;
+        OkHttpUtils.initClient(CustomApplication.getClient())
+                .get()
+                .url(params[0])
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("productMyList", e.getMessage());
+                    }
 
-            try {
-                url = new URL((String)params[0]);
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document doc = builder.parse(new InputSource(url.openStream()));
-                NodeList nodeList = doc.getElementsByTagName("product");
-                Log.d("products", "--####--- ProductLoadingTask START --###---");
-                for ( int i = 0 ; i < nodeList.getLength(); i++) {
-                    Product product = new Product();
-                    Node node = nodeList.item(i);
+                    @Override
+                    public void onResponse(String response, int id) {
+                        try {
+                            //xml-------
+                            StringReader sr = new StringReader(response);
+                            InputSource is = new InputSource(sr);
+                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                            DocumentBuilder builder = factory.newDocumentBuilder();
+                            Document doc = builder.parse(is);
 
-                    Element element = (Element)node;
-               /*     private String id;-
-                    private String title;-
-                    private Member maker;-
-                    private String category;-
-                    private String content;-
-                    private String image;-
-                    private int price;-
-                    private int period;-
-                    private int hit;-
-                    private List<Review> reviews;*/
-                    product.setId(getTagFindValue("id", "product", element));
-                    product.setTitle(getTagValue("title", element));
-                    product.setCategory(getTagValue("category", element));
-                    product.setContent(getTagValue("content", element));
-                    product.setPrice(Integer.parseInt(getTagValue("price", element)));
-                    product.setPeriod(Integer.parseInt(getTagValue("period",element)));
-                    product.setHit(Integer.parseInt(getTagValue("hit",element)));
-                    product.setImage(getTagValue("image",element));
-                    //product.setPage(element.getElementsByTagName("page")
-                    //        .item(0).getChildNodes().item(0).getNodeValue());
-                    Member maker = new Member();
-                    maker.setId(getTagFindValue("id", "maker", element));
-                    maker.setEmail(getTagFindValue("email", "maker", element));
-                    maker.setAddress(getTagFindValue("address", "consumer", element));
-                    maker.setName(getTagFindValue("name", "consumer", element));
-                    maker.setIntroduce(getTagFindValue("introduce", "consumer", element));
-                    maker.setImage(getTagFindValue("image", "consumer", element));
-                    product.setMaker(maker);
+                            NodeList nodeList = doc.getElementsByTagName("product");
+                            Log.d("products", "--####--- ProductLoadingTask START --###---");
+                            for ( int i = 0 ; i < nodeList.getLength(); i++) {
+                                Product product = new Product();
+                                Node node = nodeList.item(i);
+
+                                Element element = (Element)node;
+                                product.setId(getTagFindValue("id", "product", element));
+                                product.setTitle(getTagValue("title", element));
+                                product.setCategory(getTagValue("category", element));
+                                product.setContent(getTagValue("content", element));
+                                product.setPrice(Integer.parseInt(getTagValue("price", element)));
+                                product.setPeriod(Integer.parseInt(getTagValue("period",element)));
+                                product.setHit(Integer.parseInt(getTagValue("hit",element)));
+                                product.setImage(getTagValue("image",element));
+                                //product.setPage(element.getElementsByTagName("page")
+                                //        .item(0).getChildNodes().item(0).getNodeValue());
+                                Member maker = new Member();
+                                maker.setId(getTagFindValue("id", "maker", element));
+                                maker.setEmail(getTagFindValue("email", "maker", element));
+                                maker.setAddress(getTagFindValue("address", "consumer", element));
+                                maker.setName(getTagFindValue("name", "consumer", element));
+                                maker.setIntroduce(getTagFindValue("introduce", "consumer", element));
+                                maker.setImage(getTagFindValue("image", "consumer", element));
+                                product.setMaker(maker);
 
 
-                    Log.d("products", "product Id : "+getTagFindValue("id", "product", element));
-                    Log.d("products", "product Title : "+getTagValue("title", element));
-                    Log.d("products", "--####-- maker Start --####-- ");
-                    Log.d("products", "----------"+(getTagFindValue("id", "maker", element)));
-                    Log.d("products", "product category : "+getTagValue("category", element));
-                    Log.d("products", "----------"+(getTagFindValue("email", "maker", element)));
-                    products.add(product);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
+                                Log.d("products", "product Id : "+getTagFindValue("id", "product", element));
+                                Log.d("products", "product Title : "+getTagValue("title", element));
+                                Log.d("products", "--####-- maker Start --####-- ");
+                                Log.d("products", "----------"+(getTagFindValue("id", "maker", element)));
+                                Log.d("products", "product category : "+getTagValue("category", element));
+                                Log.d("products", "----------"+(getTagFindValue("email", "maker", element)));
+                                products.add(product);
+                            }
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (SAXException e) {
+                            e.printStackTrace();
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            adapter.notifyDataSetChanged();
-        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("requestList", "RequestMyList Task Done");
+                                adapter = new ProductMyListAdapter(getActivity(), products);
+                                listView.setAdapter(adapter);
+                            }
+                        });
+                    }
+                });
     }
 
     private static String getTagValue(String tag, Element element) {

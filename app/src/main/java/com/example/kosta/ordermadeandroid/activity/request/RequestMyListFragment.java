@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,14 +65,14 @@ public class RequestMyListFragment extends Fragment {
     private RequestMyListAdapter requestMyListAdapter;
 
     private OkHttpClient okHttpClient;
-    private ListView listView;
+    private GridView listView;
     private String requestId;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_request_my_list, container, false);
-        listView = (ListView)view.findViewById(R.id.request_myList);
+        listView = (GridView) view.findViewById(R.id.request_myList);
         requestMyListData = new ArrayList<>();
 
         // 나의 의뢰서 리스트 출력, RequestController - 368
@@ -97,7 +98,7 @@ public class RequestMyListFragment extends Fragment {
             }
         });
 
-        // 완료된 의뢰서 버튼 (미완성)
+        // 완료된 의뢰서 버튼
         view.findViewById(R.id.request_myList_doneBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,8 +106,6 @@ public class RequestMyListFragment extends Fragment {
                 requestMyListLoadingTask(Constants.mBaseUrl+"/request/xml/searchMyRequestsWithPayment.do");
             }
         });
-
-
 
         // 의뢰서 추가 버튼
         view.findViewById(R.id.request_myList_registerBtn).setOnClickListener(new View.OnClickListener() {
@@ -308,7 +307,6 @@ public class RequestMyListFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -317,8 +315,6 @@ public class RequestMyListFragment extends Fragment {
                                 listView.setAdapter(requestMyListAdapter);
                             }
                         });
-
-
                     }
                 });
 
