@@ -23,6 +23,8 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
+import com.example.kosta.ordermadeandroid.util.CustomApplication;
+import com.example.kosta.ordermadeandroid.util.XmlUtil;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -39,6 +41,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,33 +64,27 @@ public class RequestMyListFragment extends Fragment {
     private RequestMyListAdapter requestMyListAdapter;
 
     private OkHttpClient okHttpClient;
+    private ListView listView;
     private String requestId;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_request_my_list, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.request_myList);
-
-        final AsyncTask<String, Void, Void> task = new RequestMyListLoadingTask();
+        listView = (ListView)view.findViewById(R.id.request_myList);
+        requestMyListData = new ArrayList<>();
 
         // 나의 의뢰서 리스트 출력, RequestController - 368
-        task.execute("http://10.0.2.2:8080/ordermade/request/xml/searchMyRequests.do");
-        Log.d("requestList", "RequestMyList Task Done");
+        requestMyListLoadingTask(Constants.mBaseUrl+"/request/xml/searchMyRequests.do");
 
-        requestMyListData = new ArrayList<>();
-        requestMyListAdapter = new RequestMyListAdapter(getActivity(), requestMyListData);
+
 
         // 모든 의뢰서 버튼
         view.findViewById(R.id.request_myList_allBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                task.cancel(true);
-                if(task.isCancelled()){
-                    requestMyListData.removeAll(requestMyListData);
-                    new RequestMyListLoadingTask()
-                            .execute("http://10.0.2.2:8080/ordermade/request/xml/searchMyRequests.do");
-                }
+                requestMyListData.removeAll(requestMyListData);
+                requestMyListLoadingTask(Constants.mBaseUrl+"/request/xml/searchMyRequests.do");
             }
         });
 
@@ -95,12 +92,8 @@ public class RequestMyListFragment extends Fragment {
         view.findViewById(R.id.request_myList_ingBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                task.cancel(true);
-                if(task.isCancelled()){
-                    requestMyListData.removeAll(requestMyListData);
-                    new RequestMyListLoadingTask()
-                            .execute("http://10.0.2.2:8080/ordermade/request/xml/searchMyRequestsWithMaker.do");
-                }
+                requestMyListData.removeAll(requestMyListData);
+                requestMyListLoadingTask(Constants.mBaseUrl+"/request/xml/searchMyRequestsWithMaker.do");
             }
         });
 
@@ -108,11 +101,12 @@ public class RequestMyListFragment extends Fragment {
         view.findViewById(R.id.request_myList_doneBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                requestMyListData.removeAll(requestMyListData);
+                requestMyListLoadingTask(Constants.mBaseUrl+"/request/xml/searchMyRequestsWithPayment.do");
             }
         });
 
-        listView.setAdapter(requestMyListAdapter);
+
 
         // 의뢰서 추가 버튼
         view.findViewById(R.id.request_myList_registerBtn).setOnClickListener(new View.OnClickListener() {
@@ -171,10 +165,12 @@ public class RequestMyListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.edit_item:
                 Toast.makeText(getActivity(), "Edit selected", Toast.LENGTH_SHORT).show();
+
+
+
                 break;
             case R.id.delete_item:
-                requestId = ((TextView)info.targetView
-                        .findViewById(R.id.request_myList_requestId)).getText().toString();
+                requestId = ((TextView)info.targetView.findViewById(R.id.request_myList_requestId)).getText().toString();
                 RequestMyListDeleteTask(requestId);
                 Toast.makeText(getActivity(), requestId, Toast.LENGTH_SHORT).show();
                 /*Toast.makeText(getActivity()
@@ -187,11 +183,8 @@ public class RequestMyListFragment extends Fragment {
     }
 
     private void RequestMyListDeleteTask(String requestId) {
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache()
-                , new SharedPrefsCookiePersistor(getActivity()));
 
-        okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-        OkHttpUtils.initClient(okHttpClient)
+        OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
                 .url(Constants.mBaseUrl +"/request/xml/remove.do")
                 .addParams("id", requestId)
@@ -215,92 +208,123 @@ public class RequestMyListFragment extends Fragment {
                 });
     }
 
-    private class RequestMyListLoadingTask extends AsyncTask<String, Void, Void>{
+    private void requestMyListLoadingTask(String... params){
 
-        @Override
-        protected Void doInBackground(String... params) {
-            URL url = null;
 
-            try {
-                url = new URL((String)params[0]);
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document doc = builder.parse(new InputSource(url.openStream()));
-                NodeList nodeList = doc.getElementsByTagName("request");
-                Log.d("requestList", "--####--- RequestLoadingTask START --###---");
-                for ( int i = 0 ; i < nodeList.getLength(); i++) {
-                    Request request = new Request();
-                    Node node = nodeList.item(i);
+        OkHttpUtils.initClient(CustomApplication.getClient())
+                .get()
+                .url(params[0])
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("a", e.getMessage());
+                    }
 
-                    Element element = (Element)node;
+                    @Override
+                    public void onResponse(final String response, final int id) {
+                        Log.d("a", "==========" + response);
 
-                    request.setId(getTagFindValue("id", "request", element));
-                    Log.d("requestList", "request Id : "+getTagFindValue("id", "request", element));
-                    request.setTitle(getTagValue("title", element));
-                    Log.d("requestList", "request Title : "+getTagValue("title", element));
-                    //request.setCategory(getTagValue("category", element));
-                    //Log.d("requestList", "request category : "+getTagValue("category", element));
-                    request.setContent(getTagFindValue("content", "request", element));
-                    request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
-                    request.setPrice(Integer.parseInt(getTagValue("price", element)));
-                    request.setBound(getTagValue("bound", element));
-                    //request.setPage(element.getElementsByTagName("page")
-                    //        .item(0).getChildNodes().item(0).getNodeValue());
+                        try {
+                            //xml-------
+                            StringReader sr = new StringReader(response);
+                            InputSource is = new InputSource(sr);
+                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                            DocumentBuilder builder = factory.newDocumentBuilder();
+                            Document doc = builder.parse(is);
+//                            url = new URL((String)params[0]);//----------del
+//                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();//---del
+//                            DocumentBuilder builder = factory.newDocumentBuilder();//---del
+//                            Document doc = builder.parse(new InputSource(url.openStream()));//---del
 
-                    Log.d("requestList", "--####-- consumer Start --####-- ");
-                    Member consumer = new Member();
-                    consumer.setId(getTagFindValue("id", "consumer", element));
-                    Log.d("requestList", "----------"+(getTagFindValue("id", "consumer", element)));
-                    consumer.setEmail(getTagFindValue("email", "consumer", element));
-                    Log.d("requestList", "----------"+(getTagFindValue("email", "consumer", element)));
-                    consumer.setAddress(getTagFindValue("address", "consumer", element));
-                    consumer.setName(getTagFindValue("name", "consumer", element));
-                    consumer.setIntroduce(getTagFindValue("introduce", "consumer", element));
-                    consumer.setImage(getTagFindValue("image", "consumer", element));
-                    request.setConsumer(consumer);
+                            NodeList nodeList = doc.getElementsByTagName("request");
+                            Log.d("requestList", "--####--- RequestLoadingTask START --###---");
+                            for (int i = 0; i < nodeList.getLength(); i++) {
+                                Request request = new Request();
+                                Node node = nodeList.item(i);
 
-                    Log.d("requestList", "--####-- maker Start --####-- ");
-                    Member maker = new Member();
-                    maker.setId(getTagFindValue("id", "maker", element));
-                    maker.setEmail(getTagFindValue("email", "maker", element));
-                    Log.d("requestList", "----------"+(getTagFindValue("email", "maker", element)));
-                    maker.setAddress(getTagFindValue("address", "maker", element));
-                    Log.d("requestList", "----------"+(getTagFindValue("address", "maker", element)));
-                    maker.setName(getTagFindValue("name", "maker", element));
-                    maker.setIntroduce(getTagFindValue("introduce", "maker", element));
-                    maker.setImage(getTagFindValue("image", "maker", element));
-                    request.setMaker(maker);
-               /*
-                 private String id;-
-                    private String title;-
-                    private Member maker;-
-                    private Member consumer;-
-                    private String category;
-                    private String content;
-                    private int hopePrice;-
-                    private int price;-
-                    private List<Comment> comments;
-                    private List<Attach> attachs;
-                    private String bound;-
-                    private String page;*/
-                    requestMyListData.add(request);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
+                                Element element = (Element) node;
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            requestMyListAdapter.notifyDataSetChanged();
-        }
+                                request.setId(getTagFindValue("id", "request", element));
+                                Log.d("requestList", "request Id : " + getTagFindValue("id", "request", element));
+                                request.setTitle(getTagValue("title", element));
+                                Log.d("requestList", "request Title : " + getTagValue("title", element));
+                                //request.setCategory(getTagValue("category", element));
+                                //Log.d("requestList", "request category : "+getTagValue("category", element));
+                                request.setContent(getTagFindValue("content", "request", element));
+                                request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
+                                request.setPrice(Integer.parseInt(getTagValue("price", element)));
+                                request.setBound(getTagValue("bound", element));
+                                //request.setPage(element.getElementsByTagName("page")
+                                //        .item(0).getChildNodes().item(0).getNodeValue());
+
+                                Log.d("requestList", "--####-- consumer Start --####-- ");
+                                Member consumer = new Member();
+                                consumer.setId(getTagFindValue("id", "consumer", element));
+                                Log.d("requestList", "----------" + (getTagFindValue("id", "consumer", element)));
+                                consumer.setEmail(getTagFindValue("email", "consumer", element));
+                                Log.d("requestList", "----------" + (getTagFindValue("email", "consumer", element)));
+                                consumer.setAddress(getTagFindValue("address", "consumer", element));
+                                consumer.setName(getTagFindValue("name", "consumer", element));
+                                consumer.setIntroduce(getTagFindValue("introduce", "consumer", element));
+                                consumer.setImage(getTagFindValue("image", "consumer", element));
+                                request.setConsumer(consumer);
+
+                                Log.d("requestList", "--####-- maker Start --####-- ");
+                                Member maker = new Member();
+                                maker.setId(getTagFindValue("id", "maker", element));
+                                maker.setEmail(getTagFindValue("email", "maker", element));
+                                Log.d("requestList", "----------" + (getTagFindValue("email", "maker", element)));
+                                maker.setAddress(getTagFindValue("address", "maker", element));
+                                Log.d("requestList", "----------" + (getTagFindValue("address", "maker", element)));
+                                maker.setName(getTagFindValue("name", "maker", element));
+                                maker.setIntroduce(getTagFindValue("introduce", "maker", element));
+                                maker.setImage(getTagFindValue("image", "maker", element));
+                                request.setMaker(maker);
+                                /*
+                                    private String id;-
+                                    private String title;-
+                                    private Member maker;-
+                                    private Member consumer;-
+                                    private String category;
+                                    private String content;
+                                    private int hopePrice;-
+                                    private int price;-
+                                    private List<Comment> comments;
+                                    private List<Attach> attachs;
+                                    private String bound;-
+                                    private String page;
+                                */
+                                requestMyListData.add(request);
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.d("requestList", "RequestMyList Task Done");
+                                        requestMyListAdapter = new RequestMyListAdapter(getActivity(), requestMyListData);
+                                        listView.setAdapter(requestMyListAdapter);
+                                    }
+                                });
+
+
+
+
+
+                            }
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (SAXException e) {
+                            e.printStackTrace();
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+
     }
 
     private static String getTagValue(String tag, Element element) {
