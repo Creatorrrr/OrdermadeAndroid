@@ -57,7 +57,6 @@
                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".activity.request.RequestSearchActivity"></activity>
         <activity android:name=".activity.request.RequestDetailActivity"></activity>
 
     </application>
