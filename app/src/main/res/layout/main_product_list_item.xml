@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/hitProduct_for_main"
+            android:id="@+id/product_for_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -20,13 +20,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/hitProduct_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/hitProduct_price"
+                android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

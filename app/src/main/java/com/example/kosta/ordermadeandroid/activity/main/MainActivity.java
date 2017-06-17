@@ -27,6 +27,7 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragm
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
