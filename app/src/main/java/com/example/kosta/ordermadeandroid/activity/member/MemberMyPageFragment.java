@@ -90,7 +90,8 @@ public class MemberMyPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-				//-----서버에서도 로그아웃해야함.
+
+				doLogout();//-----서버에서도 로그아웃됨.
 
                 Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
 				SharedPreferences prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
@@ -119,14 +120,33 @@ public class MemberMyPageFragment extends Fragment {
 
 
 
+	//로그아웃
+	private void doLogout() {
+
+		OkHttpUtils.initClient(CustomApplication.getClient())
+				.get()
+				.url(Constants.mBaseUrl + "/member/xml/logout.do")
+				.build()
+				.execute(new StringCallback() {
+					@Override
+					public void onError(Call call, Exception e, int id) {
+						Log.d("a", e.getMessage());
+					}
+
+					@Override
+					public void onResponse(final String response, final int id) {
+						Log.d("a","=========="+response);
+
+					}
+				});
+
+	}
 
 
 
 
     //로그인 성공시 멤버 정보 불러옴
     private void doGetMemberInfo() {
-
-
 
 		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity()));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
