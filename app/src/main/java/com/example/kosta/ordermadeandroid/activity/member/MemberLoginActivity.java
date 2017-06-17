@@ -144,9 +144,6 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인 성공시 멤버 정보 불러옴
 	private void doGetMemberInfo(){
 
-		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
-		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		//OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
 		OkHttpUtils.initClient(CustomApplication.getClient())
 				.get()
 				.url(Constants.mBaseUrl + "/member/xml/myPage.do")
@@ -203,33 +200,20 @@ public class MemberLoginActivity extends AppCompatActivity {
 						editor.putString("memberType", member.getMemberType());
 						editor.apply();
 
+						if(member.getMemberType().equals("C")){
+							startActivity(new Intent(getApplication(), MemberMyPageActivity.class));
+						}else if(member.getMemberType().equals("M")){
+							startActivity(new Intent(getApplication(), MemberMyPageMakerFragment.class));
+						}else{
+							startActivity(new Intent(getApplication(), MainActivity.class));
+						}
 
-						startActivity(new Intent(MemberLoginActivity.this, MemberMyPageActivity.class));
 					}
 				});
 	}
 
 
 
-	//--------------- Auto Cookies Manager
-//	private class CookiesManager implements CookieJar {
-//		private final PersistentCookieStore cookieStore = new PersistentCookieStore(getApplication());
-//
-//		@Override
-//		public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-//			if (cookies != null && cookies.size() > 0) {
-//				cookieStore.add(url,cookies);
-//			}
-//		}
-//
-//		@Override
-//		public List<Cookie> loadForRequest(HttpUrl url) {
-//			List<Cookie> cookies = cookieStore.get(url);
-//			return cookies;
-//		}
-//	}
-
-	//------------------
 
 
 

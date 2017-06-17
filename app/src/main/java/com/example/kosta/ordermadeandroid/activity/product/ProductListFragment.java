@@ -52,7 +52,7 @@ public class ProductListFragment extends Fragment {
         GridView listView = (GridView) view.findViewById(R.id.product_list_listView);
 
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
-        task.execute(Constants.mBaseUrl+"/product/ajax/products/category.do?category=ACCESSORY");
+        task.execute(Constants.mBaseUrl+"/product/ajax/products/category.do?category=ACCESSORY&page=1");
         Log.d("productList", "--###-- MainProduct Task above me --##--");
 
         products = new ArrayList<>();
