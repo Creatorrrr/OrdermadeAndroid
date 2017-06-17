@@ -54,12 +54,12 @@ public class DealMakerFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_deal_consumer, container, false);
+		View view = inflater.inflate(R.layout.fragment_deal_maker, container, false);
 
 		purchaseHistoryList = new ArrayList<>();
 		adapter = new PurchaseHistoryMakerAdapter(getActivity(), purchaseHistoryList);
 
-		ListView listView = (ListView)view.findViewById(R.id.dealConsumer_list);
+		ListView listView = (ListView)view.findViewById(R.id.dealMakerList);
 		listView.setAdapter(adapter);
 
 		OkHttpUtils.initClient(CustomApplication.getClient())

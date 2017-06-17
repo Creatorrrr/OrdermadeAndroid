@@ -3,23 +3,18 @@ package com.example.kosta.ordermadeandroid.dto.loader;
 import android.util.Log;
 import android.widget.BaseAdapter;
 
-import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.PurchaseHistory;
 import com.example.kosta.ordermadeandroid.dto.Request;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -35,6 +30,10 @@ import okhttp3.Call;
 public class PurchaseHistoryLoader extends DTOLoader {
     private List<PurchaseHistory> purchaseHistoryList;
     private BaseAdapter adapter;
+
+    public PurchaseHistoryLoader(List<PurchaseHistory> purchaseHistoryList) {
+        this.purchaseHistoryList = purchaseHistoryList;
+    }
 
     public PurchaseHistoryLoader(List<PurchaseHistory> purchaseHistoryList, BaseAdapter adapter) {
         this.purchaseHistoryList = purchaseHistoryList;
@@ -73,7 +72,7 @@ public class PurchaseHistoryLoader extends DTOLoader {
 
     @Override
     public void onAfter(int id) {
-        adapter.notifyDataSetChanged();
+        if(adapter != null) adapter.notifyDataSetChanged();
     }
 
     private PurchaseHistory getPurchaseHistoryFromElement(Element element) {

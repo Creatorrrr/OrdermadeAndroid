@@ -37,6 +37,10 @@ public class InviteRequestLoader extends DTOLoader {
     private List<InviteRequest> inviteRequestList;
     private BaseAdapter adapter;
 
+    public InviteRequestLoader(List<InviteRequest> inviteRequestList) {
+        this.inviteRequestList = inviteRequestList;
+    }
+
     public InviteRequestLoader(List<InviteRequest> inviteRequestList, BaseAdapter adapter) {
         this.inviteRequestList = inviteRequestList;
         this.adapter = adapter;
@@ -77,7 +81,7 @@ public class InviteRequestLoader extends DTOLoader {
 
     @Override
     public void onAfter(int id) {
-        adapter.notifyDataSetChanged();
+        if(adapter != null) adapter.notifyDataSetChanged();
     }
 
     private InviteRequest getInviteRequestFromElement(Element element) {

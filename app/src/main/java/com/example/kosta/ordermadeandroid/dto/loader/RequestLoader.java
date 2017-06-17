@@ -37,6 +37,10 @@ public class RequestLoader extends DTOLoader {
     private List<Request> requestList;
     private BaseAdapter adapter;
 
+    public RequestLoader(List<Request> requestList) {
+        this.requestList = requestList;
+    }
+
     public RequestLoader(List<Request> requestList, BaseAdapter adapter) {
         this.requestList = requestList;
         this.adapter = adapter;
@@ -82,7 +86,7 @@ public class RequestLoader extends DTOLoader {
 
     @Override
     public void onAfter(int id) {
-        adapter.notifyDataSetChanged();
+        if(adapter != null) adapter.notifyDataSetChanged();
     }
 
     private Request getRequestFromElement(Element element) {

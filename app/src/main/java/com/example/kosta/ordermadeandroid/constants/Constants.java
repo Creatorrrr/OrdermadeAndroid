@@ -17,6 +17,8 @@ public class Constants {
 
     public static final String DELIVERY_PREPARE = "P";
     public static final String DELIVERY_COMPLETE = "C";
+    public static final String PAYMENT_Y = "Y";
+    public static final String PAYMENT_N = "N";
 
     public static final SharedPrefsCookiePersistor sharedPrefsCookiePersistor = new SharedPrefsCookiePersistor(new MainActivity());
 
