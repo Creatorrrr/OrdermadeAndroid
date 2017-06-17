@@ -34,6 +34,7 @@ import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestSearchActivity;
+import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{

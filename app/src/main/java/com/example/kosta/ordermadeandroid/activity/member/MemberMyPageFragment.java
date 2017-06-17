@@ -56,8 +56,8 @@ public class MemberMyPageFragment extends Fragment {
 	private TextView mName;
 	private TextView mEmail;
 	private TextView mAddress;
-	private TextView mIntroduce;
-	private TextView mLicenseNumber;
+	//private TextView mIntroduce;
+	//private TextView mLicenseNumber;
 	private ImageView mImage;
 	private TextView mAccountMoney;
 
@@ -75,8 +75,8 @@ public class MemberMyPageFragment extends Fragment {
 		mName = (TextView) view.findViewById(R.id.name);
 		mEmail = (TextView) view.findViewById(R.id.email);
 		mAddress = (TextView) view.findViewById(R.id.address);
-		mIntroduce = (TextView) view.findViewById(R.id.introduce);
-		mLicenseNumber = (TextView) view.findViewById(R.id.licenseNumber);
+		//mIntroduce = (TextView) view.findViewById(R.id.introduce);
+		//mLicenseNumber = (TextView) view.findViewById(R.id.licenseNumber);
 		mImage = (ImageView) view.findViewById(R.id.image);
 		mAccountMoney = (TextView) view.findViewById(R.id.accountMoney);
 
@@ -181,8 +181,8 @@ public class MemberMyPageFragment extends Fragment {
                                     mName.setText(member.getName());
                                     mEmail.setText(member.getEmail());
                                     mAddress.setText(member.getAddress());
-                                    mIntroduce.setText(member.getIntroduce());
-                                    mLicenseNumber.setText(member.getLicenseNumber());
+                                    //mIntroduce.setText(member.getIntroduce());
+                                    //mLicenseNumber.setText(member.getLicenseNumber());
 
                                 }
                             });
