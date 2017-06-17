@@ -3,6 +3,7 @@ package com.example.kosta.ordermadeandroid.activity.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,7 @@ import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
-import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
+import com.example.kosta.ordermadeandroid.activity.request.RequestSearchActivity;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
