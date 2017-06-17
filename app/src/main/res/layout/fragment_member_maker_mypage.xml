@@ -4,23 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal">
-    
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout2">
+
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
-
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4" />
         </LinearLayout>
@@ -42,10 +43,21 @@
                     android:text="아이디" />
 
                 <TextView
+                    android:id="@+id/id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Kostagram" />
+                    android:text="" />
+
+
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+
 
             </LinearLayout>
 
@@ -60,10 +72,11 @@
                     android:text="보유금액" />
 
                 <TextView
+                    android:id="@+id/accountMoney"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="200,000" />
+                    android:text="" />
 
             </LinearLayout>
 
@@ -72,12 +85,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
         android:layout_below="@+id/linearLayout2"
-        android:orientation="vertical">
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,10 +105,11 @@
                 android:textAlignment="center" />
 
             <TextView
+                android:id="@+id/email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="a123@naver.com"
+                android:text=""
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -113,55 +127,17 @@
                 android:textAlignment="center" />
 
             <TextView
+                android:id="@+id/address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="서울시 가산대로"
+                android:text=""
                 android:textAlignment="center" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="도로명 주소"
-                android:textAlignment="center" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="서울시 가산대로"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="도로명 주소"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="서울시 가산대로"
-                android:textAlignment="center" />
-
-        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -205,25 +181,35 @@
             </LinearLayout>
         </ScrollView>
 
+
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
+                android:id="@+id/logoutBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="sign out"
-                android:textAlignment="center" />
+                android:text="로그아웃"
+                android:textAlignment="center"/>
 
             <Button
+                android:id="@+id/modifyBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="modify"
+                android:text="정보수정"
                 android:textAlignment="center" />
 
         </LinearLayout>
+
+
     </LinearLayout>
+
 
 </RelativeLayout>

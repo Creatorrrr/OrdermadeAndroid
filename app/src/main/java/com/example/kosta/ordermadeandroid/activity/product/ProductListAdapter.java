@@ -1,7 +1,9 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +16,25 @@ import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Product;
 import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 /**
- * Created by kosta on 2017-06-16.
+ * Created by kosta on 2017-06-13.
  */
 
-public class ProductMyListAdapter extends BaseAdapter {
-
+public class ProductListAdapter extends BaseAdapter {
 
     private Context context;
     private List<Product> products;
     private LayoutInflater inflater;
 
-    public ProductMyListAdapter(Context context, List<Product> products){
+    public ProductListAdapter(Context context, List<Product> products){
         this.context = context;
         this.products = products;
         this.inflater = LayoutInflater.from(context);
@@ -51,12 +58,11 @@ public class ProductMyListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if ( convertView == null ) {
-            convertView = inflater.inflate(R.layout.product_my_list_item, null);
+            convertView = inflater.inflate(R.layout.product_list_item, null);
         }
-
-        TextView title = (TextView)convertView.findViewById(R.id.product_my_list_title);
-        TextView price = (TextView)convertView.findViewById(R.id.product_my_list_price);
-        ImageView img = (ImageView)convertView.findViewById(R.id.product_my_list_image);
+        TextView title = (TextView)convertView.findViewById(R.id.product_list_title);
+        TextView price = (TextView)convertView.findViewById(R.id.product_list_price);
+        ImageView img = (ImageView)convertView.findViewById(R.id.product_list_image);
 
         title.setText(products.get(position).getTitle());
         price.setText(products.get(position).getPrice()+"원~");

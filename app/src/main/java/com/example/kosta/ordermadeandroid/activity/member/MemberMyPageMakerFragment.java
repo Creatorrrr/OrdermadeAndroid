@@ -20,10 +20,6 @@ import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.example.kosta.ordermadeandroid.util.XmlUtil;
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -42,13 +38,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class MemberMyPageFragment extends Fragment {
+public class MemberMyPageMakerFragment extends Fragment {
 
 	private View view;
 
@@ -56,8 +51,8 @@ public class MemberMyPageFragment extends Fragment {
 	private TextView mName;
 	private TextView mEmail;
 	private TextView mAddress;
-	//private TextView mIntroduce;
-	//private TextView mLicenseNumber;
+	private TextView mIntroduce;
+	private TextView mLicenseNumber;
 	private ImageView mImage;
 	private TextView mAccountMoney;
 
@@ -68,15 +63,15 @@ public class MemberMyPageFragment extends Fragment {
 	@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_member_mypage, container, false);
+        view = inflater.inflate(R.layout.fragment_member_maker_mypage, container, false);
 
 
 		mId = (TextView) view.findViewById(R.id.id);
 		mName = (TextView) view.findViewById(R.id.name);
 		mEmail = (TextView) view.findViewById(R.id.email);
 		mAddress = (TextView) view.findViewById(R.id.address);
-		//mIntroduce = (TextView) view.findViewById(R.id.introduce);
-		//mLicenseNumber = (TextView) view.findViewById(R.id.licenseNumber);
+		mIntroduce = (TextView) view.findViewById(R.id.introduce);
+		mLicenseNumber = (TextView) view.findViewById(R.id.licenseNumber);
 		mImage = (ImageView) view.findViewById(R.id.image);
 		mAccountMoney = (TextView) view.findViewById(R.id.accountMoney);
 
@@ -90,15 +85,13 @@ public class MemberMyPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-				doLogout();//-----서버에서도 로그아웃됨.
+				//-----서버에서도 로그아웃해야함.
 
                 Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
 				SharedPreferences prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
 				prefs.edit().clear().apply();
 				Log.d("a","------"+prefs.getString("memberType",""));
 				startActivity(new Intent(getActivity(), MainActivity.class));
-
             }
         });
 
@@ -120,29 +113,6 @@ public class MemberMyPageFragment extends Fragment {
 
 
 
-	//로그아웃
-	private void doLogout() {
-
-		OkHttpUtils.initClient(CustomApplication.getClient())
-				.get()
-				.url(Constants.mBaseUrl + "/member/xml/logout.do")
-				.build()
-				.execute(new StringCallback() {
-					@Override
-					public void onError(Call call, Exception e, int id) {
-						Log.d("a", e.getMessage());
-					}
-
-					@Override
-					public void onResponse(final String response, final int id) {
-						Log.d("a","=========="+response);
-						if (response.equals("true")){
-							Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
-
-	}
 
 
 
@@ -150,6 +120,11 @@ public class MemberMyPageFragment extends Fragment {
     //로그인 성공시 멤버 정보 불러옴
     private void doGetMemberInfo() {
 
+
+
+		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity()));
+		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
+		//OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
         OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
                 .url(Constants.mBaseUrl + "/member/xml/myPage.do")
@@ -200,8 +175,8 @@ public class MemberMyPageFragment extends Fragment {
                                     mName.setText(member.getName());
                                     mEmail.setText(member.getEmail());
                                     mAddress.setText(member.getAddress());
-                                    //mIntroduce.setText(member.getIntroduce());
-                                    //mLicenseNumber.setText(member.getLicenseNumber());
+                                    mIntroduce.setText(member.getIntroduce());
+                                    mLicenseNumber.setText(member.getLicenseNumber());
 
                                 }
                             });

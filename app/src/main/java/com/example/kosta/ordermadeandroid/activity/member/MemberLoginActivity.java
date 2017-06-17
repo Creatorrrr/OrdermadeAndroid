@@ -17,6 +17,7 @@ import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
+import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.example.kosta.ordermadeandroid.util.XmlUtil;
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
@@ -113,10 +114,10 @@ public class MemberLoginActivity extends AppCompatActivity {
 	private void doLogin(){
 
 
-		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
+		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-		OkHttpUtils.initClient(okHttpClient)
+		//OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+		OkHttpUtils.initClient(CustomApplication.getClient())
 				.post()
 				.url(Constants.mBaseUrl + "/member/login.do")
 				.addParams("id", idEdit.getText().toString())
@@ -143,11 +144,10 @@ public class MemberLoginActivity extends AppCompatActivity {
 	//로그인 성공시 멤버 정보 불러옴
 	private void doGetMemberInfo(){
 
-
-		ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplication()));
+		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
 		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-		OkHttpUtils.initClient(okHttpClient)
+		//OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+		OkHttpUtils.initClient(CustomApplication.getClient())
 				.get()
 				.url(Constants.mBaseUrl + "/member/xml/myPage.do")
 				.build()
@@ -205,7 +205,6 @@ public class MemberLoginActivity extends AppCompatActivity {
 
 
 						startActivity(new Intent(MemberLoginActivity.this, MemberMyPageActivity.class));
-						finish();
 					}
 				});
 	}

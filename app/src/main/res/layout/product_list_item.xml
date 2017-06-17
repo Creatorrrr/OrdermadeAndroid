@@ -10,9 +10,9 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/hitProduct_for_main"
+            android:id="@+id/product_list_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="150dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,17 +20,26 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/hitProduct_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="상품명" />
 
             <TextView
-                android:id="@+id/hitProduct_price"
+                android:id="@+id/product_list_title"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="가격" />
+
+            <TextView
+                android:id="@+id/product_list_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>

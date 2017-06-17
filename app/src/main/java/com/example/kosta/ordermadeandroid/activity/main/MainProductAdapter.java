@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Product;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -68,55 +69,9 @@ public class MainProductAdapter extends BaseAdapter {
         price.setText(productData.get(position).getPrice()+"원~");
 
         new ImageLoadingTask(img)
-                .execute(Constants.mBaseUrl + "/main/file/download.do?fileName="
+                .execute(Constants.mBaseUrl+"/main/file/download.do?fileName="
                         +productData.get(position).getImage());
 
         return convertView;
-    }
-
-    private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
-
-        private final WeakReference<ImageView> imageViewWeakReference;
-
-        public ImageLoadingTask(ImageView img) {
-            imageViewWeakReference = new WeakReference<ImageView>(img);
-        }
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            URL url = null;
-
-            try {
-                url = new URL(params[0]);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            return getRemoteImage(url);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            ImageView imageView = imageViewWeakReference.get();
-            if ( imageView != null ) {
-                imageView.setImageBitmap(bitmap);
-            }
-            super.onPostExecute(bitmap);
-        }
-    }
-
-    private Bitmap getRemoteImage(final URL url) {
-        Bitmap bitmap = null;
-        URLConnection conn;
-
-        try {
-            conn = url.openConnection();
-            conn.connect();
-
-            BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-            bitmap = BitmapFactory.decodeStream(bis);
-            bis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap; //return getRemoteImage(Url)
     }
 }

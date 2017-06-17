@@ -63,7 +63,7 @@ public class RequestMyListAdapter extends BaseAdapter {
         TextView requestContent = (TextView)convertView
                 .findViewById(R.id.request_myList_content);
 
-        Log.d("b", "--------RequestMyListAdapter Success-------");
+        Log.d("requestList", "--------RequestMyListAdapter Success-------");
 
         // 나의 의뢰서 리스트 출력
         requestId.setText(requestMyListData.get(position).getId());

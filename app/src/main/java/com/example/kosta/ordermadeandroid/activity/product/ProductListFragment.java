@@ -1,4 +1,4 @@
-package com.example.kosta.ordermadeandroid.activity.main;
+package com.example.kosta.ordermadeandroid.activity.product;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.main.MainFragment;
+import com.example.kosta.ordermadeandroid.activity.product.ProductListAdapter;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -37,26 +41,39 @@ import javax.xml.parsers.ParserConfigurationException;
  * Created by kosta on 2017-06-16.
  */
 
-public class ProductListFragment extends MainFragment {
+public class ProductListFragment extends Fragment {
     private List<Product> products;
-    private MainProductListAdapter adapter;
+    private ProductListAdapter productListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-      //  View view = inflater.inflate(R.layout.fragment_product_list, container, false);
-     //   return view;
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.product_for_main_listView);
+        View view = inflater.inflate(R.layout.fragment_product_list, container, false);
+        GridView listView = (GridView) view.findViewById(R.id.product_list_listView);
 
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
-        task.execute(Constants.mBaseUrl+"/product/ajax/product/productId.do");
-        // Log.d("c", "--###-- MainProduct Task above me --##--");
+        task.execute(Constants.mBaseUrl+"/product/ajax/products/category.do?category=ACCESSORY");
+        Log.d("productList", "--###-- MainProduct Task above me --##--");
 
         products = new ArrayList<>();
-        adapter = new MainProductListAdapter(getActivity(), products);
+        productListAdapter = new ProductListAdapter(getActivity(), products);
 
-        listView.setAdapter(adapter);
+        listView.setAdapter(productListAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = products.get(position);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productTitle",product.getTitle());
+                intent.putExtra("productImage", product.getImage());
+                intent.putExtra("productContent", product.getContent());
+                intent.putExtra("makerImage", product.getMaker().getImage());
+                intent.putExtra("makerId", product.getMaker().getId());
+                intent.putExtra("makerIntroduce", product.getMaker().getIntroduce());
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -73,7 +90,7 @@ public class ProductListFragment extends MainFragment {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(new InputSource(url.openStream()));
                 NodeList nodeList = doc.getElementsByTagName("product");
-                Log.d("c", "-------loadingTask start > ProductListFragment");
+                Log.d("productList", "-------loadingTask start > ProductListFragment");
 
                 for (int i = 0; i < nodeList.getLength(); i++){
                     Product product = new Product();
@@ -81,10 +98,15 @@ public class ProductListFragment extends MainFragment {
 
                     Element element = (Element)node;
                     product.setCategory(getTagValue("category", element));
+                    //Log.d("productList", "--###-- category --##--"+getTagValue("category", element));
                     product.setContent(getTagValue("content", element));
+                    //Log.d("productList", "--###-- content --##--"+getTagValue("content", element));
                     product.setHit(Integer.parseInt(getTagValue("hit", element)));
+                    //Log.d("productList", "--###-- hit --##--"+getTagValue("hit", element));
                     product.setId(getTagFindValue("id", "product", element));
+                    //Log.d("productList", "--###-- id --##--"+getTagFindValue("id", "product", element));
                     product.setImage(getTagValue("image", element));
+                    //Log.d("productList", "--###-- image --##--"+getTagValue("image", element));
 
                     Member maker = new Member();
                     maker.setId(getTagFindValue("id", "maker", element));
@@ -92,7 +114,9 @@ public class ProductListFragment extends MainFragment {
                     maker.setAddress(getTagFindValue("address", "maker", element));
                     maker.setName(getTagFindValue("name", "maker", element));
                     maker.setIntroduce(getTagFindValue("introduce", "maker", element));
+                    //Log.d("productList", "--###-- introduce --##--"+getTagFindValue("introduce", "maker", element));
                     maker.setImage(getTagFindValue("image", "maker", element));
+                    //Log.d("productList", "--###-- introduce --##--"+getTagFindValue("image", "maker", element));
                     product.setMaker(maker);
 
                     product.setPeriod(Integer.parseInt(getTagValue("period", element)));
@@ -116,7 +140,7 @@ public class ProductListFragment extends MainFragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            adapter.notifyDataSetChanged();
+            productListAdapter.notifyDataSetChanged();
         }
     }
 
