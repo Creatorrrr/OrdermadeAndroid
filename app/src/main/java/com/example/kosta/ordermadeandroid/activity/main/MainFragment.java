@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.product.ProductDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
@@ -66,11 +68,26 @@ public class MainFragment extends Fragment {
 
         listView.setAdapter(mainProductAdapter);
 
+        // 상품 상세 정보
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = productData.get(position);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productTitle",product.getTitle());
+                intent.putExtra("productImage", product.getImage());
+                intent.putExtra("productContent", product.getContent());
+                intent.putExtra("makerImage", product.getMaker().getImage());
+                intent.putExtra("makerId", product.getMaker().getId());
+                intent.putExtra("makerIntroduce", product.getMaker().getIntroduce());
+                startActivity(intent);
+            }
+        });
 
+        // main button 구현
         view.findViewById(R.id.main_productBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getActivity(), ProductListActivity.class);
                 startActivity(intent);
             }

@@ -17,7 +17,7 @@
             android:title="의뢰서 검색"/>
 
         <item
-            android:id="@+id/nav_rquest_receivedList"
+            android:id="@+id/nav_request_receivedList"
             android:title="받은 의뢰서"/>
 
         <item

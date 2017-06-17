@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Product;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 
 import java.util.List;
 
@@ -51,19 +54,16 @@ public class ProductMyListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.product_my_list_item, null);
         }
 
-        TextView requestTitle = (TextView)convertView
-                .findViewById(R.id.product_myList_title);
-        TextView hopePrice = (TextView)convertView
-                .findViewById(R.id.product_myList_price);
-        TextView category = (TextView)convertView
-                .findViewById(R.id.product_myList_category);
+        TextView title = (TextView)convertView.findViewById(R.id.product_my_list_title);
+        TextView price = (TextView)convertView.findViewById(R.id.product_my_list_price);
+        ImageView img = (ImageView)convertView.findViewById(R.id.product_my_list_image);
 
-        Log.d("b", "-------productMyListAdapter Success-------");
+        title.setText(products.get(position).getTitle());
+        price.setText(products.get(position).getPrice()+"원~");
 
-
-        requestTitle.setText(products.get(position).getTitle());
-        hopePrice.setText(products.get(position).getPrice()+"");
-        category.setText(products.get(position).getCategory());
+        new ImageLoadingTask(img)
+                .execute(Constants.mBaseUrl+"/main/file/download.do?fileName="
+                        +products.get(position).getImage());
 
         return convertView;
     }

@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         prefs = getSharedPreferences("login_info",MODE_PRIVATE);
         loginId = prefs.getString("loginId","");//SharedPreferences에서 꺼낸다
         memberType = prefs.getString("memberType","");//
-        Toast.makeText(getApplication(),loginId+"-------"+memberType, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplication(),loginId+"-------"+memberType, Toast.LENGTH_SHORT).show();
 
         if(memberType.equals("C")) {
             view.getMenu().clear();//메뉴삭제
@@ -215,11 +215,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle("의뢰서 검색");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new RequestSearchFragment()).commit();
                 return true;
-            case R.id.nav_rquest_receivedList:
+            case R.id.nav_request_receivedList:
                 setTitle("받은 의뢰서");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new RequestReceivedFragment()).commit();
                 return true;
             case R.id.nav_product_myList:
+                //startActivity(new Intent(this, ProductMyListActivity.class));
                 setTitle("상품 관리");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new ProductMyListFragment()).commit();
                 return true;

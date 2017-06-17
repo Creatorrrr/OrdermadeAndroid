@@ -31,7 +31,6 @@
         <activity android:name=".activity.request.RequestInviteActivity"/>
         <activity android:name=".activity.request.RequestJoinActivity"/>
         <activity android:name=".activity.request.RequestMyListActivity"/>
-        <activity android:name=".activity.product.ProductMyList"/>
         <activity android:name=".activity.product.ProductRegisterActivity"/>
         <activity android:name=".activity.product.ProductEditDetailActivity"/>
         <activity android:name=".activity.product.ProductDetailActivity"/>

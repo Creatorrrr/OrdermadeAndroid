@@ -1,5 +1,6 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -58,6 +60,21 @@ public class ProductListFragment extends Fragment {
 
         listView.setAdapter(productListAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = products.get(position);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productTitle",product.getTitle());
+                intent.putExtra("productImage", product.getImage());
+                intent.putExtra("productContent", product.getContent());
+                intent.putExtra("makerImage", product.getMaker().getImage());
+                intent.putExtra("makerId", product.getMaker().getId());
+                intent.putExtra("makerIntroduce", product.getMaker().getIntroduce());
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
@@ -97,7 +114,9 @@ public class ProductListFragment extends Fragment {
                     maker.setAddress(getTagFindValue("address", "maker", element));
                     maker.setName(getTagFindValue("name", "maker", element));
                     maker.setIntroduce(getTagFindValue("introduce", "maker", element));
+                    //Log.d("productList", "--###-- introduce --##--"+getTagFindValue("introduce", "maker", element));
                     maker.setImage(getTagFindValue("image", "maker", element));
+                    //Log.d("productList", "--###-- introduce --##--"+getTagFindValue("image", "maker", element));
                     product.setMaker(maker);
 
                     product.setPeriod(Integer.parseInt(getTagValue("period", element)));
