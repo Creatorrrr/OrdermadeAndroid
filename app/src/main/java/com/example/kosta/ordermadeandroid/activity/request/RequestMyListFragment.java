@@ -297,19 +297,6 @@ public class RequestMyListFragment extends Fragment {
                                 */
                                 requestMyListData.add(request);
 
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.d("requestList", "RequestMyList Task Done");
-                                        requestMyListAdapter = new RequestMyListAdapter(getActivity(), requestMyListData);
-                                        listView.setAdapter(requestMyListAdapter);
-                                    }
-                                });
-
-
-
-
-
                             }
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
@@ -320,6 +307,16 @@ public class RequestMyListFragment extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("requestList", "RequestMyList Task Done");
+                                requestMyListAdapter = new RequestMyListAdapter(getActivity(), requestMyListData);
+                                listView.setAdapter(requestMyListAdapter);
+                            }
+                        });
 
 
                     }
