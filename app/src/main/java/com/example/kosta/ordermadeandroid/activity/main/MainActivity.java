@@ -26,7 +26,7 @@ import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
-import com.example.kosta.ordermadeandroid.activity.request.RequestSearchActivity;
+import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -201,10 +201,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
             case R.id.nav_myPage_Maker:
-                startActivity(new Intent(this, MemberMyPageFragment.class));
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment())
+                        .commit();
                 return true;
             case R.id.nav_request_Search:
-                startActivity(new Intent(this, RequestSearchActivity.class));
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.relativeLayout_for_frame, new RequestSearchFragment())
+                        .commit();
                 return true;
             case R.id.nav_rquest_receivedList:
                 startActivity(new Intent(this, RequestReceivedFragment.class));

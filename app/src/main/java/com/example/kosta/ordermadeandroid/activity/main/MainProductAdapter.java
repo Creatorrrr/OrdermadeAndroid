@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Product;
 
 import java.io.BufferedInputStream;
@@ -67,7 +68,7 @@ public class MainProductAdapter extends BaseAdapter {
         price.setText(productData.get(position).getPrice()+"원~");
 
         new ImageLoadingTask(img)
-                .execute("http://10.0.2.2:8080/ordermade/main/file/download.do?fileName="
+                .execute(Constants.mBaseUrl + "/main/file/download.do?fileName="
                         +productData.get(position).getImage());
 
         return convertView;

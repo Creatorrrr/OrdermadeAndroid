@@ -8,6 +8,7 @@ import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.InviteRequest;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +18,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -25,49 +27,50 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import okhttp3.Call;
+
 /**
  * Created by kosta on 2017-06-16.
  */
 
-public class RequestLoadingTask extends AsyncTask<String, Void, Void> {
+public class RequestLoader extends StringCallback {
     private List<Request> requestList;
     private BaseAdapter adapter;
 
-    public RequestLoadingTask(List<Request> requestList, BaseAdapter adapter) {
+    public RequestLoader(List<Request> requestList, BaseAdapter adapter) {
         this.requestList = requestList;
         this.adapter = adapter;
     }
 
     @Override
-    protected Void doInBackground(String... params) {
-        URL url = null;
+    public void onError(Call call, Exception e, int id) {
+        Log.d("rs", e.getMessage());
+    }
 
+    @Override
+    public void onResponse(String response, int id) {
         try {
-            url = new URL((String)params[0]);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(url.openStream()));
+            Document doc = builder.parse(new InputSource(new StringReader(response)));
 
-            Log.d("rs", "-------RequestLoadingTask start");
+            Log.d("rs", "-------RequestLoader start");
 
-            if(doc.getElementsByTagName("requests").item(0) != null) {
+            if (doc.getElementsByTagName("requests").item(0) != null) {
                 NodeList nodeList = doc.getElementsByTagName("request");
-                for (int i = 0; i < nodeList.getLength(); i++){
+                for (int i = 0; i < nodeList.getLength(); i++) {
                     Node node = nodeList.item(i);
-                    requestList.add(getRequestFromElement((Element)node));
+                    requestList.add(getRequestFromElement((Element) node));
                 }
             } else {
                 NodeList nodeList = doc.getElementsByTagName("inviterequest");
-                for (int i = 0; i < nodeList.getLength(); i++){
-                    Node node = ((Element)(nodeList.item(i))).getElementsByTagName("request").item(0);
-                    requestList.add(getRequestFromElement((Element)node));
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Node node = ((Element) (nodeList.item(i))).getElementsByTagName("request").item(0);
+                    requestList.add(getRequestFromElement((Element) node));
                 }
             }
 
-            Log.d("rs", "-------RequestLoadingTask finished");
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.d("rs", "-------RequestLoader finished");
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (ParserConfigurationException e) {
@@ -75,11 +78,10 @@ public class RequestLoadingTask extends AsyncTask<String, Void, Void> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    public void onAfter(int id) {
         adapter.notifyDataSetChanged();
     }
 

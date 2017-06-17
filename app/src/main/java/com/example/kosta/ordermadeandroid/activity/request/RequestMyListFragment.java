@@ -227,7 +227,7 @@ public class RequestMyListFragment extends Fragment {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(new InputSource(url.openStream()));
                 NodeList nodeList = doc.getElementsByTagName("request");
-                Log.d("requestList", "--####--- RequestLoadingTask START --###---");
+                Log.d("requestList", "--####--- RequestLoader START --###---");
                 for ( int i = 0 ; i < nodeList.getLength(); i++) {
                     Request request = new Request();
                     Node node = nodeList.item(i);
