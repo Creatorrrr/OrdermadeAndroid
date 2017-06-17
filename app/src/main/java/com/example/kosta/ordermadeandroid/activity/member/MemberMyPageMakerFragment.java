@@ -20,10 +20,6 @@ import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.example.kosta.ordermadeandroid.util.XmlUtil;
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -42,13 +38,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class MemberMyPageFragment extends Fragment {
+public class MemberMyPageMakerFragment extends Fragment {
 
 	private View view;
 
@@ -68,7 +63,7 @@ public class MemberMyPageFragment extends Fragment {
 	@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_member_mypage, container, false);
+        view = inflater.inflate(R.layout.fragment_member_maker_mypage, container, false);
 
 
 		mId = (TextView) view.findViewById(R.id.id);
@@ -97,7 +92,6 @@ public class MemberMyPageFragment extends Fragment {
 				prefs.edit().clear().apply();
 				Log.d("a","------"+prefs.getString("memberType",""));
 				startActivity(new Intent(getActivity(), MainActivity.class));
-
             }
         });
 

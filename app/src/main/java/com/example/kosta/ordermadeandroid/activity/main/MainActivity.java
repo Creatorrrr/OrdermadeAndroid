@@ -23,6 +23,7 @@ import com.example.kosta.ordermadeandroid.activity.deal.DealMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberLoginActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
+import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
 import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
@@ -201,25 +202,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
             case R.id.nav_myPage_Maker:
-                startActivity(new Intent(this, MemberMyPageFragment.class));
+                setTitle("나의 프로필");
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageMakerFragment()).commit();
                 return true;
             case R.id.nav_request_Search:
-                startActivity(new Intent(this, RequestSearchFragment.class));
+                setTitle("의뢰서 검색");
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new RequestSearchFragment()).commit();
                 return true;
             case R.id.nav_rquest_receivedList:
-                startActivity(new Intent(this, RequestReceivedFragment.class));
+                setTitle("받은 의뢰서");
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new RequestReceivedFragment()).commit();
                 return true;
             case R.id.nav_product_myList:
-                startActivity(new Intent(this, ProductMyListFragment.class));
+                setTitle("상품 관리");
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new ProductMyListFragment()).commit();
                 return true;
-            case R.id.nav_portfolio_myList:
+//            case R.id.nav_portfolio_myList:
+//                setTitle("의뢰서 관리");
 //                startActivity(new Intent(this, PortfolioMyListActivity.class));
-                return true;
+//                return true;
             case R.id.nav_requestList:
+                //의뢰서 요청내역
                 startActivity(new Intent(this, RequestMyListActivity.class));
                 return true;
             case R.id.nav_dealMaker:
-                startActivity(new Intent(this, DealMakerFragment.class));
+                setTitle("거래 이력");
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new DealMakerFragment()).commit();
                 return true;
 
             default:
