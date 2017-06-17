@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doNavigationMenu(MenuItem item){
         switch(item.getItemId()){
             case R.id.nav_Home:
-                setTitle("메인입니다");
+                setTitle("PANDA");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MainFragment()).commit();
                 //startActivity(new Intent(this, MainActivity.class));
                 return true;
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch(item.getItemId()){
             // 메인
             case R.id.nav_Home:
-                setTitle("메인");
+                setTitle("PANDA");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MainFragment()).commit();
                 //startActivity(new Intent(this, MainActivity.class));
                 return true;
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doNavigationMenuMaker(MenuItem item){
         switch(item.getItemId()){
             case R.id.nav_Home:
-                setTitle("메인입니다");
+                setTitle("PANDA");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MainFragment()).commit();
                 //startActivity(new Intent(this, MainActivity.class));
                 return true;

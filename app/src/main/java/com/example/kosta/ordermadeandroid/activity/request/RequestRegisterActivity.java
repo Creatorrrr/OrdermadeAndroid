@@ -120,7 +120,7 @@ public class RequestRegisterActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response, int id) {
                                 // RequestController return value 수정
-                                if (response.equals("true")) {
+                                if (response != null) {
                                     Toast.makeText(RequestRegisterActivity.this, "의뢰서 등록 성공", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplication(), RequestMyListActivity.class));
                                     finish();
@@ -166,8 +166,4 @@ public class RequestRegisterActivity extends AppCompatActivity {
 
         return tags;
     }
-
-
-
-
 }

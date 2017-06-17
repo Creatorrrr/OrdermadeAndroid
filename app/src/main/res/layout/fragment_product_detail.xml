@@ -22,8 +22,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
+                    android:textSize="25sp"
                     android:text="상품명 :" />
 
                 <TextView
@@ -47,6 +48,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="상품내용"
                     android:textAlignment="center" />
 
@@ -57,9 +59,9 @@
                     />
             </LinearLayout>
 
-            <!--<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -69,15 +71,17 @@
                     android:text="&lt;상품후기&gt;"
                     android:textAlignment="center" />
 
+                <ListView
+                    android:id="@+id/product_detail_review_listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/reviews"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
-            <LinearLayout
+
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -125,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="&lt;프로필&gt;"
+                    android:textSize="27sp"
                     android:textAlignment="center" />
 
                 <LinearLayout
@@ -134,7 +139,7 @@
 
                     <ImageView
                         android:id="@+id/product_detail_profileImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="210dp"
                         android:layout_height="wrap_content" />
 
                     <LinearLayout

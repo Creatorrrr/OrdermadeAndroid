@@ -37,7 +37,7 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/product_my_list_registerBtn"
+        android:id="@+id/product_received_registerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="등록" />

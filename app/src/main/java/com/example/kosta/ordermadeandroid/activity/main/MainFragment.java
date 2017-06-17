@@ -1,5 +1,7 @@
 package com.example.kosta.ordermadeandroid.activity.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.content.Intent;
@@ -16,6 +18,8 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
+import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.product.ProductDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
@@ -47,6 +51,9 @@ public class MainFragment extends Fragment {
     private List<Product> productData;
     private MainProductAdapter mainProductAdapter;
 
+    private SharedPreferences prefs;
+    private String memberType;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -57,6 +64,9 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         GridView listView = (GridView) view.findViewById(R.id.hitProduct_for_main_listView);
+
+        prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+        memberType = prefs.getString("memberType","");//SharedPreferences에서 꺼낸다
 
         // 인기 상품 리스트
         final AsyncTask<String, Void, Void> task = new ProductForMainLoadingTask();
@@ -74,6 +84,7 @@ public class MainFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = productData.get(position);
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productId", product.getId());
                 intent.putExtra("productTitle",product.getTitle());
                 intent.putExtra("productImage", product.getImage());
                 intent.putExtra("productContent", product.getContent());
@@ -84,12 +95,26 @@ public class MainFragment extends Fragment {
             }
         });
 
-        // main button 구현
+        // main product button 구현
         view.findViewById(R.id.main_productBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProductListActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.main_myPageBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(memberType.equals("C")) {
+                    getActivity().setTitle("나의 프로필");
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment()).commit();
+                }else if(memberType.equals("M")){
+                    getActivity().setTitle("나의 프로필");
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageMakerFragment()).commit();
+                }
             }
         });
         return view;

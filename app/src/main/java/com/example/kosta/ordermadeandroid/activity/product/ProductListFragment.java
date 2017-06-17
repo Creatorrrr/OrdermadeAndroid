@@ -65,6 +65,7 @@ public class ProductListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = products.get(position);
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productId", product.getId());
                 intent.putExtra("productTitle",product.getTitle());
                 intent.putExtra("productImage", product.getImage());
                 intent.putExtra("productContent", product.getContent());

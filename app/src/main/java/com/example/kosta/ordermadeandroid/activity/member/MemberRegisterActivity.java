@@ -101,11 +101,6 @@ public class MemberRegisterActivity extends AppCompatActivity {
 		consumerRadio.setOnClickListener(radioOnClickListener);
 		makerRadio.setOnClickListener(radioOnClickListener);
 
-
-
-
-
-
 		//이미지 클릭할때
 		findViewById(R.id.image).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -272,7 +267,7 @@ public class MemberRegisterActivity extends AppCompatActivity {
 
 
 
-	//다른 VIEW에서 보내주는 데이서를 처리
+	//다른 VIEW에서 보내주는 데이터를 처리
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

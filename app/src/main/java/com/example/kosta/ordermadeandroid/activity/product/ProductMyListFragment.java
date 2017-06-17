@@ -77,7 +77,6 @@ public class ProductMyListFragment extends Fragment{
         products = new ArrayList<>();
 
         prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
-
         String loginId = prefs.getString("loginId","");
 
         // 상품관리 출력
@@ -89,6 +88,7 @@ public class ProductMyListFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = products.get(position);
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("productId", product.getId());
                 intent.putExtra("productTitle",product.getTitle());
                 intent.putExtra("productImage", product.getImage());
                 intent.putExtra("productContent", product.getContent());
@@ -102,7 +102,8 @@ public class ProductMyListFragment extends Fragment{
         // 상품관리 콘텍스트 메뉴
         registerForContextMenu(view.findViewById(R.id.product_my_list_listView));
 
-        view.findViewById(R.id.product_my_list_registerBtn).setOnClickListener(new View.OnClickListener() {
+        // 상품 등록 버튼
+        view.findViewById(R.id.product_received_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProductRegisterActivity.class);
@@ -220,20 +221,21 @@ public class ProductMyListFragment extends Fragment{
                                 Member maker = new Member();
                                 maker.setId(getTagFindValue("id", "maker", element));
                                 maker.setEmail(getTagFindValue("email", "maker", element));
-                                maker.setAddress(getTagFindValue("address", "consumer", element));
-                                maker.setName(getTagFindValue("name", "consumer", element));
-                                maker.setIntroduce(getTagFindValue("introduce", "consumer", element));
-                                maker.setImage(getTagFindValue("image", "consumer", element));
+                                maker.setAddress(getTagFindValue("address", "maker", element));
+                                maker.setName(getTagFindValue("name", "maker", element));
+                                maker.setIntroduce(getTagFindValue("introduce", "maker", element));
+                                maker.setImage(getTagFindValue("image", "maker", element));
                                 product.setMaker(maker);
 
 
                                 Log.d("products", "product Id : "+getTagFindValue("id", "product", element));
                                 Log.d("products", "product Title : "+getTagValue("title", element));
                                 Log.d("products", "--####-- maker Start --####-- ");
-                                Log.d("products", "----------"+(getTagFindValue("id", "maker", element)));
-                                Log.d("products", "product category : "+getTagValue("category", element));
-                                Log.d("products", "----------"+(getTagFindValue("email", "maker", element)));
+                                Log.d("products", "--makerId :--"+getTagFindValue("id", "maker", element));
+                                Log.d("products", "maker image : "+getTagFindValue("image", "consumer", element));
+                                Log.d("products", "--maker Introduce--"+(getTagFindValue("introduce", "maker", element)));
                                 products.add(product);
+
                             }
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
