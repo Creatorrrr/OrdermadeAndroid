@@ -62,17 +62,17 @@ public class RequestInviteListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if ( convertView == null ) {
-            convertView = inflater.inflate(R.layout.request_join_list_item, null);
+            convertView = inflater.inflate(R.layout.request_invite_list_item, null);
         }
 
-        TextView title = (TextView)convertView.findViewById(R.id.request_join_title);
-        TextView makerId = (TextView)convertView.findViewById(R.id.request_join_makerId);
-        TextView message = (TextView)convertView.findViewById(R.id.request_join_message);
-        Button acceptBtn = (Button)convertView.findViewById(R.id.request_join_acceptBtn);
-        Button rejectBtn = (Button)convertView.findViewById(R.id.request_join_rejectBtn);
+        TextView title = (TextView)convertView.findViewById(R.id.request_invite_title);
+        TextView consumerId = (TextView)convertView.findViewById(R.id.request_invite_consumerId);
+        TextView message = (TextView)convertView.findViewById(R.id.request_invite_message);
+        Button acceptBtn = (Button)convertView.findViewById(R.id.request_invite_acceptBtn);
+        Button rejectBtn = (Button)convertView.findViewById(R.id.request_invite_rejectBtn);
 
         title.setText(inviteRequestList.get(position).getRequest().getTitle());
-        makerId.setText(inviteRequestList.get(position).getMaker().getId());
+        consumerId.setText(inviteRequestList.get(position).getRequest().getConsumer().getId());
         message.setText(inviteRequestList.get(position).getMessage());
 
         // 수락 버튼 구현
@@ -96,9 +96,9 @@ public class RequestInviteListAdapter extends BaseAdapter {
                             public void onResponse(String response, int id) {
                                 // RequestController return value 수정
                                 if (response.equals("true")) {
-                                    Toast.makeText(context, "수락 성공", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "제작자 등록 성공", Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(context, "수락 실패", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "제작자 등록 실패", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -119,11 +119,11 @@ public class RequestInviteListAdapter extends BaseAdapter {
                             public void onResponse(String response, int id) {
                                 // RequestController return value 수정
                                 if (response.equals("true")) {
-                                    Toast.makeText(context, "삭제 성공", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "수락 성공", Toast.LENGTH_SHORT).show();
                                     inviteRequestList.remove(position);
                                     notifyDataSetChanged();
                                 }else{
-                                    Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "수락 실패", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

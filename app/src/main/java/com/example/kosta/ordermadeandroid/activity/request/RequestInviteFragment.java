@@ -48,7 +48,7 @@ public class RequestInviteFragment extends Fragment {
         OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
                 .url(Constants.mBaseUrl + "/request/xml/searchMyInviteRequestsForMaker.do")
-                .addParams("form", "R")
+                .addParams("form", "I")
                 .build()
                 .execute(new InviteRequestLoader(inviteRequestList, adapter));
 
