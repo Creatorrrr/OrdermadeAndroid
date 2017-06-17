@@ -45,8 +45,11 @@ public class RequestSearchFragment extends Fragment {
     private int listChange;
     private int searchType;
 
-    public static RequestSearchFragment newInstance(String param1, String param2) {
-        return new RequestSearchFragment();
+    private static RequestSearchFragment instance;
+
+    synchronized public static RequestSearchFragment newInstance() {
+        if(instance == null) instance =  new RequestSearchFragment();
+        return instance;
     }
 
     @Override

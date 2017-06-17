@@ -7,33 +7,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
-import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerActivity;
 import com.example.kosta.ordermadeandroid.activity.deal.DealConsumerFragment;
 import com.example.kosta.ordermadeandroid.activity.deal.DealMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberLoginActivity;
-import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageActivity;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberRegisterActivity;
-import com.example.kosta.ordermadeandroid.activity.portfolio.PortfolioDetailActivity;
-import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
-import com.example.kosta.ordermadeandroid.activity.product.ProductMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductMyListFragment;
-import com.example.kosta.ordermadeandroid.activity.request.RequestJoinActivity;
+import com.example.kosta.ordermadeandroid.activity.request.RequestInviteFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestJoinFragment;
-import com.example.kosta.ordermadeandroid.activity.request.RequestMyListActivity;
 import com.example.kosta.ordermadeandroid.activity.request.RequestMyListFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestReceivedFragment;
 import com.example.kosta.ordermadeandroid.activity.request.RequestSearchFragment;
@@ -212,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_request_Search:
                 setTitle("의뢰서 검색");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new RequestSearchFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, RequestSearchFragment.newInstance()).commit();
                 return true;
             case R.id.nav_request_receivedList:
                 setTitle("받은 의뢰서");
@@ -230,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                return true;
             case R.id.nav_requestList:
                 setTitle("의뢰서 요청내역");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new RequestMyListFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, RequestInviteFragment.newInstance()).commit();
                 //startActivity(new Intent(this, RequestMyListActivity.class));
                 return true;
             case R.id.nav_dealMaker:
