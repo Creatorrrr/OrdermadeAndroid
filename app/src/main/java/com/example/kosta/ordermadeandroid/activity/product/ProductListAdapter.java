@@ -1,4 +1,4 @@
-package com.example.kosta.ordermadeandroid.activity.main;
+package com.example.kosta.ordermadeandroid.activity.product;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Product;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -26,13 +28,13 @@ import java.util.List;
  * Created by kosta on 2017-06-13.
  */
 
-public class MainProductListAdapter extends BaseAdapter {
+public class ProductListAdapter extends BaseAdapter {
 
     private Context context;
     private List<Product> products;
     private LayoutInflater inflater;
 
-    public MainProductListAdapter(Context context, List<Product> products){
+    public ProductListAdapter(Context context, List<Product> products){
         this.context = context;
         this.products = products;
         this.inflater = LayoutInflater.from(context);
@@ -56,23 +58,23 @@ public class MainProductListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if ( convertView == null ) {
-            convertView = inflater.inflate(R.layout.main_product_list_item, null);
+            convertView = inflater.inflate(R.layout.product_list_item, null);
         }
-        TextView title = (TextView)convertView.findViewById(R.id.title);
-        TextView price = (TextView)convertView.findViewById(R.id.price);
-        ImageView img = (ImageView)convertView.findViewById(R.id.product_for_main);
+        TextView title = (TextView)convertView.findViewById(R.id.product_list_title);
+        TextView price = (TextView)convertView.findViewById(R.id.product_list_price);
+        ImageView img = (ImageView)convertView.findViewById(R.id.product_list_image);
 
-        title.setText("상품 명" + products.get(position).getTitle());
+        title.setText(products.get(position).getTitle());
         price.setText(products.get(position).getPrice()+"원~");
 
         new ImageLoadingTask(img)
-                .execute("http://10.0.2.2:8080/ordermade/main/file/download.do?fileName="
+                .execute(Constants.mBaseUrl+"/main/file/download.do?fileName="
                         +products.get(position).getImage());
 
         return convertView;
     }
 
-    private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
+    /*private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
 
         private final WeakReference<ImageView> imageViewWeakReference;
 
@@ -116,5 +118,5 @@ public class MainProductListAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         return bitmap; //return getRemoteImage(Url)
-    }
+    }*/
 }

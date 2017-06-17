@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.dto.Product;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class MainProductAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
+    /*private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
 
         private final WeakReference<ImageView> imageViewWeakReference;
 
@@ -117,5 +118,5 @@ public class MainProductAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         return bitmap; //return getRemoteImage(Url)
-    }
+    }*/
 }
