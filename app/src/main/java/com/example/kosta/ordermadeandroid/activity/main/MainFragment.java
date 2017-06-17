@@ -72,9 +72,7 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), ProductListActivity.class);
-                Log.d("A","dhktsldhksdhktsl");
                 startActivity(intent);
-                Log.d("A","dhktsldhksdhsafffffffktsl");
             }
         });
         return view;

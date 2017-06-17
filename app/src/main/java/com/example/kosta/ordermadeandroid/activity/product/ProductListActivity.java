@@ -1,37 +1,10 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
-import com.example.kosta.ordermadeandroid.activity.main.ProductListFragment;
-import com.example.kosta.ordermadeandroid.constants.Constants;
-import com.example.kosta.ordermadeandroid.dto.Member;
-import com.example.kosta.ordermadeandroid.dto.Product;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 public class ProductListActivity extends MainActivity {
 
