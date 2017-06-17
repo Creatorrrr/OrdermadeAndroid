@@ -19,6 +19,7 @@ import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 import com.example.kosta.ordermadeandroid.util.XmlUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -51,8 +52,8 @@ public class MemberMyPageMakerFragment extends Fragment {
 	private TextView mName;
 	private TextView mEmail;
 	private TextView mAddress;
-	private TextView mIntroduce;
-	private TextView mLicenseNumber;
+	//private TextView mIntroduce;
+	//private TextView mLicenseNumber;
 	private ImageView mImage;
 	private TextView mAccountMoney;
 
@@ -70,10 +71,10 @@ public class MemberMyPageMakerFragment extends Fragment {
 		mName = (TextView) view.findViewById(R.id.name);
 		mEmail = (TextView) view.findViewById(R.id.email);
 		mAddress = (TextView) view.findViewById(R.id.address);
-		mIntroduce = (TextView) view.findViewById(R.id.introduce);
-		mLicenseNumber = (TextView) view.findViewById(R.id.licenseNumber);
+		//mIntroduce = (TextView) view.findViewById(R.id.introduce);
+		//mLicenseNumber = (TextView) view.findViewById(R.id.licenseNumber);
 		mImage = (ImageView) view.findViewById(R.id.image);
-		mAccountMoney = (TextView) view.findViewById(R.id.accountMoney);
+		//mAccountMoney = (TextView) view.findViewById(R.id.accountMoney);
 
 		//memberType = (TextView) view.findViewById(R.id.memberType);
 
@@ -85,13 +86,8 @@ public class MemberMyPageMakerFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-				//-----서버에서도 로그아웃해야함.
+				doLogout();//로그아웃
 
-                Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
-				SharedPreferences prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
-				prefs.edit().clear().apply();
-				Log.d("a","------"+prefs.getString("memberType",""));
-				startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
 
@@ -100,7 +96,6 @@ public class MemberMyPageMakerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "회원 수정", Toast.LENGTH_SHORT).show();
-
 
 
             }
@@ -112,7 +107,37 @@ public class MemberMyPageMakerFragment extends Fragment {
 
 
 
+	//로그아웃
+	private void doLogout() {
 
+		//---서버에서도 로그아웃됨.
+		OkHttpUtils.initClient(CustomApplication.getClient())
+				.get()
+				.url(Constants.mBaseUrl + "/member/xml/logout.do")
+				.build()
+				.execute(new StringCallback() {
+					@Override
+					public void onError(Call call, Exception e, int id) {
+						Log.d("a", e.getMessage());
+					}
+
+					@Override
+					public void onResponse(final String response, final int id) {
+						Log.d("a","=========="+response);
+						if (response.equals("true")){
+							Toast.makeText(getActivity(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+
+		//---
+		Toast.makeText(getActivity(), "로그아웃", Toast.LENGTH_SHORT).show();
+		SharedPreferences prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+		prefs.edit().clear().apply();
+		Log.d("a","------"+prefs.getString("memberType",""));
+		startActivity(new Intent(getActivity(), MainActivity.class));
+
+	}
 
 
 
@@ -120,11 +145,6 @@ public class MemberMyPageMakerFragment extends Fragment {
     //로그인 성공시 멤버 정보 불러옴
     private void doGetMemberInfo() {
 
-
-
-		//ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getActivity()));
-		//Log.d("a",cookieJar.loadForRequest(Constants.mBaseUrl + "/member/login.do").size());
-		//OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
         OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
                 .url(Constants.mBaseUrl + "/member/xml/myPage.do")
@@ -132,7 +152,8 @@ public class MemberMyPageMakerFragment extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.d("a", e.getMessage());
+                        Log.d("a", "--------"+e.getMessage());
+						doLogout(); //로그아웃
                     }
 
                     @Override
@@ -175,9 +196,14 @@ public class MemberMyPageMakerFragment extends Fragment {
                                     mName.setText(member.getName());
                                     mEmail.setText(member.getEmail());
                                     mAddress.setText(member.getAddress());
-                                    mIntroduce.setText(member.getIntroduce());
-                                    mLicenseNumber.setText(member.getLicenseNumber());
-
+                                    //mIntroduce.setText(member.getIntroduce());
+                                    //mLicenseNumber.setText(member.getLicenseNumber());
+									if(member.getImage() != null){
+										new ImageLoadingTask(mImage).execute(Constants.mBaseUrl+"/main/file/download.do?fileName="+member.getImage());
+										//mImage.setImageURI(Uri.parse(Constants.mBaseUrl+"/main/file/download.do?fileName="+member.getImage()));
+									}else{
+										mImage.setImageResource(R.drawable.image_default);
+									}
                                 }
                             });
 
