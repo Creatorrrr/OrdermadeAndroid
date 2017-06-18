@@ -1,7 +1,9 @@
 package com.example.kosta.ordermadeandroid.activity.request;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,14 +11,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Comment;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
+import com.example.kosta.ordermadeandroid.util.CustomApplication;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,10 +44,20 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import okhttp3.Call;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RequestDetailFragment extends Fragment {
+
+    private SharedPreferences prefs;
+    private String memberType;
+
+    private String requestId;
+    private int price;
+    private EditText registerPrice;
+    private View view;
 
     private List<Comment> requestCommentData;
     private RequestCommentListAdapter requestCommentListAdapter;
@@ -52,17 +71,23 @@ public class RequestDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_request_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_request_detail, container, false);
         ListView commentListView = (ListView)view.findViewById(R.id.request_detail_comment_listView);
+
+        prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+        memberType = prefs.getString("memberType","");
 
         Intent intent = getActivity().getIntent();
         String makerId = (String)intent.getExtras().get("makerId");
         String category = (String)intent.getExtras().get("category");
         String title = (String)intent.getExtras().get("title");
         String content = (String)intent.getExtras().get("detailContent");
-        int price = (int)intent.getExtras().get("price");
-        String requestId = (String)intent.getExtras().get("requestId");
+        price = (int)intent.getExtras().get("price");
+        requestId = (String)intent.getExtras().get("requestId");
         Log.d("requestComment", "---- requestId ----"+requestId);
+        String payment = (String)intent.getExtras().get("payment");
+        Log.d("requestComment", "---- request payment ----"+payment);
+        Log.d("requestComment", "---- request price ----"+price);
 
         // 의뢰서 상세 정보 출력
         ((TextView)view.findViewById(R.id.request_detail_makerId))
@@ -75,6 +100,10 @@ public class RequestDetailFragment extends Fragment {
                 .setText(content);
         ((TextView)view.findViewById(R.id.request_detail_price))
                 .setText(price+"");
+        ((TextView)view.findViewById(R.id.request_detail_price_decided))
+                .setText(price+"");
+        registerPrice = ((EditText)view.findViewById(R.id.request_detail_price_register));
+
 
         final AsyncTask<String, Void, Void> task = new RequestCommentListLoadingTask();
         task.execute(Constants.mBaseUrl+"/comment/xml/searchRequestId.do?requestId="+requestId+"&page=1");
@@ -83,6 +112,38 @@ public class RequestDetailFragment extends Fragment {
         requestCommentListAdapter = new RequestCommentListAdapter(getActivity(), requestCommentData);
 
         commentListView.setAdapter(requestCommentListAdapter);
+
+        if ( memberType.equals("C")) {
+            ((LinearLayout)view.findViewById(R.id.request_detail_priceRegister_layout))
+                    .setVisibility(View.GONE);
+            if( price == 0 ) {}
+            else if( payment.equals("N") ) {
+                ((LinearLayout)view.findViewById(R.id.request_detail_pricePurchase_layout))
+                        .setVisibility(View.VISIBLE);
+
+            }
+
+            view.findViewById(R.id.request_detail_purchaseBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "결제 클릭", Toast.LENGTH_SHORT).show();
+                    RequestDetailPurchaseTask(Constants.mBaseUrl +"/deal/account/consumerMoney.do?requestId="+requestId);
+                }
+            });
+
+        }else if ( memberType.equals("M")) {
+            if (price != 0) {
+                view.findViewById(R.id.request_detail_price_register).setVisibility(View.GONE);
+                view.findViewById(R.id.request_detail_price_decided).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.request_detail_priceRegisterBtn).setVisibility(View.INVISIBLE);
+            }
+            view.findViewById(R.id.request_detail_priceRegisterBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RequestDetailRegisterPriceTask(requestId, registerPrice.getText().toString());
+                }
+            });
+        }
 
         return view;
     }
@@ -136,6 +197,65 @@ public class RequestDetailFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             requestCommentListAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void RequestDetailRegisterPriceTask(String requestId, final String registerPrice) {
+
+        Log.d("a", "------register price :"+requestId.toString());
+        Log.d("a", "------register price :"+registerPrice);
+        OkHttpUtils.initClient(CustomApplication.getClient())
+                .post()
+                .url(Constants.mBaseUrl +"/request/xml/modifyPaymentValue.do")
+                .addParams("id",requestId)
+                .addParams("price",registerPrice)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("a", e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        if ( response.equals("true")){
+                            Toast.makeText(getActivity(), "등록 성공!", Toast.LENGTH_SHORT).show();
+                            view.findViewById(R.id.request_detail_price_register).setVisibility(View.GONE);
+                            view.findViewById(R.id.request_detail_price_decided).setVisibility(View.VISIBLE);
+                            ((TextView)view.findViewById(R.id.request_detail_price_decided)).setText(registerPrice);
+                            view.findViewById(R.id.request_detail_priceRegisterBtn).setVisibility(View.INVISIBLE);
+                        }else{
+                            Toast.makeText(getActivity(), "등록 실패", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+
+    private void RequestDetailPurchaseTask(String...params) {
+
+        Log.d("a", "--product purchase--"+requestId);
+
+        OkHttpUtils.initClient(CustomApplication.getClient())
+                .get()
+                .url(params[0])
+                .addParams("requestId",requestId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d("a", e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        if ( response.equals("true") ){
+                            Toast.makeText(getActivity(), "결제 성공", Toast.LENGTH_SHORT).show();
+                            ((Button)view.findViewById(R.id.request_detail_purchaseBtn)).setText("결제완료");
+                            ((Button)view.findViewById(R.id.request_detail_purchaseBtn)).setEnabled(false);
+                        }
+                    }
+                });
+
     }
 
     private static String getTagValue(String tag, Element element) {
