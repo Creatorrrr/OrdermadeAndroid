@@ -22,6 +22,8 @@ import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.product.ProductDetailActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
+import com.example.kosta.ordermadeandroid.activity.product.ProductListFragment;
+import com.example.kosta.ordermadeandroid.activity.product.ProductSearchFragment;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -99,8 +101,8 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.main_productBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProductListActivity.class);
-                startActivity(intent);
+                getActivity().setTitle("상품 검색");
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductListFragment.newInstance()).commit();
             }
         });
 
@@ -110,10 +112,10 @@ public class MainFragment extends Fragment {
 
                 if(memberType.equals("C")) {
                     getActivity().setTitle("나의 프로필");
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment()).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageFragment()).commit();
                 }else if(memberType.equals("M")){
                     getActivity().setTitle("나의 프로필");
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageMakerFragment()).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new MemberMyPageMakerFragment()).commit();
                 }
             }
         });

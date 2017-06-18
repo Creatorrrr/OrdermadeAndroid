@@ -20,6 +20,13 @@ public class Constants {
     public static final String PAYMENT_Y = "Y";
     public static final String PAYMENT_N = "N";
 
+    public static final int SELECT_ACCESSORY = 0;
+    public static final int SELECT_CLOTHING = 1;
+    public static final int SELECT_DIGITAL = 2;
+    public static final int SELECT_FUNITURE = 3;
+    public static final int SELECT_KITCHEN = 4;
+    public static final int SELECT_SPORT = 5;
+
     public static final SharedPrefsCookiePersistor sharedPrefsCookiePersistor = new SharedPrefsCookiePersistor(new MainActivity());
 
     public static final ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(new MainActivity()));

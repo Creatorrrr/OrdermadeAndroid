@@ -37,6 +37,8 @@ public class ProductEditFragment extends Fragment {
     private Spinner categorySpinner;
     private String imageSrc;
 
+    private Product product;
+
     private static ProductEditFragment instance;
 
     synchronized public static ProductEditFragment newInstance() {
@@ -55,7 +57,7 @@ public class ProductEditFragment extends Fragment {
         image = (ImageView)view.findViewById(R.id.product_edit_image);
         categorySpinner = (Spinner)view.findViewById(R.id.product_edit_category);
 
-        Product product = (Product)getActivity().getIntent().getExtras().get("product");
+        product = (Product)getActivity().getIntent().getExtras().get("product");
         //getActivity().getIntent().removeExtra("product");
 
         title.setText(product.getTitle());
@@ -65,22 +67,22 @@ public class ProductEditFragment extends Fragment {
         new ImageLoadingTask(image).execute(Constants.mBaseUrl + "/main/file/download.do?fileName=" + product.getImage());
         switch (product.getCategory()) {
             case "ACCESSORY":
-                categorySpinner.setSelection(0);
+                categorySpinner.setSelection(Constants.SELECT_ACCESSORY);
                 break;
             case "CLOTHING":
-                categorySpinner.setSelection(1);
+                categorySpinner.setSelection(Constants.SELECT_CLOTHING);
                 break;
             case "DIGITAL":
-                categorySpinner.setSelection(2);
+                categorySpinner.setSelection(Constants.SELECT_DIGITAL);
                 break;
             case "FUNITURE":
-                categorySpinner.setSelection(3);
+                categorySpinner.setSelection(Constants.SELECT_FUNITURE);
                 break;
             case "KITCHEN":
-                categorySpinner.setSelection(4);
+                categorySpinner.setSelection(Constants.SELECT_KITCHEN);
                 break;
             case "SPORT":
-                categorySpinner.setSelection(5);
+                categorySpinner.setSelection(Constants.SELECT_SPORT);
                 break;
         }
 
@@ -108,7 +110,11 @@ public class ProductEditFragment extends Fragment {
         view.findViewById(R.id.product_edit_modifyBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageUpload(imageSrc);
+                if(imageSrc == null) {
+                    sendFormData(product.getImage());
+                } else {
+                    imageUpload(imageSrc);
+                }
             }
         });
 
@@ -149,7 +155,8 @@ public class ProductEditFragment extends Fragment {
 
         OkHttpUtils.initClient(CustomApplication.getClient())
                 .post()
-                .url(Constants.mBaseUrl + "/product/xml/modfiy.do")
+                .url(Constants.mBaseUrl + "/product/xml/modify.do")
+                .addParams("id", product.getId())
                 .addParams("title", title.getText().toString())
                 .addParams("content", content.getText().toString())
                 .addParams("image", uploadFileName)
@@ -165,8 +172,8 @@ public class ProductEditFragment extends Fragment {
 
                     @Override
                     public void onResponse(final String response, int id) {
-                        if (response.equals("true")) {//상품등록 성공시
-                            Toast.makeText(getActivity().getApplication(), "상품 등록 성공", Toast.LENGTH_SHORT).show();
+                        if (response.equals("true")) {
+                            Toast.makeText(getActivity().getApplication(), "상품 수정 성공", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getActivity().getApplication(), "상품 수정 실패", Toast.LENGTH_SHORT).show();
                         }
