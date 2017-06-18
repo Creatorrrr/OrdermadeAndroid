@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 구매 이력
             case R.id.nav_dealConsumer:
                 setTitle("구매 이력");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new DealConsumerFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealConsumerFragment.newInstance()).commit();
                 //startActivity(new Intent(this, DealConsumerActivity.class));
                 return true;
 
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_dealMaker:
                 setTitle("거래 이력");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new DealMakerFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealMakerFragment.newInstance()).commit();
                 return true;
 
             default:

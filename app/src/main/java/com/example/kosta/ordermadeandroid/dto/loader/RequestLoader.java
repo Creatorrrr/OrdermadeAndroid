@@ -33,9 +33,13 @@ import okhttp3.Call;
  * Created by kosta on 2017-06-16.
  */
 
-public class RequestLoader extends StringCallback {
+public class RequestLoader extends DTOLoader {
     private List<Request> requestList;
     private BaseAdapter adapter;
+
+    public RequestLoader(List<Request> requestList) {
+        this.requestList = requestList;
+    }
 
     public RequestLoader(List<Request> requestList, BaseAdapter adapter) {
         this.requestList = requestList;
@@ -82,60 +86,41 @@ public class RequestLoader extends StringCallback {
 
     @Override
     public void onAfter(int id) {
-        adapter.notifyDataSetChanged();
+        if(adapter != null) adapter.notifyDataSetChanged();
     }
 
     private Request getRequestFromElement(Element element) {
         Request request = new Request();
 
-        request.setId(getTagFindValue("id", "request", element));
-        request.setTitle(getTagValue("title", element));
+        request.setId(getTagValue("id", "request", element));
+        request.setTitle(getTagValue("title", "request", element));
 
-        Element makerElement = (Element)element.getElementsByTagName("maker").item(0);
-
-        if(makerElement != null) {
+        if(element.getElementsByTagName("maker").item(0) != null) {
             Member maker = new Member();
-            maker.setId(getTagValue("id", makerElement));
-            maker.setEmail(getTagValue("email", makerElement));
-            maker.setAddress(getTagValue("address", makerElement));
-            maker.setName(getTagValue("name", makerElement));
-            maker.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", makerElement));
+            maker.setId(getTagValue("id", "maker", "request", element));
+            maker.setEmail(getTagValue("email", "maker", "request", element));
+            maker.setAddress(getTagValue("address", "maker", "request", element));
+            maker.setName(getTagValue("name", "maker", "request", element));
+            maker.setImage(getTagValue("image", "maker", "request", element));
 
             request.setMaker(maker);
         }
 
-        Element consumerElement = (Element)element.getElementsByTagName("consumer").item(0);
-
         Member consumer = new Member();
-        consumer.setId(getTagValue("id", consumerElement));
-        consumer.setEmail(getTagValue("email", consumerElement));
-        consumer.setAddress(getTagValue("address", consumerElement));
-        consumer.setName(getTagValue("name", consumerElement));
-        consumer.setImage(Constants.mBaseUrl + "/main/file/download.do?fileName=" + getTagValue("image", consumerElement));
+        consumer.setId(getTagValue("id", "consumer", "request", element));
+        consumer.setEmail(getTagValue("email", "consumer", "request", element));
+        consumer.setAddress(getTagValue("address", "consumer", "request", element));
+        consumer.setName(getTagValue("name", "consumer", "request", element));
+        consumer.setImage(getTagValue("image", "consumer", "request", element));
 
         request.setConsumer(consumer);
-        request.setCategory(getTagValue("category", element));
-        request.setContent(getTagValue("content", element));
-        request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
-        request.setPrice(Integer.parseInt(getTagValue("price", element)));
-        request.setBound(getTagValue("bound", element));
+        request.setCategory(getTagValue("category", "request", element));
+        request.setContent(getTagValue("content", "request", element));
+        request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", "request", element)));
+        request.setPrice(Integer.parseInt(getTagValue("price", "request", element)));
+        request.setBound(getTagValue("bound", "request", element));
+        request.setPayment(getTagValue("payment", "request", element));
 
         return request;
-    }
-
-    private String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node value = nodeList.item(0);
-        return value.getNodeValue();
-    }
-
-    private String getTagFindValue(String tag, String className, Element element) {
-        NodeList elementList = element.getElementsByTagName(tag);
-        for ( int i = 0 ; i < elementList.getLength() ; i++){
-            if ( className.equals(elementList.item(i).getParentNode().getNodeName())){
-                return elementList.item(i).getChildNodes().item(0).getNodeValue();
-            }
-        }
-        return null;
     }
 }

@@ -12,7 +12,7 @@ public class PurchaseHistory {
 	private Member maker;
 	private Member consumer;
 	private Request request;
-	private Date orderDate;
+	private String orderDate;
 	private String invoiceNumber;
 	private int charge;
 	private String deliveryStatus;
@@ -51,11 +51,11 @@ public class PurchaseHistory {
 		this.request = request;
 	}
 
-	public Date getOrderDate() {
+	public String getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -97,5 +97,21 @@ public class PurchaseHistory {
 
 	public void setPage(String page) {
 		this.page = page;
+	}
+
+	@Override
+	public String toString() {
+		return "PurchaseHistory{" +
+				"id='" + id + '\'' +
+				", maker=" + maker +
+				", consumer=" + consumer +
+				", request=" + request +
+				", orderDate=" + orderDate +
+				", invoiceNumber='" + invoiceNumber + '\'' +
+				", charge=" + charge +
+				", deliveryStatus='" + deliveryStatus + '\'' +
+				", payment='" + payment + '\'' +
+				", page='" + page + '\'' +
+				'}';
 	}
 }

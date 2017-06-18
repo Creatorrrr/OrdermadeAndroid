@@ -28,7 +28,6 @@
         <activity android:name=".activity.request.RequestApplyActivity"/>
         <activity android:name=".activity.request.RequestMakerDetailActivity"/>
         <activity android:name=".activity.request.RequestConsumerDetailActivity"/>
-        <activity android:name=".activity.request.RequestInviteActivity"/>
         <activity android:name=".activity.request.RequestJoinActivity"/>
         <activity android:name=".activity.request.RequestMyListActivity"/>
         <activity android:name=".activity.product.ProductRegisterActivity"/>
