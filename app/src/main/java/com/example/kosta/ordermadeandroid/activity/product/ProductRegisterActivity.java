@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -53,7 +54,15 @@ import okhttp3.Response;
 
 public class ProductRegisterActivity extends AppCompatActivity {
 
+    private static final String SELECT_ACCESSORY = "ACCESSORY";
+    private static final String SELECT_CLOTHING = "CLOTHING";
+    private static final String SELECT_DIGITAL = "DIGITAL";
+    private static final String SELECT_FUNITURE = "FUNITURE";
+    private static final String SELECT_KITCHEN = "KITCHEN";
+    private static final String SELECT_SPORT = "SPORT";
+
     private static final int PICK_FROM_ALBUM = 1;
+
     private SharedPreferences prefs;
     private OkHttpClient okHttpClient;
 
@@ -65,6 +74,7 @@ public class ProductRegisterActivity extends AppCompatActivity {
     private EditText price;
     private EditText period;
     private Spinner categorySpinner;
+    private String category;
     private String loginId;
     private String imageSrc;
 
@@ -90,6 +100,30 @@ public class ProductRegisterActivity extends AppCompatActivity {
         categorySpinner = (Spinner)findViewById(R.id.product_register_category);
         loginId = prefs.getString("loginId","");
 
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ( position == 0 ){
+                    category = SELECT_ACCESSORY;
+                }else if ( position == 1) {
+                    category = SELECT_CLOTHING;
+                }else if ( position == 2) {
+                    category = SELECT_DIGITAL;
+                }else if ( position == 3) {
+                    category = SELECT_FUNITURE;
+                }else if ( position == 4) {
+                    category = SELECT_KITCHEN;
+                }else if ( position == 5) {
+                    category = SELECT_SPORT;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //이미지 클릭할때
         findViewById(R.id.product_register_image).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +134,6 @@ public class ProductRegisterActivity extends AppCompatActivity {
                 startActivityForResult(intent, PICK_FROM_ALBUM);
             }
         });
-
 
         // 취소버튼
         findViewById(R.id.product_register_cancelBtn).setOnClickListener(new View.OnClickListener() {
@@ -117,7 +150,12 @@ public class ProductRegisterActivity extends AppCompatActivity {
         findViewById(R.id.product_register_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if ( imageSrc != null ){
                     imageUpload(imageSrc);
+                }else{
+                    sendFormData("");
+                }
+
             }
         });
     }
@@ -167,8 +205,8 @@ public class ProductRegisterActivity extends AppCompatActivity {
                 .addParams("price", price.getText().toString())
                 .addParams("period", period.getText().toString())
                 .addParams("maker.id", loginId.toString())
-                .addParams("category", "")
-                .addParams("hit", "")
+                .addParams("category", category.toString())
+                .addParams("hit", "0")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -180,7 +218,7 @@ public class ProductRegisterActivity extends AppCompatActivity {
                     public void onResponse(final String response, int id) {
                         if (response.equals("true")) {//상품등록 성공시
                             Toast.makeText(getApplication(), "상품 등록 성공", Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(getApplication(), ProductMyListActivity.class));
+                            startActivity(new Intent(getApplication(), ProductMyListActivity.class));
                         } else {
                             Toast.makeText(getApplication(), "상품 등록 실패", Toast.LENGTH_SHORT).show();
                         }

@@ -127,7 +127,11 @@ public class MemberRegisterActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				Log.d("a","======="+imageSrc);
-				imageUpload(imageSrc);
+				if( imageSrc != null ) {
+					imageUpload(imageSrc);
+				}else{
+					sendFormData("");
+				}
 			}
 		});
 
