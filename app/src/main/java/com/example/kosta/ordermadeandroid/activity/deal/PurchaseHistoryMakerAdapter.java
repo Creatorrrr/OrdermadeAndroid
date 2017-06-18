@@ -1,24 +1,25 @@
 package com.example.kosta.ordermadeandroid.activity.deal;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.PurchaseHistory;
-import com.example.kosta.ordermadeandroid.dto.Request;
 import com.example.kosta.ordermadeandroid.dto.loader.PurchaseHistoryLoader;
-import com.example.kosta.ordermadeandroid.dto.loader.RequestLoader;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -105,7 +106,7 @@ public class PurchaseHistoryMakerAdapter extends BaseAdapter{
             dialog.findViewById(R.id.dialogCancel).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
+                    dialog.cancel();
                 }
             });
 

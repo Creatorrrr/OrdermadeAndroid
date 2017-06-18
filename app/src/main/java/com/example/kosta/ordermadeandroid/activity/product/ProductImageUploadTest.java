@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * Created by kosta on 2017-06-15.
@@ -30,7 +26,7 @@ public class ProductImageUploadTest extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_register);
+        setContentView(R.layout.fragment_product_register);
     }
 
     public void loadImageFromGallery(View view){

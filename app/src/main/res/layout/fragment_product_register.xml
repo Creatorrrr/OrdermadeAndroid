@@ -4,11 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.product.ProductRegisterActivity">
-
-    <include layout="@layout/actionbar_product_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    tools:context=".activity.product.ProductRegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +30,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
@@ -54,30 +49,12 @@
 
     <ImageView
         android:id="@+id/product_register_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_weight="1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="#ccc"
         android:scaleType="fitXY"
         android:src="@drawable/image_default"
         android:paddingBottom="50px"/>
-
-    <!--<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="앨범" />-->
-
-    <!--<LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="앨범" />
-
-    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:inputType="numberDecimal"
             android:scrollHorizontally="false" />
 
     </LinearLayout>
@@ -115,6 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:inputType="numberDecimal"
             android:scrollHorizontally="false" />
 
     </LinearLayout>
@@ -123,19 +102,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="상품 내용" />
 
     <EditText
         android:id="@+id/product_register_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="top|left"
         android:inputType="textMultiLine"
-        android:lines="8"
-        android:maxWidth="5.0dp"
-        android:minWidth="10.0dp"
+        android:lines="10"
         android:scrollHorizontally="false" />
 
     <LinearLayout

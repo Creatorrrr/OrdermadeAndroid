@@ -1,11 +1,7 @@
 package com.example.kosta.ordermadeandroid.activity.product;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -16,20 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
-import com.example.kosta.ordermadeandroid.activity.request.RequestMyListAdapter;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -43,50 +32,48 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by kosta on 2017-06-10.
  */
 
 public class ProductMyListFragment extends Fragment{
-
-    private SharedPreferences prefs;
-    private List<Product> products;
+    private List<Product> productList;
     private ProductMyListAdapter adapter;
 
-    private OkHttpClient okHttpClient;
-    private String productId;
-    private GridView listView;
+    public static ProductMyListFragment instance;
 
-    @Nullable
+    synchronized public static ProductMyListFragment newInstance() {
+        if (instance == null) instance = new ProductMyListFragment();
+        return instance;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_my_list, container, false);
-        listView = (GridView)view.findViewById(R.id.product_my_list_listView);
-        products = new ArrayList<>();
 
-        prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
-        String loginId = prefs.getString("loginId","");
+        productList = new ArrayList<>();
+        adapter = new ProductMyListAdapter(getActivity(), productList);
+
+        GridView gridView = (GridView)view.findViewById(R.id.product_my_list_listView);
+        gridView.setAdapter(adapter);
 
         // 상품관리 출력
-        ProductMyListLoadingTask(Constants.mBaseUrl+"/product/ajax/products/makerid.do?makerId="+loginId);
+        ProductMyListLoadingTask(Constants.mBaseUrl+"/product/ajax/products/makerid.do");
         Log.d("productMyList", "ProductMyList Task Done");
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = products.get(position);
+                Product product = productList.get(position);
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                 intent.putExtra("productId", product.getId());
                 intent.putExtra("productTitle",product.getTitle());
@@ -100,83 +87,60 @@ public class ProductMyListFragment extends Fragment{
         });
 
         // 상품관리 콘텍스트 메뉴
-        registerForContextMenu(view.findViewById(R.id.product_my_list_listView));
+        registerForContextMenu(gridView);
 
         // 상품 등록 버튼
         view.findViewById(R.id.product_received_registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProductRegisterActivity.class);
-                startActivity(intent);
+                getActivity().setTitle("상품 등록");
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductRegisterFragment.newInstance()).commit();
             }
         });
-
-
 
         return view;
     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.product_my_list_context_menu, menu);
-
+        menu.add("수정");
+        menu.add("삭제");
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        Product product = productList.get(((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position);
 
-        AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-
-        //info.id, info.position 은 rowId
-        /*switch (item.getItemId()) {
-            case R.id.edit_item:
-                Toast.makeText(getActivity(), "Edit selected", Toast.LENGTH_SHORT).show();
+        switch(item.getTitle().toString()) {
+            case "수정":
+                getActivity().setTitle("상품 수정");
+                //getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductEditFragment.newInstance()).commit();
                 break;
-            case R.id.delete_item:
-                productId = ((TextView)info.targetView
-                        .findViewById(R.id.myList_productId)).getText().toString();
-                ProductMyListDeleteTask(productId);
-                Toast.makeText(getActivity(), productId, Toast.LENGTH_SHORT).show();
-                *//*Toast.makeText(getActivity()
-                        , ((TextView)info.targetView.findViewById(R.id.myList_productId))
-                                .getText().toString(), Toast.LENGTH_SHORT).show();*//*
+            case "삭제":
+                OkHttpUtils.initClient(CustomApplication.getClient())
+                        .get()
+                        .url(Constants.mBaseUrl +"/product/xml/remove.do")
+                        .addParams("id", product.getId())
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(okhttp3.Call call, Exception e, int id) {
+                                Log.d("productDelete", e.getMessage());
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                if(response.equals("true")) {
+                                    Toast.makeText(getActivity(), "삭제 완료", Toast.LENGTH_SHORT).show();
+                                    ProductMyListLoadingTask(Constants.mBaseUrl+"/product/ajax/products/makerid.do");
+                                } else {
+                                    Toast.makeText(getActivity(), "삭제 실패", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 break;
-        }*/
+        }
 
-        return super.onContextItemSelected(item);
-    }
-
-    private void ProductMyListDeleteTask(String productId) {
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache()
-                , new SharedPrefsCookiePersistor(getActivity()));
-
-        okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-        OkHttpUtils.initClient(okHttpClient)
-                .get()
-                .url(Constants.mBaseUrl +"/product/xml/remove.do")
-                .addParams("id", productId)
-                .build()
-                .execute(new StringCallback() {
-
-                    @Override
-                    public void onError(okhttp3.Call call, Exception e, int id) {
-                        Log.d("productDelete", e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        if(response.equals("true")) {
-                            Toast.makeText(getActivity(), "삭제 완료", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getActivity(), ProductMyListActivity.class));
-                            getActivity().finish();
-                        } else {
-                            Toast.makeText(getActivity(), "삭제 실패", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        return true;
     }
 
     private void ProductMyListLoadingTask (String...params){
@@ -203,6 +167,7 @@ public class ProductMyListFragment extends Fragment{
 
                             NodeList nodeList = doc.getElementsByTagName("product");
                             Log.d("products", "--####--- ProductLoadingTask START --###---");
+                            productList.clear();
                             for ( int i = 0 ; i < nodeList.getLength(); i++) {
                                 Product product = new Product();
                                 Node node = nodeList.item(i);
@@ -234,7 +199,7 @@ public class ProductMyListFragment extends Fragment{
                                 Log.d("products", "--makerId :--"+getTagFindValue("id", "maker", element));
                                 Log.d("products", "maker image : "+getTagFindValue("image", "consumer", element));
                                 Log.d("products", "--maker Introduce--"+(getTagFindValue("introduce", "maker", element)));
-                                products.add(product);
+                                productList.add(product);
 
                             }
                         } catch (MalformedURLException e) {
@@ -246,15 +211,11 @@ public class ProductMyListFragment extends Fragment{
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    }
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d("requestList", "RequestMyList Task Done");
-                                adapter = new ProductMyListAdapter(getActivity(), products);
-                                listView.setAdapter(adapter);
-                            }
-                        });
+                    @Override
+                    public void onAfter(int id) {
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }

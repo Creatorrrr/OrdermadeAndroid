@@ -3,7 +3,8 @@ package com.example.kosta.ordermadeandroid.activity.deal;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,6 @@ import com.example.kosta.ordermadeandroid.dto.loader.PurchaseHistoryLoader;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.zhy.http.okhttp.OkHttpUtils;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -70,7 +68,6 @@ public class PurchaseHistoryConsumerAdapter extends BaseAdapter{
             final AlertDialog alertDialog = new AlertDialog.Builder(context)
                     .setTitle("구매확정 확인")
                     .setMessage("구매확정 하시겠습니까?")
-                    .setCancelable(false)
                     .setPositiveButton("구매확정", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialog, int which) {
@@ -85,6 +82,7 @@ public class PurchaseHistoryConsumerAdapter extends BaseAdapter{
                                             super.onAfter(id);
                                             holder.decision.setText("구매완료");
                                             holder.decision.setEnabled(false);
+                                            dialog.dismiss();
                                         }
                                     });
                         }

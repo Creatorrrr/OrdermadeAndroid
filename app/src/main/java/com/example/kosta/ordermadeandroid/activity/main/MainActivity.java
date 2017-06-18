@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_product_myList:
                 //startActivity(new Intent(this, ProductMyListActivity.class));
                 setTitle("상품 관리");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, new ProductMyListFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.newInstance()).commit();
                 return true;
 //            case R.id.nav_portfolio_myList:
 //                setTitle("의뢰서 관리");
