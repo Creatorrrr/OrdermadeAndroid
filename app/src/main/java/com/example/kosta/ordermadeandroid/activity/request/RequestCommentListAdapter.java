@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Comment;
+import com.example.kosta.ordermadeandroid.util.ImageLoadingTask;
 
 import java.util.List;
 
@@ -52,6 +55,12 @@ public class RequestCommentListAdapter extends BaseAdapter {
                 .setText(requestCommentData.get(position).getId());
         ((TextView)convertView.findViewById(R.id.request_detail_comment_content))
                 .setText(requestCommentData.get(position).getContent());
+
+        ImageView image = (ImageView)convertView.findViewById(R.id.request_detail_comment_image);
+
+        new ImageLoadingTask(image).execute(Constants.mBaseUrl
+                +"/main/file/download.do?fileName="
+                +requestCommentData.get(position).getMember().getImage());
 
         return convertView;
     }

@@ -224,20 +224,7 @@ public class MemberMyPageFragment extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-
-
-
                     }
                 });
-
-
-
-
     }
-
-
-
-
-
 }

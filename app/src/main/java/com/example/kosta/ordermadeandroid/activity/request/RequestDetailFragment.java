@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Comment;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
@@ -76,7 +77,7 @@ public class RequestDetailFragment extends Fragment {
                 .setText(price+"");
 
         final AsyncTask<String, Void, Void> task = new RequestCommentListLoadingTask();
-        task.execute("http://10.0.2.2:8080/ordermade/comment/xml/searchRequestId.do?requestId="+requestId+"&page=1");
+        task.execute(Constants.mBaseUrl+"/comment/xml/searchRequestId.do?requestId="+requestId+"&page=1");
         Log.d("requestComment", "---- asyncTask start ----");
         requestCommentData = new ArrayList<>();
         requestCommentListAdapter = new RequestCommentListAdapter(getActivity(), requestCommentData);

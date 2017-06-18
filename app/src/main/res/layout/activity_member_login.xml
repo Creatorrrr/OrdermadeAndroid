@@ -29,7 +29,7 @@
             android:id="@+id/idEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="아이디: "
+            android:hint="아이디"
             android:imeOptions="actionDone"
             android:inputType="text"/>
 
@@ -37,7 +37,7 @@
             android:id="@+id/pwEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="패스워드:"
+            android:hint="패스워드"
             android:imeOptions="actionDone"
             android:inputType="textPassword"/>
 

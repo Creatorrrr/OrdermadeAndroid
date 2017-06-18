@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,13 @@ import okhttp3.OkHttpClient;
 
 public class RequestRegisterActivity extends AppCompatActivity {
 
+    private static final String SELECT_ACCESSORY = "ACCESSORY";
+    private static final String SELECT_CLOTHING = "CLOTHING";
+    private static final String SELECT_DIGITAL = "DIGITAL";
+    private static final String SELECT_FUNITURE = "FUNITURE";
+    private static final String SELECT_KITCHEN = "KITCHEN";
+    private static final String SELECT_SPORT = "SPORT";
+
     private Toolbar mToolbar;
 
     private SharedPreferences prefs;
@@ -42,7 +51,10 @@ public class RequestRegisterActivity extends AppCompatActivity {
     private EditText title;
     private EditText content;
     private EditText hopePrice;
+    private Spinner categorySpinner;
+    private String category;
     private String bound;
+    private String loginId;
     private RadioButton publicRadio;
     private RadioButton privateRadio;
 
@@ -60,13 +72,41 @@ public class RequestRegisterActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //TextView category = (TextView)findViewById(R.id.request_register_category);
+        prefs = getSharedPreferences("login_info", MODE_PRIVATE);
+        loginId = prefs.getString("loginId","");
+
+        categorySpinner = (Spinner)findViewById(R.id.request_register_category);
         title = (EditText)findViewById(R.id.request_register_title);
         content = (EditText)findViewById(R.id.request_register_content);
         hopePrice = (EditText)findViewById(R.id.request_register_hopeprice);
         publicRadio = (RadioButton)findViewById(R.id.publicRadio);
         privateRadio = (RadioButton)findViewById(R.id.privateRadio);
         bound = "PRIVATE";
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ( position == 0 ){
+                    //Toast.makeText(RequestRegisterActivity.this, "accessory selected", Toast.LENGTH_SHORT).show();
+                    category = SELECT_ACCESSORY;
+                }else if ( position == 1) {
+                    category = SELECT_CLOTHING;
+                }else if ( position == 2) {
+                    category = SELECT_DIGITAL;
+                }else if ( position == 3) {
+                    category = SELECT_FUNITURE;
+                }else if ( position == 4) {
+                    category = SELECT_KITCHEN;
+                }else if ( position == 5) {
+                    category = SELECT_SPORT;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // 의뢰서 공개, 비공개 라디오버튼
         RadioButton.OnClickListener boundRadioClickListener = new RadioButton.OnClickListener() {
@@ -82,6 +122,8 @@ public class RequestRegisterActivity extends AppCompatActivity {
 
         publicRadio.setOnClickListener(boundRadioClickListener);
         privateRadio.setOnClickListener(boundRadioClickListener);
+
+
 
         // 취소버튼
         findViewById(R.id.request_register_cancelBtn).setOnClickListener(new View.OnClickListener() {
@@ -106,9 +148,9 @@ public class RequestRegisterActivity extends AppCompatActivity {
                         .addParams("hopePrice", hopePrice.getText().toString())
                         .addParams("bound", bound.toString())
                         .addParams("maker.id", "")
-                        .addParams("consumer.id", "")
-                        .addParams("category", "")
-                        .addParams("price", "10000")
+                        .addParams("consumer.id", loginId.toString())
+                        .addParams("category", category.toString())
+                        .addParams("price", "0")
                         .addParams("payment", "N")
                         .build()
                         .execute(new StringCallback() {
@@ -120,7 +162,7 @@ public class RequestRegisterActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response, int id) {
                                 // RequestController return value 수정
-                                if (response.equals("true")) {
+                                if (response != null) {
                                     Toast.makeText(RequestRegisterActivity.this, "의뢰서 등록 성공", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplication(), RequestMyListActivity.class));
                                     finish();
@@ -166,8 +208,4 @@ public class RequestRegisterActivity extends AppCompatActivity {
 
         return tags;
     }
-
-
-
-
 }

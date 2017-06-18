@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_spinner_item">
+        <item>ACCESSORY</item>
+        <item>CLOTHING</item>
+        <item>DIGITAL</item>
+        <item>FUNITURE</item>
+        <item>KITCHEN</item>
+        <item>SPORT</item>
+    </string-array>
+</resources>

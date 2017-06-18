@@ -248,8 +248,10 @@ public class RequestMyListFragment extends Fragment {
                                 Log.d("requestList", "request Id : " + getTagFindValue("id", "request", element));
                                 request.setTitle(getTagValue("title", element));
                                 Log.d("requestList", "request Title : " + getTagValue("title", element));
-                                //request.setCategory(getTagValue("category", element));
-                                //Log.d("requestList", "request category : "+getTagValue("category", element));
+                                if ( node.getNodeName().equals("category")){
+                                    request.setCategory(getTagValue("category", element));
+                                    Log.d("requestList", "request category : "+getTagValue("category", element));
+                                }
                                 request.setContent(getTagFindValue("content", "request", element));
                                 request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
                                 request.setPrice(Integer.parseInt(getTagValue("price", element)));
