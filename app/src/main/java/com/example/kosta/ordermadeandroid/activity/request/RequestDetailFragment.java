@@ -120,14 +120,18 @@ public class RequestDetailFragment extends Fragment {
             else if( payment.equals("N") ) {
                 ((LinearLayout)view.findViewById(R.id.request_detail_pricePurchase_layout))
                         .setVisibility(View.VISIBLE);
+            }
 
+            if ( payment.equals("Y") ) {
+                ((LinearLayout)view.findViewById(R.id.request_detail_pricePurchase_layout))
+                        .setVisibility(View.VISIBLE);
+                ((Button)view.findViewById(R.id.request_detail_purchaseBtn)).setVisibility(View.GONE);
             }
 
             view.findViewById(R.id.request_detail_purchaseBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "결제 클릭", Toast.LENGTH_SHORT).show();
-                    RequestDetailPurchaseTask(Constants.mBaseUrl +"/deal/account/consumerMoney.do?requestId="+requestId);
+                    RequestDetailPurchaseTask(requestId);
                 }
             });
 
@@ -231,13 +235,13 @@ public class RequestDetailFragment extends Fragment {
                 });
     }
 
-    private void RequestDetailPurchaseTask(String...params) {
+    private void RequestDetailPurchaseTask(String requestId) {
 
         Log.d("a", "--product purchase--"+requestId);
 
         OkHttpUtils.initClient(CustomApplication.getClient())
                 .get()
-                .url(params[0])
+                .url(Constants.mBaseUrl +"/deal/xml/account/consumerMoney.do")
                 .addParams("requestId",requestId)
                 .build()
                 .execute(new StringCallback() {
