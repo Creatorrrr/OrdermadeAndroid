@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -21,13 +21,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:text="제작항목 : "/>
+            android:text="항목 : "/>
 
         <Spinner
             android:id="@+id/request_register_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:entries="@array/category_spinner_item"/>
 
     </LinearLayout>
 

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
@@ -63,6 +64,7 @@ public class ProductRegisterActivity extends AppCompatActivity {
     private EditText content;
     private EditText price;
     private EditText period;
+    private Spinner categorySpinner;
     private String loginId;
     private String imageSrc;
 
@@ -85,6 +87,7 @@ public class ProductRegisterActivity extends AppCompatActivity {
         price = (EditText)findViewById(R.id.product_register_price);
         period = (EditText)findViewById(R.id.product_register_period);
         image = (ImageView)findViewById(R.id.product_register_image);
+        categorySpinner = (Spinner)findViewById(R.id.product_register_category);
         loginId = prefs.getString("loginId","");
 
         //이미지 클릭할때
