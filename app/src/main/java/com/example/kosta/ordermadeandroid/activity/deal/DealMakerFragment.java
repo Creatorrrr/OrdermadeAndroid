@@ -47,7 +47,7 @@ public class DealMakerFragment extends Fragment {
 
 	private static DealMakerFragment instance;
 
-	synchronized public static DealMakerFragment newInstance() {
+	synchronized public static DealMakerFragment getInstance() {
 		if(instance == null) instance =  new DealMakerFragment();
 		return instance;
 	}

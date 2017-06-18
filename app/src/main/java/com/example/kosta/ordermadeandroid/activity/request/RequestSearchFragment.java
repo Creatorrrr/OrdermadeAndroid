@@ -1,6 +1,7 @@
 package com.example.kosta.ordermadeandroid.activity.request;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class RequestSearchFragment extends Fragment {
 
     private static RequestSearchFragment instance;
 
-    synchronized public static RequestSearchFragment newInstance() {
+    synchronized public static RequestSearchFragment getInstance() {
         if(instance == null) instance =  new RequestSearchFragment();
         return instance;
     }
@@ -62,6 +63,16 @@ public class RequestSearchFragment extends Fragment {
         adapter = new RequestListAdapter(getActivity(), requestList);
 
         ListView listView = (ListView)view.findViewById(R.id.request_bound_list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.putExtra("request", requestList.get(position));
+                getActivity().setIntent(intent);
+                getActivity().setTitle("의뢰서 상세");
+                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.relativeLayout_for_frame, RequestDetailFragment.getInstance()).commit();
+            }
+        });
         listView.setAdapter(adapter);
 
         final Spinner searchTypeSpinner = (Spinner)view.findViewById(R.id.requestSearchType);
@@ -197,6 +208,11 @@ public class RequestSearchFragment extends Fragment {
                                         Toast.makeText(getActivity().getApplication(),"참가 요청 실패", Toast.LENGTH_SHORT).show();
                                     }
                                 }
+
+                                @Override
+                                public void onAfter(int id) {
+                                    dialog.dismiss();
+                                }
                             });
                 }
             });
@@ -205,7 +221,7 @@ public class RequestSearchFragment extends Fragment {
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
+                    dialog.cancel();
                 }
             });
 

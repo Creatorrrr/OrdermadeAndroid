@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 구매 이력
             case R.id.nav_dealConsumer:
                 setTitle("구매 이력");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealConsumerFragment.newInstance()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealConsumerFragment.getInstance()).commit();
                 //startActivity(new Intent(this, DealConsumerActivity.class));
                 return true;
 
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_request_Search:
                 setTitle("의뢰서 검색");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, RequestSearchFragment.newInstance()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, RequestSearchFragment.getInstance()).commit();
                 return true;
             case R.id.nav_request_receivedList:
                 setTitle("받은 의뢰서");
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_product_myList:
                 //startActivity(new Intent(this, ProductMyListActivity.class));
                 setTitle("상품 관리");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.newInstance()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.getInstance()).commit();
                 return true;
 //            case R.id.nav_portfolio_myList:
 //                setTitle("의뢰서 관리");
@@ -221,12 +221,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                return true;
             case R.id.nav_requestList:
                 setTitle("의뢰서 요청내역");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, RequestInviteFragment.newInstance()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, RequestInviteFragment.getInstance()).commit();
                 //startActivity(new Intent(this, RequestMyListActivity.class));
                 return true;
             case R.id.nav_dealMaker:
                 setTitle("거래 이력");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealMakerFragment.newInstance()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, DealMakerFragment.getInstance()).commit();
                 return true;
 
             default:

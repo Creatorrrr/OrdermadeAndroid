@@ -62,7 +62,7 @@ public class ProductLoader extends DTOLoader {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new InputSource(new StringReader(response)));
 
-            Log.d("p", "-------ProductLoader start");
+            Log.d("product", "-------ProductLoader start");
 
             NodeList nodeList = doc.getElementsByTagName("product");
 
@@ -74,7 +74,7 @@ public class ProductLoader extends DTOLoader {
                 productList.add(getProductFromElement((Element)nodeList.item(i)));
             }
 
-            Log.d("p", "-------ProductLoader finished");
+            Log.d("product", "-------ProductLoader finished");
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (ParserConfigurationException e) {

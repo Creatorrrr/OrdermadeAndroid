@@ -1,24 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.kosta.ordermadeandroid.activity.product.ProductDetailFragment">
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingRight="5px">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -31,13 +28,12 @@
                     android:id="@+id/product_detail_productTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    />
+                    android:textSize="25sp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -49,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="상품내용"
+                    android:text="&lt;상품내용&gt;"
                     android:textAlignment="center" />
 
                 <TextView
@@ -61,25 +57,22 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_weight="1"
+                android:layout_height="200dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="&lt;상품후기&gt;"
                     android:textAlignment="center" />
 
                 <ListView
                     android:id="@+id/product_detail_review_listView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"/>
 
             </LinearLayout>
-
-
 
             <!--<LinearLayout
                 android:layout_width="match_parent"
@@ -169,13 +162,12 @@
 
                     </LinearLayout>
 
-
-
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

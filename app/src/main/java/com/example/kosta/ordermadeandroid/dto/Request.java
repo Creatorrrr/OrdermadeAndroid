@@ -1,12 +1,13 @@
 package com.example.kosta.ordermadeandroid.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by kosta on 2017-06-08.
  */
 
-public class Request {
+public class Request implements Serializable {
 
 	private String id;
 	private String title;

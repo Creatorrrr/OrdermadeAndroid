@@ -1,10 +1,8 @@
 package com.example.kosta.ordermadeandroid.activity.main;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
-import android.view.Menu;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,17 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageFragment;
 import com.example.kosta.ordermadeandroid.activity.member.MemberMyPageMakerFragment;
 import com.example.kosta.ordermadeandroid.activity.product.ProductDetailActivity;
-import com.example.kosta.ordermadeandroid.activity.product.ProductListActivity;
 import com.example.kosta.ordermadeandroid.activity.product.ProductListFragment;
-import com.example.kosta.ordermadeandroid.activity.product.ProductSearchFragment;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -102,7 +96,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().setTitle("상품 검색");
-                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductListFragment.newInstance()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductListFragment.getInstance()).commit();
             }
         });
 

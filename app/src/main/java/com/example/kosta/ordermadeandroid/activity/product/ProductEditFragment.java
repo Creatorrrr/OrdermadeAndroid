@@ -41,7 +41,7 @@ public class ProductEditFragment extends Fragment {
 
     private static ProductEditFragment instance;
 
-    synchronized public static ProductEditFragment newInstance() {
+    synchronized public static ProductEditFragment getInstance() {
         if(instance == null) instance = new ProductEditFragment();
         return instance;
     }
@@ -102,7 +102,7 @@ public class ProductEditFragment extends Fragment {
         view.findViewById(R.id.product_edit_cancelBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.newInstance()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.getInstance()).commit();
             }
         });
 
@@ -177,7 +177,7 @@ public class ProductEditFragment extends Fragment {
                         } else {
                             Toast.makeText(getActivity().getApplication(), "상품 수정 실패", Toast.LENGTH_SHORT).show();
                         }
-                        getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.newInstance()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductMyListFragment.getInstance()).commit();
                     }
                 });
     }

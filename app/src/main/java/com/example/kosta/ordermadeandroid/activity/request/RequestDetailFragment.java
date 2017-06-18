@@ -2,13 +2,13 @@ package com.example.kosta.ordermadeandroid.activity.request;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -54,59 +54,61 @@ public class RequestDetailFragment extends Fragment {
     private SharedPreferences prefs;
     private String memberType;
 
-    private String requestId;
-    private int price;
     private EditText registerPrice;
+    private ListView commentListView;
     private View view;
 
     private List<Comment> requestCommentData;
     private RequestCommentListAdapter requestCommentListAdapter;
 
-    public RequestDetailFragment() {
-        // Required empty public constructor
-    }
+    private static RequestDetailFragment instance;
 
+    synchronized public static RequestDetailFragment getInstance() {
+        if (instance == null) instance = new RequestDetailFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_request_detail, container, false);
-        ListView commentListView = (ListView)view.findViewById(R.id.request_detail_comment_listView);
+        commentListView = (ListView)view.findViewById(R.id.request_detail_comment_listView);
+        commentListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         prefs = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
         memberType = prefs.getString("memberType","");
 
-        Intent intent = getActivity().getIntent();
-        String makerId = (String)intent.getExtras().get("makerId");
-        String category = (String)intent.getExtras().get("category");
-        String title = (String)intent.getExtras().get("title");
-        String content = (String)intent.getExtras().get("detailContent");
-        price = (int)intent.getExtras().get("price");
-        requestId = (String)intent.getExtras().get("requestId");
-        Log.d("requestComment", "---- requestId ----"+requestId);
-        String payment = (String)intent.getExtras().get("payment");
-        Log.d("requestComment", "---- request payment ----"+payment);
-        Log.d("requestComment", "---- request price ----"+price);
+        final Request request = (Request)getActivity().getIntent().getExtras().get("request");
+        //getActivity().getIntent().removeExtra("request");
 
         // 의뢰서 상세 정보 출력
-        ((TextView)view.findViewById(R.id.request_detail_makerId))
-                .setText(makerId);
+        if (request.getMaker() != null) {
+            ((TextView)view.findViewById(R.id.request_detail_makerId)).setText(request.getMaker().getId());
+        } else {
+            ((TextView)view.findViewById(R.id.request_detail_makerId)).setText("없음");
+        }
         ((TextView)view.findViewById(R.id.request_detail_category))
-                .setText(category);
+                .setText(request.getCategory());
         ((TextView)view.findViewById(R.id.request_detail_title))
-                .setText(title);
+                .setText(request.getTitle());
         ((TextView)view.findViewById(R.id.request_detail_content))
-                .setText(content);
+                .setText(request.getContent());
         ((TextView)view.findViewById(R.id.request_detail_price))
-                .setText(price+"");
+                .setText(request.getPrice() + "");
         ((TextView)view.findViewById(R.id.request_detail_price_decided))
-                .setText(price+"");
+                .setText(request.getPrice() + "");
         registerPrice = ((EditText)view.findViewById(R.id.request_detail_price_register));
 
 
         final AsyncTask<String, Void, Void> task = new RequestCommentListLoadingTask();
-        task.execute(Constants.mBaseUrl+"/comment/xml/searchRequestId.do?requestId="+requestId+"&page=1");
+        task.execute(Constants.mBaseUrl+"/comment/xml/searchRequestId.do?requestId="+request.getId()+"&page=1");
         Log.d("requestComment", "---- asyncTask start ----");
         requestCommentData = new ArrayList<>();
         requestCommentListAdapter = new RequestCommentListAdapter(getActivity(), requestCommentData);
@@ -116,13 +118,13 @@ public class RequestDetailFragment extends Fragment {
         if ( memberType.equals("C")) {
             ((LinearLayout)view.findViewById(R.id.request_detail_priceRegister_layout))
                     .setVisibility(View.GONE);
-            if( price == 0 ) {}
-            else if( payment.equals("N") ) {
+            if( request.getPrice() == 0 ) {}
+            else if( request.getPayment().equals("N") ) {
                 ((LinearLayout)view.findViewById(R.id.request_detail_pricePurchase_layout))
                         .setVisibility(View.VISIBLE);
             }
 
-            if ( payment.equals("Y") ) {
+            if ( request.getPayment().equals("Y") ) {
                 ((LinearLayout)view.findViewById(R.id.request_detail_pricePurchase_layout))
                         .setVisibility(View.VISIBLE);
                 ((Button)view.findViewById(R.id.request_detail_purchaseBtn)).setVisibility(View.GONE);
@@ -131,12 +133,12 @@ public class RequestDetailFragment extends Fragment {
             view.findViewById(R.id.request_detail_purchaseBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RequestDetailPurchaseTask(requestId);
+                    RequestDetailPurchaseTask(request.getId());
                 }
             });
 
         }else if ( memberType.equals("M")) {
-            if (price != 0) {
+            if (request.getPrice() != 0) {
                 view.findViewById(R.id.request_detail_price_register).setVisibility(View.GONE);
                 view.findViewById(R.id.request_detail_price_decided).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.request_detail_priceRegisterBtn).setVisibility(View.INVISIBLE);
@@ -144,7 +146,7 @@ public class RequestDetailFragment extends Fragment {
             view.findViewById(R.id.request_detail_priceRegisterBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RequestDetailRegisterPriceTask(requestId, registerPrice.getText().toString());
+                    RequestDetailRegisterPriceTask(request.getId(), registerPrice.getText().toString());
                 }
             });
         }

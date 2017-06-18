@@ -19,6 +19,7 @@ import com.example.kosta.ordermadeandroid.R;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Request;
+import com.example.kosta.ordermadeandroid.dto.loader.RequestLoader;
 import com.example.kosta.ordermadeandroid.util.CustomApplication;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -64,8 +65,11 @@ public class RequestReceivedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_request_received, container, false);
-        listView = (GridView)view.findViewById(R.id.request_received_listView);
         requestReceivedData = new ArrayList<>();
+        requestReceivedAdapter = new RequestReceivedAdapter(getActivity(), requestReceivedData);
+
+        listView = (GridView)view.findViewById(R.id.request_received_listView);
+        listView.setAdapter(requestReceivedAdapter);
 
         RequestReceivedLoadingTask(Constants.mBaseUrl+"/request/xml/searchMyRequestsByMakerIdExceptPayment.do");
 
@@ -75,15 +79,11 @@ public class RequestReceivedFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Request request = requestReceivedData.get(position);
-                Intent intent = new Intent(getActivity(), RequestDetailActivity.class);
-                intent.putExtra("makerId", request.getMaker().getId());
-                intent.putExtra("category", request.getCategory());
-                intent.putExtra("title", request.getTitle());
-                intent.putExtra("price", request.getPrice());
-                intent.putExtra("requestId", request.getId());
-                intent.putExtra("detailContent", request.getContent());
-                startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("request", requestReceivedData.get(position));
+                getActivity().setIntent(intent);
+                getActivity().setTitle("의뢰서 상세");
+                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.relativeLayout_for_frame, RequestDetailFragment.getInstance()).commit();
             }
         });
 
@@ -122,107 +122,7 @@ public class RequestReceivedFragment extends Fragment {
                 .get()
                 .url(params[0])
                 .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Log.d("requestReceived", e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        try {
-                            //xml-------
-                            StringReader sr = new StringReader(response);
-                            InputSource is = new InputSource(sr);
-                            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                            DocumentBuilder builder = factory.newDocumentBuilder();
-                            Document doc = builder.parse(is);
-
-                            NodeList nodeList = doc.getElementsByTagName("request");
-                            Log.d("requestReceived", "--####--- RequestReceivedLoadingTask START --###---");
-                            for (int i = 0; i < nodeList.getLength(); i++) {
-                                Request request = new Request();
-                                Node node = nodeList.item(i);
-
-                                Element element = (Element) node;
-
-                                request.setId(getTagFindValue("id", "request", element));
-                                Log.d("requestList", "request Id : " + getTagFindValue("id", "request", element));
-                                request.setTitle(getTagValue("title", element));
-                                Log.d("requestList", "request Title : " + getTagValue("title", element));
-                                if ( node.getNodeName().equals("category")){
-                                    request.setCategory(getTagValue("category", element));
-                                    Log.d("requestList", "request category : "+getTagValue("category", element));
-                                }
-                                request.setContent(getTagFindValue("content", "request", element));
-                                request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
-                                request.setPrice(Integer.parseInt(getTagValue("price", element)));
-                                request.setBound(getTagValue("bound", element));
-                                //request.setPage(element.getElementsByTagName("page")
-                                //        .item(0).getChildNodes().item(0).getNodeValue());
-
-                                Log.d("requestList", "--####-- consumer Start --####-- ");
-                                Member consumer = new Member();
-                                consumer.setId(getTagFindValue("id", "consumer", element));
-                                Log.d("requestList", "----------" + (getTagFindValue("id", "consumer", element)));
-                                consumer.setEmail(getTagFindValue("email", "consumer", element));
-                                Log.d("requestList", "----------" + (getTagFindValue("email", "consumer", element)));
-                                consumer.setAddress(getTagFindValue("address", "consumer", element));
-                                consumer.setName(getTagFindValue("name", "consumer", element));
-                                consumer.setIntroduce(getTagFindValue("introduce", "consumer", element));
-                                consumer.setImage(getTagFindValue("image", "consumer", element));
-                                request.setConsumer(consumer);
-
-                                Log.d("requestList", "--####-- maker Start --####-- ");
-                                Member maker = new Member();
-                                maker.setId(getTagFindValue("id", "maker", element));
-                                maker.setEmail(getTagFindValue("email", "maker", element));
-                                Log.d("requestList", "----------" + (getTagFindValue("email", "maker", element)));
-                                maker.setAddress(getTagFindValue("address", "maker", element));
-                                Log.d("requestList", "----------" + (getTagFindValue("address", "maker", element)));
-                                maker.setName(getTagFindValue("name", "maker", element));
-                                maker.setIntroduce(getTagFindValue("introduce", "maker", element));
-                                maker.setImage(getTagFindValue("image", "maker", element));
-                                request.setMaker(maker);
-
-                                requestReceivedData.add(request);
-
-                            }
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (SAXException e) {
-                            e.printStackTrace();
-                        } catch (ParserConfigurationException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d("requestReceived", "RequestReceived Task Done");
-                                requestReceivedAdapter = new RequestReceivedAdapter(getActivity(), requestReceivedData);
-                                listView.setAdapter(requestReceivedAdapter);
-                            }
-                        });
-                    }
-                });
-    }
-
-    private static String getTagValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node value = (Node) nodeList.item(0);
-        return value.getNodeValue();
-    }
-    private static String getTagFindValue(String tag, String className, Element element) {
-        NodeList elementList = element.getElementsByTagName(tag);
-        for ( int i = 0 ; i < elementList.getLength() ; i++){
-            if ( className.equals(elementList.item(i).getParentNode().getNodeName())){
-                return elementList.item(i).getChildNodes().item(0).getNodeValue();
-            }
-        }
-        return null;
+                .execute(new RequestLoader(requestReceivedData, requestReceivedAdapter));
     }
 
 }

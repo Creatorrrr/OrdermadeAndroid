@@ -109,11 +109,15 @@ public class PurchaseHistoryConsumerAdapter extends BaseAdapter{
         holder.requestTitle.setText(purchaseHistory.getRequest().getTitle());
         holder.purchaseDate.setText(purchaseHistory.getOrderDate());
 
-        if(purchaseHistory.getPayment().equals(Constants.PAYMENT_N)){
+        if(purchaseHistory.getDeliveryStatus().equals(Constants.DELIVERY_PREPARE)) {
             holder.progressStatus.setText("배송준비중");
+        } else if(purchaseHistory.getDeliveryStatus().equals(Constants.DELIVERY_COMPLETE)) {
+            holder.progressStatus.setText("배송완료");
+        }
+
+        if(purchaseHistory.getPayment().equals(Constants.PAYMENT_N)){
             holder.decision.setText("구매확정");
         } else if(purchaseHistory.getPayment().equals(Constants.PAYMENT_Y)) {
-            holder.progressStatus.setText("배송완료");
             holder.decision.setText("구매완료");
             holder.decision.setEnabled(false);
         }

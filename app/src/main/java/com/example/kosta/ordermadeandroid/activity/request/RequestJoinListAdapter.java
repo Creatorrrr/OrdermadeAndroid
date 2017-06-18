@@ -169,9 +169,8 @@ public class RequestJoinListAdapter extends BaseAdapter {
                                 // RequestController return value 수정
                                 if (response.equals("true")) {
                                     Toast.makeText(context, "거절 성공", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(context, RequestJoinActivity.class);
-                                    context.startActivity(intent);
-                                    ((RequestJoinActivity)context).finish();
+                                    requestJoinData.remove(position);
+                                    notifyDataSetChanged();
                                 }else{
                                     Toast.makeText(context, "거절 실패", Toast.LENGTH_SHORT).show();
                                 }

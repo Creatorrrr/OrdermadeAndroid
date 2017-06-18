@@ -53,7 +53,7 @@ public class DealConsumerFragment extends Fragment{
 
     private static DealConsumerFragment instance;
 
-    synchronized public static DealConsumerFragment newInstance() {
+    synchronized public static DealConsumerFragment getInstance() {
         if(instance == null) instance =  new DealConsumerFragment();
         return instance;
     }

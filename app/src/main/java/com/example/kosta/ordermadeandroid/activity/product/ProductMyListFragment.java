@@ -34,7 +34,7 @@ public class ProductMyListFragment extends Fragment{
 
     public static ProductMyListFragment instance;
 
-    synchronized public static ProductMyListFragment newInstance() {
+    synchronized public static ProductMyListFragment getInstance() {
         if (instance == null) instance = new ProductMyListFragment();
         return instance;
     }
@@ -80,7 +80,7 @@ public class ProductMyListFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 getActivity().setTitle("상품 등록");
-                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductRegisterFragment.newInstance()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductRegisterFragment.getInstance()).commit();
             }
         });
 
@@ -102,7 +102,7 @@ public class ProductMyListFragment extends Fragment{
                 intent.putExtra("product", product);
                 getActivity().setIntent(intent);
                 getActivity().setTitle("상품 수정");
-                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductEditFragment.newInstance()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductEditFragment.getInstance()).commit();
                 break;
             case "삭제":
                 OkHttpUtils.initClient(CustomApplication.getClient())

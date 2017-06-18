@@ -34,7 +34,6 @@
         <activity android:name=".activity.product.ProductEditFragment"/>
         <activity android:name=".activity.product.ProductDetailActivity"/>
         <activity android:name=".activity.product.ProductImageUploadTest"/>
-        <activity android:name=".activity.product.ProductListActivity"/>
         <activity android:name=".activity.product.ProductMyListActivity"/>
         <!-- <activity android:name=".activity.product.ProductSearchActivity"/> -->
         <activity android:name=".activity.portfolio.PortfolioRegister2Activity" />
@@ -56,7 +55,6 @@
                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".activity.request.RequestDetailActivity"></activity>
 
     </application>
 

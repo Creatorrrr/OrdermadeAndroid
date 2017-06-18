@@ -45,7 +45,7 @@ public class ProductListFragment extends Fragment {
 
     private static ProductListFragment instance;
 
-    synchronized public static ProductListFragment newInstance() {
+    synchronized public static ProductListFragment getInstance() {
         if (instance == null) instance = new ProductListFragment();
         return instance;
     }

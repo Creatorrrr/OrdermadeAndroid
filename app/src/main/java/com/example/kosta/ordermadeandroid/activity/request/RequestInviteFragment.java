@@ -28,7 +28,7 @@ public class RequestInviteFragment extends Fragment {
 
     private static RequestInviteFragment instance;
 
-    synchronized public static RequestInviteFragment newInstance() {
+    synchronized public static RequestInviteFragment getInstance() {
         if(instance == null) instance = new RequestInviteFragment();
         return instance;
     }
