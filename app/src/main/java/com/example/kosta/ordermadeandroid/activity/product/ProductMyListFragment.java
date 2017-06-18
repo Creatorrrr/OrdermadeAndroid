@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.kosta.ordermadeandroid.R;
+import com.example.kosta.ordermadeandroid.activity.main.MainActivity;
 import com.example.kosta.ordermadeandroid.constants.Constants;
 import com.example.kosta.ordermadeandroid.dto.Member;
 import com.example.kosta.ordermadeandroid.dto.Product;
@@ -113,7 +114,10 @@ public class ProductMyListFragment extends Fragment{
         switch(item.getTitle().toString()) {
             case "수정":
                 getActivity().setTitle("상품 수정");
-                //getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductEditFragment.newInstance()).commit();
+                Intent intent = new Intent();
+                intent.putExtra("product", product);
+                getActivity().setIntent(intent);
+                getFragmentManager().beginTransaction().replace(R.id.relativeLayout_for_frame, ProductEditFragment.newInstance()).commit();
                 break;
             case "삭제":
                 OkHttpUtils.initClient(CustomApplication.getClient())
