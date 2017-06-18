@@ -136,7 +136,7 @@
         <ListView
             android:id="@+id/request_detail_comment_listView"
             android:layout_width="match_parent"
-            android:layout_height="230dp"/>
+            android:layout_height="210dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -164,7 +164,7 @@
     <LinearLayout
         android:id="@+id/request_detail_priceRegister_layout"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_gravity="right"
         >
