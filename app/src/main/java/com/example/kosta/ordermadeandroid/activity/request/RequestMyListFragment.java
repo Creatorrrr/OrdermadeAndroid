@@ -134,6 +134,8 @@ public class RequestMyListFragment extends Fragment {
                     intent.putExtra("price", request.getPrice());
                     intent.putExtra("requestId", request.getId());
                     intent.putExtra("detailContent", request.getContent());
+                    intent.putExtra("payment", request.getPayment());
+                    Log.d("requestList", "intent request payment : " + request.getPayment());
                     startActivity(intent);
                 }
             }
@@ -256,6 +258,9 @@ public class RequestMyListFragment extends Fragment {
                                 request.setHopePrice(Integer.parseInt(getTagValue("hopePrice", element)));
                                 request.setPrice(Integer.parseInt(getTagValue("price", element)));
                                 request.setBound(getTagValue("bound", element));
+                                Log.d("requestList", "request get bound : " + request.getBound());
+                                request.setPayment(getTagFindValue("payment", "request", element));
+                                Log.d("requestList", "request get payment : " + request.getPayment());
                                 //request.setPage(element.getElementsByTagName("page")
                                 //        .item(0).getChildNodes().item(0).getNodeValue());
 

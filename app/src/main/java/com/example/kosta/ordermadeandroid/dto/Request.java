@@ -113,7 +113,7 @@ public class Request {
 		return payment;
 	}
 
-	public void setPayment(String page) {
+	public void setPayment(String payment) {
 		this.payment = payment;
 	}
 

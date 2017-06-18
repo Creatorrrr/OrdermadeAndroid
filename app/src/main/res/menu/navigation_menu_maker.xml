@@ -10,18 +10,22 @@
 
         <item
             android:id="@+id/nav_myPage_Maker"
+            android:icon="@mipmap/ic_person_black_24dp"
             android:title="나의 프로필"/>
 
         <item
             android:id="@+id/nav_request_Search"
+            android:icon="@mipmap/ic_search_black_24dp"
             android:title="의뢰서 검색"/>
 
         <item
             android:id="@+id/nav_request_receivedList"
+            android:icon="@mipmap/ic_description_black_24dp"
             android:title="받은 의뢰서"/>
 
         <item
             android:id="@+id/nav_product_myList"
+            android:icon="@drawable/barcode"
             android:title="상품 관리"/>
 
         <!--<item-->
@@ -30,10 +34,12 @@
 
         <item
             android:id="@+id/nav_requestList"
+            android:icon="@mipmap/ic_list_black_24dp"
             android:title="의뢰요청내역"/>
 
         <item
             android:id="@+id/nav_dealMaker"
+            android:icon="@mipmap/ic_shopping_cart_black_24dp"
             android:title="거래 이력"/>
 
     </group>
